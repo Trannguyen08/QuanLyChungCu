@@ -3,17 +3,17 @@ package Controller;
 import DatabaseConnect.ConnectDB;
 import GUI.LoginForm_;
 import GUI.RegisterForm;
+import Util.ScannerUtil;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class RegisterHandler {
@@ -42,6 +42,8 @@ public class RegisterHandler {
                 labelLoginClick();
             }
         });
+        
+        // xử lí sự kiện gạch dưới khi hover
         loginLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -64,44 +66,102 @@ public class RegisterHandler {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-    public void registerBtnClick() {                                         
+    
+    private boolean validateInput(String username, String password, String repeatPassword, String email) {
+        if( username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty() || email.isEmpty() ) {
+            JOptionPane.showMessageDialog(registerFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if( !ScannerUtil.isValidUsername(username) ) {
+            return false;
+        }
+        if( !ScannerUtil.isValidPassword(password) ) {
+            return false;
+        }
+        if( !password.equals(repeatPassword) ) {
+            JOptionPane.showMessageDialog(registerFrame, "Bạn đã nhập lại mật khẩu sai. Vui lòng nhập lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if( !isValidEmail(email) ) {
+            JOptionPane.showMessageDialog(registerFrame, "Bạn đã nhập sai định dạng email. Vui lòng nhập lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    // check user và email
+    private boolean isUserExists(Connection con, String username, String email) throws SQLException {
+        // check user
+        String checkUsernameQuery = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (PreparedStatement stmt = con.prepareStatement(checkUsernameQuery)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if( rs.next() && rs.getInt(1) > 0 ) {
+                    JOptionPane.showMessageDialog(registerFrame, "Tên người dùng đã tồn tại. Vui lòng chọn tên khác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return true;
+                }
+            }
+        }
+
+        // check email
+        String checkEmailQuery = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (PreparedStatement stmt = con.prepareStatement(checkEmailQuery)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if( rs.next() && rs.getInt(1) > 0 ) {
+                    JOptionPane.showMessageDialog(registerFrame, "Email đã được sử dụng. Vui lòng chọn email khác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return true;
+                }
+            }
+        }
+        return false; 
+    }
+    
+    // insert account
+    private void insertUser(Connection con, String username, String hashedPassword, String email) throws SQLException {
+        String query = "INSERT INTO users (username, password, email, role) VALUES(?, ?, ?, ?)";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, username);
+            stmt.setString(2, hashedPassword);
+            stmt.setString(3, email);
+            stmt.setString(4, "user");
+            stmt.executeUpdate();
+        }
+    }
+
+
+
+    public void registerBtnClick() {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String repeatPassword = repeatPasswordField.getText();
         String email = emailField.getText();
-        if (username.isEmpty() || password.isEmpty() || repeatPassword.isEmpty() || email.isEmpty()) {
-            JOptionPane.showMessageDialog(registerFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+
+        if (!validateInput(username, password, repeatPassword, email)) {
             return;
         }
-        if (!password.equals(repeatPassword)) {
-            JOptionPane.showMessageDialog(registerFrame, "Bạn đã nhập lại mật khẩu sai. Vui long nhập lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        if (!isValidEmail(email)) {
-            JOptionPane.showMessageDialog(registerFrame, "Bạn đã nhập sai định dạng email. Vui lòng nhập lại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        
-        // Them account vao database
-        String query = "INSERT INTO users (username, password, email, role) VALUES(?, ?, ?, ?)";
-        try (Connection con = ConnectDB.getConnection();
-            PreparedStatement pstm = con.prepareStatement(query)) {
-            
-            pstm.setString(1, username);
-            pstm.setString(2, password);
-            pstm.setString(3, email);
-            pstm.setString(4, "user");
-            pstm.executeUpdate();
-                   
+
+        try (Connection con = ConnectDB.getConnection()) {
+            if (isUserExists(con, username, email)) {
+                return; 
+            }
+
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12)); // Mã hóa mật khẩu
+
+            insertUser(con, username, hashedPassword, email);
+
+            JOptionPane.showMessageDialog(registerFrame, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            registerFrame.setVisible(false);
+            new LoginForm_().setVisible(true);
+
         } catch (SQLException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-        JOptionPane.showMessageDialog(registerFrame, "Dang ky thanh cong", "Thong bao", JOptionPane.INFORMATION_MESSAGE);
-        registerFrame.setVisible(false);
-        new LoginForm_().setVisible(true);
-    }                                        
+            JOptionPane.showMessageDialog(registerFrame, "Đã xảy ra lỗi trong quá trình đăng ký!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+                               
+                               
 
     public void labelLoginClick() {                                         
         new LoginForm_().setVisible(true);

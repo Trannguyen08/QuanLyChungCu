@@ -1,19 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
- */
 package Controller;
 
 import DatabaseConnect.ConnectDB;
 import GUI.RegisterForm;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Map;
 import javax.swing.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginHandler {
     private JTextField usernameField;
@@ -39,6 +33,8 @@ public class LoginHandler {
                 openRegisterForm();
             }
         });
+        
+        // xử lí sự kiện gạch dưới khi hover
         registerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -66,28 +62,30 @@ public class LoginHandler {
     private void handleLogin() {
         String thisUser = usernameField.getText();
         String thisPass = new String(passwordField.getPassword()); 
-        String query = "SELECT username, password FROM users";
-        boolean check = false;
 
+        if (thisUser.isEmpty() || thisPass.isEmpty()) {
+            JOptionPane.showMessageDialog(loginFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String query = "SELECT password FROM users WHERE username = ?";
         try (Connection con = ConnectDB.getConnection();
-             Statement stmt = con.createStatement();
-             ResultSet res = stmt.executeQuery(query)) {
+             PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            while (res.next()) {
-                String user = res.getString("username");
-                String pass = res.getString("password");
+            pstmt.setString(1, thisUser);
+            ResultSet res = pstmt.executeQuery();
 
-                if (thisUser.isEmpty() || thisPass.isEmpty()) {
-                    JOptionPane.showMessageDialog(loginFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                if (thisUser.equals(user) && thisPass.equals(pass)) {
+            if (res.next()) {
+                String hashedPassword = res.getString("password");
+
+                // Kiểm tra mật khẩu với BCrypt
+                if (BCrypt.checkpw(thisPass, hashedPassword)) {
                     JOptionPane.showMessageDialog(loginFrame, "Đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    check = true;
                     loginFrame.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-            if (!check) {
+            } else {
                 JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
