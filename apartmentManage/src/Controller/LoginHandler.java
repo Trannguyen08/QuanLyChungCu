@@ -1,13 +1,11 @@
 package Controller;
 
-import DatabaseConnect.ConnectDB;
-import GUI.RegisterForm;
+import Model.LoginDAO.LoginSQL;
+import View.Login.RegisterForm;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
-import java.sql.*;
 import java.util.Map;
 import javax.swing.*;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class LoginHandler {
     private JTextField usernameField;
@@ -25,7 +23,6 @@ public class LoginHandler {
         this.registerLabel = registerLabel;
         this.loginFrame = loginFrame;
 
-        // Gán sự kiện cho các thành phần giao diện
         this.checkBox.addActionListener(e -> clickCheckBox());
         this.loginButton.addActionListener(e -> handleLogin());
         this.registerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -33,8 +30,7 @@ public class LoginHandler {
                 openRegisterForm();
             }
         });
-        
-        // xử lí sự kiện gạch dưới khi hover
+
         registerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -46,7 +42,7 @@ public class LoginHandler {
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                registerLabel.setFont(new Font("Arial", Font.PLAIN, 15)); 
+                registerLabel.setFont(new Font("Arial", Font.PLAIN, 15));
             }
         });
     }
@@ -61,35 +57,16 @@ public class LoginHandler {
 
     private void handleLogin() {
         String thisUser = usernameField.getText();
-        String thisPass = new String(passwordField.getPassword()); 
-
-        if (thisUser.isEmpty() || thisPass.isEmpty()) {
+        String thisPass = new String(passwordField.getPassword());
+        if( thisUser.isEmpty() || thisPass.isEmpty() ) {
             JOptionPane.showMessageDialog(loginFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        String query = "SELECT password FROM users WHERE username = ?";
-        try (Connection con = ConnectDB.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(query)) {
-
-            pstmt.setString(1, thisUser);
-            ResultSet res = pstmt.executeQuery();
-
-            if (res.next()) {
-                String hashedPassword = res.getString("password");
-
-                // Kiểm tra mật khẩu với BCrypt
-                if (BCrypt.checkpw(thisPass, hashedPassword)) {
-                    JOptionPane.showMessageDialog(loginFrame, "Đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    loginFrame.setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if( LoginSQL.validateLogin(thisUser, thisPass) ) {
+            JOptionPane.showMessageDialog(loginFrame, "Đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            loginFrame.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -98,4 +75,3 @@ public class LoginHandler {
         new RegisterForm().setVisible(true);
     }
 }
-
