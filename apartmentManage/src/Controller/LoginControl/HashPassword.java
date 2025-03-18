@@ -1,4 +1,4 @@
-package Controller;
+package Controller.LoginControl;
 
 import org.mindrot.jbcrypt.BCrypt;
 

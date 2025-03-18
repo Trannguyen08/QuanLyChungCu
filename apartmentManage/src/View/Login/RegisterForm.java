@@ -1,6 +1,6 @@
 package View.Login;
 
-import Controller.RegisterHandler;
+import Controller.LoginControl.RegisterHandler;
 
 public class RegisterForm extends javax.swing.JFrame {
     public RegisterForm() {

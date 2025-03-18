@@ -4,7 +4,7 @@
  */
 package View.Login;
 
-import Controller.LoginHandler;
+import Controller.LoginControl.LoginHandler;
 
 public class LoginForm_ extends javax.swing.JFrame {
     public LoginForm_() {

@@ -19,6 +19,13 @@ CREATE TABLE apartments (
     num_rooms INT NOT NULL 
 );
 
+CREATE TABLE apartment_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    apartment_id INT NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE
+);
+
 CREATE TABLE residents (
     resident_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,  

@@ -1,4 +1,4 @@
-package Controller;
+package Controller.LoginControl;
 
 import Model.LoginDAO.RegisterSQL;
 import View.Login.LoginForm_;
