@@ -5,7 +5,7 @@ CREATE TABLE accounts (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    role ENUM('user', 'manager', 'customer') NOT NULL DEFAULT 'user'
+    role ENUM('user', 'manager', 'customer') NOT NULL DEFAULT 'customer'
 );
 
 CREATE TABLE apartments (
