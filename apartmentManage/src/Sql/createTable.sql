@@ -11,7 +11,7 @@ CREATE TABLE accounts (
 CREATE TABLE apartments (
     apartment_id INT AUTO_INCREMENT PRIMARY KEY,  
     floor INT NOT NULL,  
-    building VARCHAR(50) NOT NULL,  
+    building VARCHAR(5) NOT NULL,  
     status ENUM('Trống', 'Đã thuê', 'Đã bán', 'Bảo trì', 'Chờ duyệt') NOT NULL DEFAULT 'Trống',  
     area DECIMAL(6,2) NOT NULL,  
     purchase_price DECIMAL(15,2) NULL,  

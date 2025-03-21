@@ -8,7 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class LoginSQL {
     public static Account getAccountByUsername(String username) {
         String query = "SELECT password FROM accounts WHERE username = ?";
-        try (Connection con = (Connection) ConnectDB.getConnection();
+        try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
 
             pstmt.setString(1, username);
