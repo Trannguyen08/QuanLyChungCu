@@ -1,11 +1,7 @@
 package Controller.ManagerControl;
 
 import View.Login.LoginForm_;
-import View.ManagerUI.Apartment;
-import View.ManagerUI.Employee;
-import View.ManagerUI.HomePage;
-import View.ManagerUI.Report;
-import View.ManagerUI.Resident;
+import View.ManagerUI.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -81,6 +77,9 @@ public class HomeHandle {
         } else if( newPanel.equals(employeesPanel) ) {
             Employee employee = new Employee();
             mainPanel.add(employee, BorderLayout.CENTER);
+        } else if( newPanel.equals(contractsPanel) ) {
+            Contract contract = new Contract();
+            mainPanel.add(contract, BorderLayout.CENTER);
         } 
         mainPanel.revalidate();
         mainPanel.repaint();
