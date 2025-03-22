@@ -1,6 +1,8 @@
 package View.ManagerUI;
 
-import Controller.ManagerControl.ApartmentHandler;
+import Controller.ManagerControl.ApartmentHandle.ApartmentHandler;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 
 public class Apartment extends javax.swing.JPanel {
@@ -8,6 +10,7 @@ public class Apartment extends javax.swing.JPanel {
         initComponents();
         this.setVisible(true);
         ApartmentHandler apartmentHandler = new ApartmentHandler(addBtn, deleteBtn, editBtn, excelBtn, table, this);
+        centerTableText();
     }
 
     @SuppressWarnings("unchecked")
@@ -97,29 +100,24 @@ public class Apartment extends javax.swing.JPanel {
         table.setBackground(new java.awt.Color(250, 250, 250));
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {"1", "2", "8", "10", "A", "3", "Đã bán", "60", "7500000", "3500000000"}
             },
             new String [] {
-                "ID_CănHộ", "ID_ChủHộ", "Tầng", "Tòa", "Tình trạng", "Diện Tích", "Giá Thuê ", "Giá Mua", "Số Phòng"
+                "ID_CănHộ", "ID_ChủHộ", "Căn hộ số", "Tầng", "Tòa", "Số phòng", "Tình trạng", "Diện tích", "Giá thuê", "Giá mua"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(4).setPreferredWidth(160);
-            table.getColumnModel().getColumn(5).setPreferredWidth(110);
+            table.getColumnModel().getColumn(0).setPreferredWidth(60);
+            table.getColumnModel().getColumn(1).setPreferredWidth(60);
+            table.getColumnModel().getColumn(2).setPreferredWidth(60);
+            table.getColumnModel().getColumn(3).setPreferredWidth(30);
+            table.getColumnModel().getColumn(4).setPreferredWidth(30);
+            table.getColumnModel().getColumn(5).setPreferredWidth(55);
             table.getColumnModel().getColumn(6).setPreferredWidth(120);
-            table.getColumnModel().getColumn(7).setPreferredWidth(120);
+            table.getColumnModel().getColumn(7).setPreferredWidth(60);
+            table.getColumnModel().getColumn(8).setPreferredWidth(100);
+            table.getColumnModel().getColumn(9).setPreferredWidth(100);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -173,6 +171,16 @@ public class Apartment extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void centerTableText() {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        // căn giữa nội dung
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        // Căn giữa tiêu đề 
+        ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;

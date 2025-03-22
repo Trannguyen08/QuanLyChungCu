@@ -10,8 +10,16 @@ import java.sql.*;
 
 public class Excel {
 
-    public static void exportToExcel(String filePath, String tableName) {
-        String query = "SELECT * FROM " + tableName; 
+    public static void exportToExcel(String directoryPath, String tableName) {
+        // tạo file
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs(); 
+        }
+
+        String filePath = directoryPath + File.separator + tableName + ".xlsx"; // tên file
+        String query = "SELECT * FROM " + tableName;
+
         try (Connection conn = ConnectDB.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query);
@@ -21,21 +29,24 @@ public class Excel {
             Row headerRow = sheet.createRow(0);
             ResultSetMetaData metaData = rs.getMetaData();
             int columnCount = metaData.getColumnCount();
+
             // Ghi tiêu đề cột
-            for (int col = 1; col <= columnCount; col++) {
+            for( int col = 1; col <= columnCount; col++ ) {
                 Cell cell = headerRow.createCell(col - 1);
                 cell.setCellValue(metaData.getColumnName(col));
             }
+
             // Ghi dữ liệu
             int rowIndex = 1;
-            while (rs.next()) {
+            while( rs.next() ) {
                 Row row = sheet.createRow(rowIndex++);
-                for (int col = 1; col <= columnCount; col++) {
+                for( int col = 1; col <= columnCount; col++ ) {
                     row.createCell(col - 1).setCellValue(rs.getString(col));
                 }
             }
+
             // Ghi file
-            try (FileOutputStream fileOut = new FileOutputStream(new File(filePath))) {
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
                 System.out.println("Xuất dữ liệu thành công vào: " + filePath);
             }
@@ -43,6 +54,7 @@ public class Excel {
             e.printStackTrace();
         }
     }
+
     public static void exportApartments(String filePath) {
         exportToExcel(filePath, "apartments");
     }

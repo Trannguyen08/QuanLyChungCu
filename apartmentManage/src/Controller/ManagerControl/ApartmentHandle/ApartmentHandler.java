@@ -1,11 +1,13 @@
-package Controller.ManagerControl;
+package Controller.ManagerControl.ApartmentHandle;
 
 import Model.ManagerDAO.Excel;
-import View.ManagerUI.addButtonWindow;
+import View.ManagerUI.addApartment;
+import View.ManagerUI.editApartment;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class ApartmentHandler {
     private JButton addBtn, editBtn, deleteBtn, excelBtn;
@@ -39,10 +41,16 @@ public class ApartmentHandler {
                 excelBtnClick();
             }
         });
+        this.editBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editBtnClick();
+            }
+        });
     }
 
     private void addBtnClick() {
-        new addButtonWindow().setVisible(true);
+        new addApartment(table).setVisible(true);
     }
 
     private void deleteBtnClick() {
@@ -52,7 +60,18 @@ public class ApartmentHandler {
     }
 
     private void excelBtnClick() {
-        Excel.exportApartments("/Data/apartments.xlsx");
+        String directoryPath = System.getProperty("user.dir") + File.separator + "data";
+        Excel.exportApartments(directoryPath);
+        
+    }
+    
+    private void editBtnClick() {
+        int selectedRow = table.getSelectedRow();
+        if( selectedRow == -1 ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        new editApartment(table).setVisible(true);
     }
 
 }

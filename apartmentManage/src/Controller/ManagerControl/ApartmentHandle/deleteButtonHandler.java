@@ -1,8 +1,7 @@
-package Controller.ManagerControl;
+package Controller.ManagerControl.ApartmentHandle;
 
 import Model.ManagerDAO.deleteButton;
 import View.ManagerUI.Apartment;
-import View.ManagerUI.Contract;
 import View.ManagerUI.Employee;
 import View.ManagerUI.Resident;
 
