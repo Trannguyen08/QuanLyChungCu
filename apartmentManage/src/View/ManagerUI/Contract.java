@@ -150,10 +150,8 @@ public class Contract extends javax.swing.JPanel {
                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
         );
 
-<<<<<<< HEAD:apartmentManage/src/View/ManagerUI/ContractForm.java
-=======
+
         jButton8.setBackground(new java.awt.Color(241, 81, 81));
->>>>>>> 1c6d416c74fddb28c8c3686e1ba2089a251309d1:apartmentManage/src/View/ManagerUI/Contract.java
         jButton8.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/pdf.png"))); // NOI18N
         jButton8.setText("Xuất PDF");
