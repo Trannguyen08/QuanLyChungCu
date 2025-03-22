@@ -103,6 +103,8 @@ public class addApartment extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel9.setText("Phòng số");
 
+        ownerID.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -204,7 +206,7 @@ public class addApartment extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
     private javax.swing.JComboBox<String> apartmentIndex;
