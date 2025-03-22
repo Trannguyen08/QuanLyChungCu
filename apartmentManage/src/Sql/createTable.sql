@@ -46,11 +46,11 @@ CREATE TABLE contracts (
     apartment_id INT NOT NULL,
     resident_id INT NOT NULL,
     created_by VARCHAR(20) NOT NULL DEFAULT "Quản lý", 
-    contract_type ENUM('Mua bán', 'Thuê') NOT NULL,
+    contract_type ENUM('Mua bán', 'Cho thuê') NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NULL,
     total_value DECIMAL(12,2) NOT NULL,
-    payment_status ENUM('Chưa thanh toán', 'Đã thanh toán', 'Thanh toán từng phần') NOT NULL,
+    payment_status ENUM('Chưa thanh toán', 'Đã thanh toán', 'Trả góp') NOT NULL,
     contract_status ENUM('Hiệu lực', 'Hết hạn', 'Hủy bỏ') NOT NULL,
     FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE,
     FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE
