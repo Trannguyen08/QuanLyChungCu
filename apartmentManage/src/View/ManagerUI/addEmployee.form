@@ -225,7 +225,7 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
                 <StringItem index="0" value="B&#x1ea3;o v&#x1ec7;"/>
-                <StringItem index="1" value="L&#x1ec5; t&#xe2;n&apos;"/>
+                <StringItem index="1" value="L&#x1ec5; t&#xe2;n"/>
                 <StringItem index="2" value="K&#x1ef9; thu&#x1ead;t"/>
                 <StringItem index="3" value="D&#x1ecd;n d&#x1eb9;p"/>
               </StringArray>
