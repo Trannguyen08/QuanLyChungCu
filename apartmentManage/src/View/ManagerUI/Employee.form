@@ -45,12 +45,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jButton6" min="-2" pref="38" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
                           <Component id="jButton5" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane2" min="-2" pref="798" max="-2" attributes="0"/>
@@ -271,21 +271,21 @@
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="9" rowCount="5">
-                    <Column editable="false" title="ID" type="java.lang.Object">
+                    <Column editable="true" title="ID" type="java.lang.Object">
                       <Data value="1"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="H&#x1ecd; T&#xea;n" type="java.lang.Object">
+                    <Column editable="false" title="H&#x1ecd; t&#xea;n" type="java.lang.Object">
                       <Data value="Tr&#x1ea7;n Ch&#xed; Nguy&#xea;n"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Gi&#x1edb;i T&#xed;nh" type="java.lang.Object">
+                    <Column editable="false" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object">
                       <Data value="Nam"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -306,28 +306,28 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Ch&#x1ee9;c V&#x1ee5;" type="java.lang.Object">
+                    <Column editable="false" title="Ch&#x1ee9;c v&#x1ee5;" type="java.lang.Object">
                       <Data value="B&#x1ea3;o v&#x1ec7;"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="M&#x1ee9;c L&#x1b0;&#x1a1;ng" type="java.lang.Object">
+                    <Column editable="false" title="M&#x1ee9;c l&#x1b0;&#x1a1;ng" type="java.lang.Object">
                       <Data value="6000000"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Ng&#xe0;y Tuy&#x1ec3;n" type="java.lang.Object">
+                    <Column editable="false" title="Ng&#xe0;y tuy&#x1ec3;n" type="java.lang.Object">
                       <Data value="23/06/2024"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object">
+                    <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.Object">
                       <Data value="&#x110;ang l&#xe0;m vi&#x1ec7;c"/>
                       <Data value="null"/>
                       <Data value="null"/>

@@ -107,7 +107,7 @@ public class Resident extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Họ tên", "SĐT", "Email", "CCCD", "Ngày Sinh", "Giới Tính", "ID_Căn Hộ"
+                "ID_Cư dân", "Họ tên", "SĐT", "Email", "CCCD", "Ngày sinh", "Giới tính", "ID_Căn hộ"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -119,6 +119,15 @@ public class Resident extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(130);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(40);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(50);
+        }
 
         jButton2.setBackground(new java.awt.Color(32, 86, 150));
         jButton2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
