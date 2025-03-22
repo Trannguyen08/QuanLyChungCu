@@ -2,6 +2,7 @@
 package View.ManagerUI;
 
 import Controller.ManagerControl.HomeHandle;
+import java.awt.BorderLayout;
 
 
 public class HomePage extends javax.swing.JFrame {
@@ -10,10 +11,12 @@ public class HomePage extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Home Page");
-        HomeHandle homeHandler = new  HomeHandle(apartment, apartmentPanel, contracts, contractPanel,
-                                            employees, employeesPanel, logout, logoutPanel,
-                                            notification, notificationPanel, report, reportPanel,
-                                            residents, residentsPanel, service, servicePanel, mainPanel, this);
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(new Apartment(), BorderLayout.CENTER);
+        HomeHandle homeHandler = new  HomeHandle(apartmentPanel, contractPanel,
+                                            employeesPanel, logoutPanel,
+                                            notificationPanel, reportPanel,
+                                            residentsPanel, servicePanel, mainPanel, this);
     }
 
     @SuppressWarnings("unchecked")
@@ -91,6 +94,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         apartmentPanel.setBackground(new java.awt.Color(13, 51, 91));
+        apartmentPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/apartment.png"))); // NOI18N
 
@@ -122,6 +126,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         residentsPanel.setBackground(new java.awt.Color(37, 102, 169));
+        residentsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         residentsPanel.setPreferredSize(new java.awt.Dimension(146, 36));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -151,6 +156,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         servicePanel.setBackground(new java.awt.Color(37, 102, 169));
+        servicePanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/service.png"))); // NOI18N
 
@@ -182,6 +188,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         notificationPanel.setBackground(new java.awt.Color(37, 102, 169));
+        notificationPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/notification_white.png"))); // NOI18N
 
@@ -215,6 +222,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         logoutPanel.setBackground(new java.awt.Color(37, 102, 169));
+        logoutPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
 
@@ -246,6 +254,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         employeesPanel.setBackground(new java.awt.Color(37, 102, 169));
+        employeesPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/employee.png"))); // NOI18N
 
@@ -279,6 +288,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         contractPanel.setBackground(new java.awt.Color(37, 102, 169));
+        contractPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/contract.png"))); // NOI18N
 
@@ -310,6 +320,7 @@ public class HomePage extends javax.swing.JFrame {
         );
 
         reportPanel.setBackground(new java.awt.Color(37, 102, 169));
+        reportPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/report_white.png"))); // NOI18N
 
@@ -388,24 +399,24 @@ public class HomePage extends javax.swing.JFrame {
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(330, 330, 330)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addContainerGap(402, Short.MAX_VALUE))
+                .addGap(383, 383, 383))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addComponent(jLabel6)
-                .addGap(20, 20, 20))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1026, Short.MAX_VALUE)
+            .addGap(0, 1031, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -1,9 +1,7 @@
 package Controller.ManagerControl;
 
 import View.Login.LoginForm_;
-import View.ManagerUI.Apartment;
-import View.ManagerUI.HomePage;
-import View.ManagerUI.Report;
+import View.ManagerUI.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -11,7 +9,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 public class HomeHandle {
-    private JLabel logout, notification, report, residents, service, apartment, contracts, employees;
     private JPanel logoutPanel, notificationPanel, reportPanel, residentsPanel, servicePanel, apartmentPanel, contractsPanel, employeesPanel, mainPanel;
     private HomePage homePage;
 
@@ -19,39 +16,30 @@ public class HomeHandle {
     private final Color DEFAULT_COLOR = new Color(37,102,169);  // Màu mặc định
     private final Color ACTIVE_COLOR = new Color(13,51,91);
 
-    public HomeHandle(JLabel apartment, JPanel apartmentPanel, JLabel contracts, JPanel contractsPanel,
-                      JLabel employees, JPanel employeesPanel, JLabel logout, JPanel logoutPanel,
-                      JLabel notification, JPanel notificationPanel, JLabel report, JPanel reportPanel,
-                      JLabel residents, JPanel residentsPanel, JLabel service, JPanel servicePanel, JPanel mainPanel, HomePage homePage) {
-        this.apartment = apartment;
+    public HomeHandle(JPanel apartmentPanel, JPanel contractsPanel,JPanel employeesPanel, 
+                      JPanel logoutPanel,JPanel notificationPanel, JPanel reportPanel,
+                      JPanel residentsPanel, JPanel servicePanel, JPanel mainPanel, HomePage homePage) {
         this.apartmentPanel = apartmentPanel;
-        this.contracts = contracts;
         this.contractsPanel = contractsPanel;
-        this.employees = employees;
         this.employeesPanel = employeesPanel;
         this.homePage = homePage;
-        this.logout = logout;
         this.logoutPanel = logoutPanel;
-        this.notification = notification;
         this.notificationPanel = notificationPanel;
-        this.report = report;
         this.reportPanel = reportPanel;
-        this.residents = residents;
         this.residentsPanel = residentsPanel;
-        this.service = service;
         this.servicePanel = servicePanel;
         this.previousPanel = apartmentPanel;
         this.mainPanel = mainPanel;
 
-        addClickEvent(apartment, apartmentPanel);
-        addClickEvent(contracts, contractsPanel);
-        addClickEvent(employees, employeesPanel);
-        addClickEvent(notification, notificationPanel);
-        addClickEvent(report, reportPanel);
-        addClickEvent(residents, residentsPanel);
-        addClickEvent(service, servicePanel);
+        addClickEvent(apartmentPanel);
+        addClickEvent(contractsPanel);
+        addClickEvent(employeesPanel);
+        addClickEvent(notificationPanel);
+        addClickEvent(reportPanel);
+        addClickEvent(residentsPanel);
+        addClickEvent(servicePanel);
 
-        logout.addMouseListener(new MouseAdapter() {
+        logoutPanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 logoutLabelClick();
@@ -60,8 +48,8 @@ public class HomeHandle {
     }
 
 
-    private void addClickEvent(JLabel label, JPanel panel) {
-        label.addMouseListener(new MouseAdapter() {
+    private void addClickEvent(JPanel panel) {
+        panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 changePanel(panel);
@@ -83,7 +71,16 @@ public class HomeHandle {
         } else if( newPanel.equals(apartmentPanel) ) {
             Apartment apartment = new Apartment();
             mainPanel.add(apartment, BorderLayout.CENTER);
-        }
+        } else if( newPanel.equals(residentsPanel) ) {
+            Resident resident = new Resident();
+            mainPanel.add(resident, BorderLayout.CENTER);
+        } else if( newPanel.equals(employeesPanel) ) {
+            Employee employee = new Employee();
+            mainPanel.add(employee, BorderLayout.CENTER);
+        } else if( newPanel.equals(contractsPanel) ) {
+            Contract contract = new Contract();
+            mainPanel.add(contract, BorderLayout.CENTER);
+        } 
         mainPanel.revalidate();
         mainPanel.repaint();
     }

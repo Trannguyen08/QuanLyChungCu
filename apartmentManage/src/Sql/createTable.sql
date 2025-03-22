@@ -11,7 +11,7 @@ CREATE TABLE accounts (
 CREATE TABLE apartments (
     apartment_id INT AUTO_INCREMENT PRIMARY KEY,  
     floor INT NOT NULL,  
-    building VARCHAR(50) NOT NULL,  
+    building VARCHAR(5) NOT NULL,  
     status ENUM('Trống', 'Đã thuê', 'Đã bán', 'Bảo trì', 'Chờ duyệt') NOT NULL DEFAULT 'Trống',  
     area DECIMAL(6,2) NOT NULL,  
     purchase_price DECIMAL(15,2) NULL,  
@@ -46,11 +46,11 @@ CREATE TABLE contracts (
     apartment_id INT NOT NULL,
     resident_id INT NOT NULL,
     created_by VARCHAR(20) NOT NULL DEFAULT "Quản lý", 
-    contract_type ENUM('Mua bán', 'Thuê') NOT NULL,
+    contract_type ENUM('Mua bán', 'Cho thuê') NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NULL,
     total_value DECIMAL(12,2) NOT NULL,
-    payment_status ENUM('Chưa thanh toán', 'Đã thanh toán', 'Thanh toán từng phần') NOT NULL,
+    payment_status ENUM('Chưa thanh toán', 'Đã thanh toán', 'Trả góp') NOT NULL,
     contract_status ENUM('Hiệu lực', 'Hết hạn', 'Hủy bỏ') NOT NULL,
     FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE,
     FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE

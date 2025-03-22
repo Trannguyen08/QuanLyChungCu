@@ -52,6 +52,7 @@ public class LoginForm_ extends javax.swing.JFrame {
         jPasswordField1.setBackground(new java.awt.Color(246, 246, 246));
         jPasswordField1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
+        checkBox.setBackground(new java.awt.Color(246, 246, 246));
         checkBox.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         checkBox.setText("Show Password");
         checkBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -179,3 +180,4 @@ public class LoginForm_ extends javax.swing.JFrame {
     private javax.swing.JButton loginBtn;
     // End of variables declaration//GEN-END:variables
 }
+

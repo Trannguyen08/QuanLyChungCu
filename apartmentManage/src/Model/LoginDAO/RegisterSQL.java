@@ -7,7 +7,7 @@ import org.mindrot.jbcrypt.BCrypt;
 public class RegisterSQL {
     public static int isUserExists(String username, String email) {
         String checkUserQuery = "SELECT COUNT(*) FROM accounts WHERE username = ?";
-        String checkEmailQuery = "SELECT COUNT(*) FROM account WHERE email = ?";
+        String checkEmailQuery = "SELECT COUNT(*) FROM accounts WHERE email = ?";
 
         try (Connection con = ConnectDB.getConnection()) {
             // Kiểm tra username
