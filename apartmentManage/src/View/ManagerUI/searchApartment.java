@@ -7,8 +7,9 @@ import javax.swing.*;
 public class searchApartment extends javax.swing.JFrame {
     public searchApartment(JTable table) {
         initComponents();
-        searchIconHandler search = new searchIconHandler(apartmentID, apartmentIndex, building, floor, roomNum, status, fromArea, fromRentPrice,
-                                                        toRentPrice, fromBuyPrice, toBuyPrice, searchBtn, table, this);
+        searchIconHandler search = new searchIconHandler(apartmentID, apartmentIndex, building, this,fromArea,
+                                                        fromBuyPrice, fromFloor, fromRentPrice, fromRoomNum, residentID,
+                                                        searchBtn, status, table, toArea, toBuyPrice, toFloor, toRentPrice1, toRoomNum);
         this.setLocationRelativeTo(null);
         this.setTitle("Tìm kiếm căn hộ");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,8 +31,8 @@ public class searchApartment extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
         apartmentIndex = new javax.swing.JComboBox<>();
         building = new javax.swing.JComboBox<>();
-        floor = new javax.swing.JComboBox<>();
-        roomNum = new javax.swing.JComboBox<>();
+        fromFloor = new javax.swing.JComboBox<>();
+        fromRoomNum = new javax.swing.JComboBox<>();
         status = new javax.swing.JComboBox<>();
         fromArea = new javax.swing.JTextField();
         fromRentPrice = new javax.swing.JTextField();
@@ -49,14 +50,19 @@ public class searchApartment extends javax.swing.JFrame {
         toArea = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        roomNum1 = new javax.swing.JComboBox<>();
+        toRoomNum = new javax.swing.JComboBox<>();
+        jLabel18 = new javax.swing.JLabel();
+        residentID = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        toFloor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(253, 253, 253));
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jLabel8.setText("ID Căn hộ");
+        jLabel8.setText("ID Chủ hộ");
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel1.setText("Tòa");
@@ -93,13 +99,13 @@ public class searchApartment extends javax.swing.JFrame {
         building.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         building.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "A", "B", "C", "D", "" }));
 
-        floor.setBackground(new java.awt.Color(250, 250, 250));
-        floor.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        floor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        fromFloor.setBackground(new java.awt.Color(250, 250, 250));
+        fromFloor.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        fromFloor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
 
-        roomNum.setBackground(new java.awt.Color(250, 250, 250));
-        roomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        roomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
+        fromRoomNum.setBackground(new java.awt.Color(250, 250, 250));
+        fromRoomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        fromRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
 
         status.setBackground(new java.awt.Color(250, 250, 250));
         status.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -146,9 +152,24 @@ public class searchApartment extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel17.setText("Đến");
 
-        roomNum1.setBackground(new java.awt.Color(250, 250, 250));
-        roomNum1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        roomNum1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
+        toRoomNum.setBackground(new java.awt.Color(250, 250, 250));
+        toRoomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        toRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel18.setText("ID Căn hộ");
+
+        residentID.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel19.setText("Từ");
+
+        jLabel20.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel20.setText("Đến");
+
+        toFloor.setBackground(new java.awt.Color(250, 250, 250));
+        toFloor.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        toFloor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,9 +186,13 @@ public class searchApartment extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel18))
                 .addGap(42, 42, 42)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(apartmentID, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,7 +212,8 @@ public class searchApartment extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jLabel10)
                                         .addComponent(jLabel14))
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -200,11 +226,11 @@ public class searchApartment extends javax.swing.JFrame {
                                                 .addComponent(jLabel17)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(roomNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel15)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(toArea, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(toArea, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(toRoomNum, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(48, 48, 48))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,43 +240,56 @@ public class searchApartment extends javax.swing.JFrame {
                                                 .addComponent(jLabel11)
                                                 .addGap(8, 8, 8)
                                                 .addComponent(toRentPrice1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(roomNum, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(fromRoomNum, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(fromFloor, 0, 78, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel20)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(toFloor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(0, 29, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(floor, 0, 97, Short.MAX_VALUE)
-                            .addComponent(building, 0, 1, Short.MAX_VALUE)
-                            .addComponent(apartmentIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(apartmentID, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(residentID, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(building, 0, 80, Short.MAX_VALUE)
+                            .addComponent(apartmentIndex, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(268, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(apartmentID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel18)
+                    .addComponent(apartmentID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(residentID, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(apartmentIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(building, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(floor, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fromFloor, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20)
+                    .addComponent(toFloor, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(roomNum, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fromRoomNum, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17)
-                    .addComponent(roomNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toRoomNum, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -302,10 +341,11 @@ public class searchApartment extends javax.swing.JFrame {
     private javax.swing.JTextField apartmentID;
     private javax.swing.JComboBox<String> apartmentIndex;
     private javax.swing.JComboBox<String> building;
-    private javax.swing.JComboBox<String> floor;
     private javax.swing.JTextField fromArea;
     private javax.swing.JTextField fromBuyPrice;
+    private javax.swing.JComboBox<String> fromFloor;
     private javax.swing.JTextField fromRentPrice;
+    private javax.swing.JComboBox<String> fromRoomNum;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -315,7 +355,10 @@ public class searchApartment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -324,12 +367,13 @@ public class searchApartment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox<String> roomNum;
-    private javax.swing.JComboBox<String> roomNum1;
+    private javax.swing.JTextField residentID;
     private javax.swing.JButton searchBtn;
     private javax.swing.JComboBox<String> status;
     private javax.swing.JTextField toArea;
     private javax.swing.JTextField toBuyPrice;
+    private javax.swing.JComboBox<String> toFloor;
     private javax.swing.JTextField toRentPrice1;
+    private javax.swing.JComboBox<String> toRoomNum;
     // End of variables declaration//GEN-END:variables
 }
