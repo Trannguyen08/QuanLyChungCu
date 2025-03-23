@@ -3,6 +3,7 @@ package Controller.ManagerControl.ApartmentHandle;
 import Model.ManagerDAO.Excel;
 import View.ManagerUI.addApartment;
 import View.ManagerUI.editApartment;
+import View.ManagerUI.searchApartment;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,18 +11,23 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class ApartmentHandler {
-    private JButton addBtn, editBtn, deleteBtn, excelBtn;
+    private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, searchButton;
     private JTable table;
     private JPanel panel;
+    private JTextField searchField;
     private deleteButtonHandler deleteHandler;
 
-    public ApartmentHandler(JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn, JTable table, JPanel panel) {
+    public ApartmentHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
+                            JButton searchIcon, JButton searchButton, JTable table, JPanel panel) {
         this.addBtn = addBtn;
         this.deleteBtn = deleteBtn;
         this.editBtn = editBtn;
         this.excelBtn = excelBtn;
+        this.searchIcon = searchIcon;
+        this.searchButton = searchButton;
         this.table = table;
         this.panel = panel;
+        
 
         this.addBtn.addActionListener(new ActionListener() {
             @Override
@@ -47,6 +53,14 @@ public class ApartmentHandler {
                 editBtnClick();
             }
         });
+        this.searchIcon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchInconClick();
+            }
+        });
+
+        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
     }
 
     private void addBtnClick() {
@@ -72,6 +86,10 @@ public class ApartmentHandler {
             return;
         }
         new editApartment(table).setVisible(true);
+    }
+
+    private void searchInconClick() {
+        new searchApartment(table).setVisible(true);
     }
 
 }
