@@ -1,6 +1,6 @@
 package Controller.ManagerControl;
 
-import View.Login.LoginForm_;
+import View.Login.Login;
 import View.ManagerUI.*;
 
 import java.awt.*;
@@ -88,7 +88,7 @@ public class HomeHandle {
 
     private void logoutLabelClick() {
         homePage.setVisible(false);
-        new LoginForm_().setVisible(true);
+        new Login().setVisible(true);
     }
     
 

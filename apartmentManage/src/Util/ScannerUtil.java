@@ -81,6 +81,27 @@ public class ScannerUtil {
             return false;
         }
     }
+    
+    public static boolean spaceDouble(String input, double min, double max, String fieldName) {
+        try {
+            double value = Double.parseDouble(input);
+            if (value < min || value > max) {
+                JOptionPane.showMessageDialog(null,
+                        fieldName + " phải nằm trong khoảng từ " + min + " đến " + max + "!",
+                        "Lỗi nhập liệu",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,
+                    fieldName + " phải là một số hợp lệ!",
+                    "Lỗi nhập liệu",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+
 
 
 }

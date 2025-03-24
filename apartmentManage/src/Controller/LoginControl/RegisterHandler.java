@@ -1,11 +1,13 @@
 package Controller.LoginControl;
 
 import Model.LoginDAO.RegisterSQL;
-import View.Login.LoginForm_;
+import View.Login.Login;
 import Util.ScannerUtil;
+import View.Login.OTP;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
@@ -102,18 +104,25 @@ public class RegisterHandler {
             return;
         }
 
-        boolean isRegistered = RegisterSQL.insertUser(username, password, email);
-        if (isRegistered) {
-            JOptionPane.showMessageDialog(registerFrame, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            registerFrame.setVisible(false);
-            new LoginForm_().setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(registerFrame, "Đã xảy ra lỗi trong quá trình đăng ký!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        AtomicBoolean checkOtp = new AtomicBoolean(false);
+        OTP otpWindow = new OTP(email, checkOtp);
+        otpWindow.setVisible(true);
+
+        if( checkOtp.get() ) {
+            otpWindow.setVisible(false);
+            boolean isRegistered = RegisterSQL.insertUser(username, password, email);
+            if (isRegistered) {
+                JOptionPane.showMessageDialog(registerFrame, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                registerFrame.setVisible(false);
+                new Login().setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(registerFrame, "Đã xảy ra lỗi trong quá trình đăng ký!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }                     
 
     public void labelLoginClick() {                                         
-        new LoginForm_().setVisible(true);
+        new Login().setVisible(true);
         registerFrame.setVisible(false);
     } 
 }

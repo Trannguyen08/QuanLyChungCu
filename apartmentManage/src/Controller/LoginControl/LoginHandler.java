@@ -1,7 +1,7 @@
 package Controller.LoginControl;
 
 import Model.LoginDAO.LoginSQL;
-import View.Login.RegisterForm;
+import View.Login.Register;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
@@ -72,6 +72,6 @@ public class LoginHandler {
 
     private void openRegisterForm() {
         loginFrame.setVisible(false);
-        new RegisterForm().setVisible(true);
+        new Register().setVisible(true);
     }
 }
