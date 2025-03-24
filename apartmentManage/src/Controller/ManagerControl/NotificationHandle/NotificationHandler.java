@@ -28,16 +28,6 @@ public class NotificationHandler {
         this.searchButton = searchButton;
         this.table = table;
         this.panel = panel;
-        
-        this.addBtn = addBtn;
-        this.deleteBtn = deleteBtn;
-        this.editBtn = editBtn;
-        this.excelBtn = excelBtn;
-        this.searchIcon = searchIcon;
-        this.searchButton = searchButton;
-        this.table = table;
-        this.panel = panel;
-        
 
         this.addBtn.addActionListener(new ActionListener() {
             @Override
