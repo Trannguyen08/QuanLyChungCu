@@ -1,0 +1,29 @@
+[33maf1e1dc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull: Fast-forward
+[33m9556aff[m HEAD@{1}: pull origin main --rebase (finish): returning to refs/heads/main
+[33m9556aff[m HEAD@{2}: pull origin main --rebase (pick): add notificationHandle
+[33md890c1e[m HEAD@{3}: pull origin main --rebase (start): checkout d890c1eebe78f37c4bb7e9e06f3a75e8d88bb623
+[33m3e30fcf[m HEAD@{4}: commit: add notificationHandle
+[33ma1d0382[m HEAD@{5}: reset: moving to origin/main
+[33ma1d0382[m HEAD@{6}: pull: Fast-forward
+[33m74b974e[m HEAD@{7}: commit (merge): addNotification, addService
+[33m954e9fc[m HEAD@{8}: reset: moving to HEAD
+[33m954e9fc[m HEAD@{9}: commit (merge): Lưu thay đổi trước khi pull
+[33m19ae690[m HEAD@{10}: commit: Lưu thay đổi trước khi pull
+[33mfb958fc[m HEAD@{11}: commit: ContractForm, ServicesForm, NotificationForm
+[33mb1cbebd[m HEAD@{12}: checkout: moving from contract to main
+[33m7cbda4a[m[33m ([m[1;31morigin/contract[m[33m, [m[1;32mcontract[m[33m)[m HEAD@{13}: checkout: moving from main to contract
+[33mb1cbebd[m HEAD@{14}: pull: Fast-forward
+[33m7d093c2[m HEAD@{15}: reset: moving to HEAD
+[33m7d093c2[m HEAD@{16}: checkout: moving from main to main
+[33m7d093c2[m HEAD@{17}: checkout: moving from contract to main
+[33m7cbda4a[m[33m ([m[1;31morigin/contract[m[33m, [m[1;32mcontract[m[33m)[m HEAD@{18}: checkout: moving from main to contract
+[33m7d093c2[m HEAD@{19}: checkout: moving from contract to main
+[33m7cbda4a[m[33m ([m[1;31morigin/contract[m[33m, [m[1;32mcontract[m[33m)[m HEAD@{20}: checkout: moving from main to contract
+[33m7d093c2[m HEAD@{21}: checkout: moving from contract to main
+[33m7cbda4a[m[33m ([m[1;31morigin/contract[m[33m, [m[1;32mcontract[m[33m)[m HEAD@{22}: commit: ContractForm, NotificationForm, ServicesForm
+[33mb3e2eab[m HEAD@{23}: checkout: moving from main to contract
+[33m7d093c2[m HEAD@{24}: checkout: moving from contract to main
+[33mb3e2eab[m HEAD@{25}: commit: ContractForm_NotificationForm_ServicesForm
+[33m7d093c2[m HEAD@{26}: checkout: moving from main to contract
+[33m7d093c2[m HEAD@{27}: merge origin/main: Fast-forward
+[33m7b97310[m HEAD@{28}: clone: from https://github.com/Trannguyen08/QuanLyChungCu.git
