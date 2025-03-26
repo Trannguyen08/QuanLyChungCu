@@ -1,7 +1,7 @@
 
 package View.ManagerUI;
 
-import Controller.ManagerControl.ApartmentHandle.EmployeeHandler;
+import Controller.ManagerControl.EmployeeHandle.EmployeeHandler;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 /**

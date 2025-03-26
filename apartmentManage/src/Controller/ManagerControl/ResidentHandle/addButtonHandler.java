@@ -1,4 +1,4 @@
-package Controller.ManagerControl.ApartmentHandle;
+package Controller.ManagerControl.ResidentHandle;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import javax.swing.table.DefaultTableModel;
 
-public class addResidentHandler {
+public class addButtonHandler {
     
     private JButton addBtn;
     private JTextField fullName, phoneNumber, email, idCard, apartmentID;
@@ -18,7 +18,7 @@ public class addResidentHandler {
     private JTable table;
     private JFrame add;
 
-    public addResidentHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
+    public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
                             JTextField phoneNumber, JTextField email, JTextField idCard, JTextField apartmentID, 
                             JTable table, JFrame add) {
         this.addBtn = addBtn;

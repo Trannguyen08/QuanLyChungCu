@@ -299,43 +299,36 @@
                       <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="52" pref="52" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel30" alignment="0" pref="89" max="32767" attributes="0"/>
-                                  <Component id="jLabel13" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel30" pref="89" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel33" min="-2" pref="71" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel33" min="-2" pref="71" max="-2" attributes="0"/>
+                                  <Component id="jLabel13" min="-2" pref="71" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="fullName" min="-2" pref="165" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="phoneNumber" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
+                  <Component id="gender" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="status" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="position" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="hiringDate" alignment="0" max="32767" attributes="0"/>
+                      <Component id="salary" alignment="0" pref="160" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="email" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                          <Component id="phoneNumber" alignment="0" min="-2" pref="140" max="-2" attributes="0"/>
-                          <Component id="gender" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="status" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="position" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="hiringDate" alignment="0" max="32767" attributes="0"/>
-                              <Component id="salary" alignment="0" pref="160" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="email" alignment="0" pref="212" max="32767" attributes="0"/>
+                  <Component id="fullName" alignment="0" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -349,13 +342,13 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel13" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="gender" alignment="0" max="32767" attributes="0"/>
+                  <Component id="gender" max="32767" attributes="0"/>
+                  <Component id="jLabel13" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel30" alignment="3" max="32767" attributes="0"/>
-                  <Component id="phoneNumber" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="phoneNumber" pref="32" max="32767" attributes="0"/>
+                  <Component id="jLabel30" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -369,8 +362,8 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="salary" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="jLabel32" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="salary" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="jLabel32" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">

@@ -1,4 +1,4 @@
-package Controller.ManagerControl.ApartmentHandle;
+package Controller.ManagerControl.EmployeeHandle;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
@@ -8,7 +8,7 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class addEmployeeHandler {
+public class addButtonHandler {
     private JButton addBtn;
     private JTextField fullName, phoneNumber, email, salary;
     private JComboBox<String> gender, position,  status;
@@ -16,7 +16,7 @@ public class addEmployeeHandler {
     private JTable table;
     private JFrame add;
 
-    public addEmployeeHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
+    public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                             JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
                             JComboBox<String> status, JTable table, JFrame add) {
         this.fullName = fullName;

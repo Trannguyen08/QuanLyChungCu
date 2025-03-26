@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Controller.ManagerControl.ApartmentHandle;
+package Controller.ManagerControl.EmployeeHandle;
 
 import Model.ManagerDAO.deleteButton;
 import View.ManagerUI.Apartment;
@@ -14,17 +10,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-/**
- *
- * @author nghia
- */
-public class deleteResidentHandler {
+public class deleteButtonHandler {
     private JButton deleteBtn;
     private JTable table;
     private JPanel panel;
 
-    public deleteResidentHandler(JButton deleteBtn, JTable table, JPanel panel) {
+    public deleteButtonHandler(JButton deleteBtn, JTable table, JPanel panel) {
         this.deleteBtn = deleteBtn;
         this.table = table;
         this.panel = panel;

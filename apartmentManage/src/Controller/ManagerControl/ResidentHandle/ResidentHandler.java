@@ -1,22 +1,27 @@
-package Controller.ManagerControl.ApartmentHandle;
+
+package Controller.ManagerControl.ResidentHandle;
 
 import Model.ManagerDAO.Excel;
-import View.ManagerUI.addEmployee;
-import View.ManagerUI.editEmployee;
+import View.ManagerUI.addResident;
+import View.ManagerUI.editResident;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class EmployeeHandler {
+/**
+ *
+ * @author nghia
+ */
+public class ResidentHandler {
+    
     private JButton addBtn, editBtn, deleteBtn, excelBtn;
     private JTable table;
     private JPanel panel;
-    private deleteEmployeeHandler deleteHandler;
+    private deleteButtonHandler deleteHandler;
 
-    public EmployeeHandler(JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
-                               JTable table, JPanel panel) {
+    public ResidentHandler(JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn, JTable table, JPanel panel) {
         this.addBtn = addBtn;
         this.deleteBtn = deleteBtn;
         this.editBtn = editBtn;
@@ -51,18 +56,18 @@ public class EmployeeHandler {
     }
 
     private void addBtnClick() {
-        new addEmployee(table).setVisible(true);
+        new addResident(table).setVisible(true);
     }
 
     private void deleteBtnClick() {
         if (deleteHandler == null) {
-            deleteHandler = new deleteEmployeeHandler(deleteBtn, table, panel);
+            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
         }
     }
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportEmployees(directoryPath);
+        Excel.exportResidents(directoryPath);
         
     }
     
@@ -72,6 +77,6 @@ public class EmployeeHandler {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        new editEmployee(table).setVisible(true);
+        new editResident(table).setVisible(true);
     }
 }

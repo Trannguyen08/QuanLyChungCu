@@ -1,4 +1,5 @@
-package Controller.ManagerControl.ApartmentHandle;
+
+package Controller.ManagerControl.ResidentHandle;
 
 import Model.ManagerDAO.deleteButton;
 import View.ManagerUI.Apartment;
@@ -10,12 +11,17 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class deleteEmployeeHandler {
+
+/**
+ *
+ * @author nghia
+ */
+public class deleteButtonHandler {
     private JButton deleteBtn;
     private JTable table;
     private JPanel panel;
 
-    public deleteEmployeeHandler(JButton deleteBtn, JTable table, JPanel panel) {
+    public deleteButtonHandler(JButton deleteBtn, JTable table, JPanel panel) {
         this.deleteBtn = deleteBtn;
         this.table = table;
         this.panel = panel;
