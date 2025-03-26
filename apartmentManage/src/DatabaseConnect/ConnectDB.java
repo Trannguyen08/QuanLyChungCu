@@ -1,6 +1,8 @@
 
 package DatabaseConnect;
 
+import config.databaseConfig;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ public class ConnectDB {
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/apartment", "root", "081105");
+            Connection connection = DriverManager.getConnection(databaseConfig.URL, databaseConfig.USER, databaseConfig.PASSWORD);
             System.out.println("Kết nối thành công: " + connection);
             connection.close();
         } catch (ClassNotFoundException | SQLException ex) {
@@ -19,6 +21,6 @@ public class ConnectDB {
         }
     }
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/apartment", "root", "081105");
+        return DriverManager.getConnection(databaseConfig.URL, databaseConfig.USER, databaseConfig.PASSWORD);
     }
 }
