@@ -1,6 +1,11 @@
 package controller.ManagerControl.EmployeeHandle;
 
 import com.toedter.calendar.JDateChooser;
+import model.Employee;
+import dao.managerDAO.EmployeeDAO;
+import service.managerService.employeeService;
+import util.ScannerUtil;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -16,6 +21,7 @@ public class editButtonHandler {
     private JDateChooser hiringDate;
     private JTable table;
     private JFrame edit;
+    private final employeeService employeeService = new employeeService();
 
     public editButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                             JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
@@ -39,43 +45,10 @@ public class editButtonHandler {
             }
         });
     }
-    
-    public void loadSelectedRowData() {
-        int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        if( model == null ) {
-            JOptionPane.showMessageDialog(null, "Lỗi: Dữ liệu bảng chưa được khởi tạo.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        for( int col = 0 ; col < model.getColumnCount() ; col++ ) {
-            if( model.getValueAt(selectedRow, col ) == null) {
-                model.setValueAt("", selectedRow, col);
-            }
-        }
-
-        fullName.setText(model.getValueAt(selectedRow, 1).toString());
-        gender.setSelectedItem(model.getValueAt(selectedRow, 2).toString());
-        phoneNumber.setText(model.getValueAt(selectedRow, 3).toString());
-        email.setText(model.getValueAt(selectedRow, 4).toString());
-        position.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
-        salary.setText(model.getValueAt(selectedRow, 6).toString());
-        String dateString = model.getValueAt(selectedRow, 7).toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = sdf.parse(dateString);
-            hiringDate.setDate(date);
-        } catch (ParseException e) {
-            hiringDate.setDate(null);
-        }
-        status.setSelectedItem(model.getValueAt(selectedRow, 8).toString());
+    public void loadSelectedRowData() throws ParseException {
+        boolean check = employeeService.loadSelectedRowData(table, fullName, gender, phoneNumber, email, position, salary, hiringDate, status);
     }
-
+ 
     public void updateSelectedRow() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {

@@ -1,20 +1,21 @@
 package controller.ManagerControl.EmployeeHandle;
 
-import model.ManagerDAO.deleteButton;
-import view.ManagerUI.Apartment;
+import dao.managerDAO.EmployeeDAO;
+import service.managerService.employeeService;
 import view.ManagerUI.Employee;
-import view.ManagerUI.Resident;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class deleteButtonHandler {
     private JButton deleteBtn;
     private JTable table;
     private JPanel panel;
-
+    private final employeeService employeeService = new employeeService();
+    
     public deleteButtonHandler(JButton deleteBtn, JTable table, JPanel panel) {
         this.deleteBtn = deleteBtn;
         this.table = table;
@@ -33,48 +34,20 @@ public class deleteButtonHandler {
     }
 
     private void deleteSelectedRow() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để xóa!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+        Integer id = employeeService.getEmployeeId(table);
+        if( id == null ) {
             return;
         }
-        
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        Object value = model.getValueAt(selectedRow, 0);
-
-        if (value == null || value.toString().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy ID của hàng đã chọn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int id;
-        try {
-            id = Integer.parseInt(value.toString());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ID không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int confirm = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa hàng này?",
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            model.removeRow(selectedRow);
-
-            // Xác định bảng cần xóa
-            String tableName = null;
-            if (panel instanceof Apartment) {
-                tableName = "apartments";
-            } else if (panel instanceof Resident) {
-                tableName = "residents";
-            } else if (panel instanceof Employee) {
-                tableName = "employees";
-            }
-
-            if (tableName != null) {
-                deleteButton.deleteRowInTable(tableName, id);
+        if (employeeService.confirmDelete()) {
+            boolean isDeleted = (panel instanceof Employee) && employeeService.deleteEmployee(id);
+            if (isDeleted) {
+                ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
+                JOptionPane.showMessageDialog(null, "Xóa dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Xóa dữ liệu không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
+
 }
+

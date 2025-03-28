@@ -86,8 +86,8 @@
                                   <Component id="status" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="employeeID" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
-                              <Component id="fullName" alignment="0" min="-2" pref="215" max="-2" attributes="0"/>
                               <Component id="email" alignment="0" min="-2" pref="215" max="-2" attributes="0"/>
+                              <Component id="fullName" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>

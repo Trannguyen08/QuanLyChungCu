@@ -52,7 +52,6 @@
                   </Group>
                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="fullName" min="-2" pref="215" max="-2" attributes="0"/>
                       <Component id="gender" alignment="0" min="-2" pref="81" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
@@ -68,6 +67,7 @@
                       <Component id="idCard" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
                       <Component id="apartmentID" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
                       <Component id="residentID" alignment="0" min="-2" pref="80" max="-2" attributes="0"/>
+                      <Component id="fullName" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="18" max="32767" attributes="0"/>
               </Group>

@@ -3,6 +3,7 @@ package view.ManagerUI;
 
 
 import controller.ManagerControl.ResidentHandle.editButtonHandler;
+import java.text.ParseException;
 import javax.swing.*;
 
 /**
@@ -10,7 +11,7 @@ import javax.swing.*;
  * @author nghia
  */
 public class editResident extends javax.swing.JFrame {
-    public editResident(JTable table) {
+    public editResident(JTable table) throws ParseException {
         initComponents();
         editButtonHandler edit = new editButtonHandler(editBtn, fullName, gender, birthDate, 
                                         phoneNumber, email, idCard,apartmentID, table, this);

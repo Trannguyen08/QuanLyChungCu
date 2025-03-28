@@ -1,15 +1,11 @@
 
 package controller.ManagerControl.EmployeeHandle;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *

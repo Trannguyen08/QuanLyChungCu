@@ -9,13 +9,38 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author nghia
  */
 public class Employee extends javax.swing.JPanel {
-    public Employee() {
-        
+    public Employee() {   
         initComponents();
         this.setVisible(true);
         centerTableText();
-        EmployeeHandler employeeHandler = new EmployeeHandler(addBtn, deleteBtn, editBtn, excelBtn, table, this);
+        EmployeeHandler employeeHandler = new EmployeeHandler(searchField, addBtn, deleteBtn, editBtn, excelBtn, searchIcon, searchButton, table, this);
+        searchField.setForeground(java.awt.Color.GRAY);
+        searchField.setText("Nhập id nhân viên...");
+        searchField.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Nhập id nhân viên...")) {
+                    searchField.setText("");
+                    searchField.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setForeground(java.awt.Color.GRAY);
+                    searchField.setText("Nhập id nhân viên...");
+                }
+            }
+        });
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Employee.this.requestFocusInWindow();
+            }
+        });
     }
+
     private void centerTableText() {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -37,7 +62,7 @@ public class Employee extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        searchField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         searchIcon = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
@@ -50,7 +75,7 @@ public class Employee extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        searchField.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
 
@@ -62,7 +87,7 @@ public class Employee extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
+                .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,7 +95,7 @@ public class Employee extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+                    .addComponent(searchField, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
         );
 
         searchIcon.setBackground(new java.awt.Color(250, 250, 250));
@@ -117,9 +142,15 @@ public class Employee extends javax.swing.JPanel {
         excelBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         table.setBackground(new java.awt.Color(250, 250, 250));
+        table.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "Trần Chí Nguyên", "Nam", "0829907738", "trannguyen@gmail.com", "Bảo vệ", "6000000", "23/06/2024", "Đang làm việc"},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -128,15 +159,7 @@ public class Employee extends javax.swing.JPanel {
             new String [] {
                 "ID", "Họ tên", "Giới tính", "SĐT", "Email", "Chức vụ", "Mức lương", "Ngày tuyển", "Trạng thái"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -229,8 +252,8 @@ public class Employee extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchField;
     private javax.swing.JButton searchIcon;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

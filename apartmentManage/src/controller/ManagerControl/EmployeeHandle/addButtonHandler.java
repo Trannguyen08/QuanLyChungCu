@@ -1,12 +1,17 @@
 package controller.ManagerControl.EmployeeHandle;
 
 import com.toedter.calendar.JDateChooser;
+import model.Employee;
+import dao.managerDAO.EmployeeDAO;
+import util.ScannerUtil;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import service.managerService.employeeService;
 
 public class addButtonHandler {
     private JButton addBtn;
@@ -15,6 +20,7 @@ public class addButtonHandler {
     private JDateChooser hiringDate;
     private JTable table;
     private JFrame add;
+    private final employeeService employeeService = new employeeService();
 
     public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                             JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
@@ -40,23 +46,52 @@ public class addButtonHandler {
     }
 
     private void addNewRow() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        Date selectedDate = hiringDate.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng ngày
-        String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
-        model.addRow(new Object[]{
-                fullName.getText(),
-                gender.getSelectedItem(),
-                phoneNumber.getText(),
-                email.getText(),
-                position.getSelectedItem(),
-                salary.getText(),
-                formattedDate, 
-                status.getSelectedItem()
-        });
+        String fName = fullName.getText().trim();
+        Object eGender = gender.getSelectedItem().toString();
+        String pNumber = phoneNumber.getText().trim();
+        String eEmail = email.getText().trim();
+        Object ePosition = position.getSelectedItem().toString();
+        Object eStatus = status.getSelectedItem().toString();
 
-        add.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Thêm nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        // Lấy ngày và định dạng
+        Date selectedDate = hiringDate.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
+
+
+        double salaryValue = Double.parseDouble(salary.getText().trim());
+
+        // Kiểm tra dữ liệu hợp lệ trước khi tiếp tục
+        boolean check = employeeService.validateData(table, fullName, gender, phoneNumber, email, position, salary, hiringDate, status);
+        if (!check) {
+            return;
+        }
+
+        // Tạo đối tượng Employee
+       Employee employee = new Employee(0, fullName.getText().trim(), gender.getSelectedItem().toString(), phoneNumber.getText().trim(), 
+                            email.getText().trim(), position.getSelectedItem().toString(), Double.parseDouble(salary.getText().trim()), 
+                           (hiringDate.getDate() != null) ? new SimpleDateFormat("yyyy-MM-dd").format(hiringDate.getDate()) : "N/A", 
+                                status.getSelectedItem().toString());
+
+        // Kiểm tra trùng lặp nhân viên
+        if (employeeService.isDuplicate(employee, table)) {
+            JOptionPane.showMessageDialog(null, "Nhân viên này đã tồn tại!", "Lỗi trùng lặp", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // thêm vào database và table
+        boolean isAddedComplete = employeeService.addEmployee(employee);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.addRow(employeeService.getLastRow());
+
+        if( isAddedComplete ) {
+            JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Thêm dữ liệu không thành công.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
 }
 
