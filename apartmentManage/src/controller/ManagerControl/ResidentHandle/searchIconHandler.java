@@ -1,39 +1,36 @@
 
 package controller.ManagerControl.ResidentHandle;
 
-import util.ScannerUtil;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
+import service.managerService.residentService;
+import util.ScannerUtil;
+
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author nghia
  */
 public class searchIconHandler {
-    private javax.swing.JTextField residentID;
-    private javax.swing.JTextField fullName;
+    private javax.swing.JTextField residentID, fullName, phoneNumber,email, idCard, apartmentID ;
     private javax.swing.JComboBox<String> gender;
     private JDateChooser birthDate;
     private JDateChooser toBirthDate;
-    private javax.swing.JTextField phoneNumber;
-    private javax.swing.JTextField email;
-    private javax.swing.JTextField idCard;
-    private javax.swing.JTextField apartmentID;
     private javax.swing.JButton searchBtn;
     private JTable table;
     private JFrame frame;
+    private final residentService residentService = new residentService();
 
     public searchIconHandler(JTextField residentID, JTextField fullName, JComboBox<String> gender,
                                 JDateChooser birthDate, JDateChooser toBirthDate, JTextField phoneNumber,
@@ -66,31 +63,14 @@ public class searchIconHandler {
         table.setRowSorter(sorter);
 
         List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
-
-        // validate dữ diệu nhập đúng kiểu
-        if ((residentID.getText() != null && !residentID.getText().trim().isEmpty() &&
-                !ScannerUtil.validateInteger(residentID.getText().trim(), "ID cư dân")) ||
-                (fullName.getText() != null && !fullName.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(fullName.getText().trim(), "Họ tên")) ||
-                (phoneNumber.getText() != null && !phoneNumber.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(phoneNumber.getText().trim(), "Số điện thoại")) ||
-                (email.getText() != null && !email.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(email.getText().trim(), "Email")) ||
-                (idCard.getText() != null && !idCard.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(idCard.getText().trim(), "số căn cước công dân")) ||
-                (gender.getSelectedItem() == null || gender.getSelectedItem().toString().trim().isEmpty()) ||
-                (apartmentID.getText() != null && !apartmentID.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(apartmentID.getText().trim(), "ID căn hộ"))) {
+        
+        boolean check = residentService.validateSearchInput( residentID, fullName, gender, birthDate, toBirthDate, phoneNumber, email, idCard, apartmentID);
+        if( !check ) {
             return;
         }
-
-        if ((!birthDate.getDate().toString().trim().isEmpty() && !toBirthDate.getDate().toString().trim().isEmpty() &&
-                !ScannerUtil.validateRange(birthDate.getDate().toString().trim(), toBirthDate.getDate().toString().trim(), "Ngày sinh")) ) {
-            return;
-        }
-
 
         // nếu không null thì xét với table
+
         if (!residentID.getText().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + residentID.getText().trim(), 0));
         }
@@ -106,15 +86,34 @@ public class searchIconHandler {
         if (idCard.getText() != null && !idCard.getText().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + idCard.getText().trim(), 4));
         }
-        if (birthDate.getDate() != null && !birthDate.getDate().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + birthDate.getDate().toString().trim(), 5));
-        }
         if (gender.getSelectedItem() != null && !gender.getSelectedItem().toString().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + gender.getSelectedItem().toString().trim(), 6));
         }
         if (apartmentID.getText() != null && !apartmentID.getText().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 7));
         }
+        // xét các khoảng số nguyên số thực
+        RowFilter<DefaultTableModel, Integer> numberFilter = new RowFilter<>() {
+            public boolean include(RowFilter.Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                try {
+                    // Chuyển đổi ngày tuyển dụng từ bảng
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date hiringDateFrom = sdf.parse(entry.getStringValue(5).trim()); 
+
+                    Date birthDateInput = birthDate.getDate();
+                    Date toBirthDateInput = toBirthDate.getDate();
+
+                    boolean birthDateMatch = (birthDateInput == null) || hiringDateFrom.compareTo(birthDateInput) >= 0;
+                    boolean birthDateMaxMatch = (toBirthDateInput == null) || hiringDateFrom.compareTo(toBirthDateInput) <= 0;
+
+                    return birthDateMatch && birthDateMaxMatch;
+                } catch (ParseException e) {
+                return false;
+                }
+            }
+        };
+
+        filters.add(numberFilter);
         sorter.setRowFilter(RowFilter.andFilter(filters));
         frame.setVisible(false);
         if (table.getRowCount() == 0) {
