@@ -27,9 +27,8 @@ public class editButtonHandler {
     private JFrame edit;
     private final residentService residentService = new residentService();
     
-    public editButtonHandler(JButton addBtn,  JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
-                            JTextField phoneNumber, JTextField email, JTextField idCard, JTextField apartmentID, 
-                            JTable table, JFrame edit) {
+    public editButtonHandler(JButton addBtn,JTextField apartmentID,   JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
+                            JTextField phoneNumber, JTextField email, JTextField idCard, JTable table, JFrame edit) {
         this.editBtn = addBtn;
         this.fullName = fullName;
         this.gender = gender;
@@ -50,7 +49,7 @@ public class editButtonHandler {
     }
     
    public void loadSelectedRowData() throws ParseException {
-        boolean check = residentService.validateData(table, fullName, phoneNumber,  email, idCard,  birthDate,  gender,  apartmentID);
+        boolean check = residentService.validateData(table,  apartmentID, fullName, phoneNumber,  email, idCard,  birthDate,  gender);
     }
  
     public void updateSelectedRow() {
@@ -70,13 +69,13 @@ public class editButtonHandler {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
         
-        model.setValueAt(fullName.getText(), selectedRow, 1);
-        model.setValueAt(phoneNumber.getText(), selectedRow, 2);
-        model.setValueAt(email.getText(),selectedRow, 3);
-        model.setValueAt(idCard.getText(), selectedRow, 4);
-        model.setValueAt(formattedDate, selectedRow, 5);
-        model.setValueAt(gender.getSelectedItem(), selectedRow, 6);
-        model.setValueAt(apartmentID.getText(), selectedRow, 7);
+        model.setValueAt(apartmentID.getText(), selectedRow, 1);
+        model.setValueAt(fullName.getText(), selectedRow, 2);
+        model.setValueAt(phoneNumber.getText(), selectedRow, 3);
+        model.setValueAt(email.getText(),selectedRow, 4);
+        model.setValueAt(idCard.getText(), selectedRow, 5);
+        model.setValueAt(formattedDate, selectedRow, 6);
+        model.setValueAt(gender.getSelectedItem(), selectedRow, 7);
 
         edit.setVisible(false);
         JOptionPane.showMessageDialog(null, "Cập nhật thông tin nhân viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

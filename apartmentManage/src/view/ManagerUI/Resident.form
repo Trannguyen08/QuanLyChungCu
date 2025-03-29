@@ -44,7 +44,7 @@
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="searchIcon" min="-2" pref="38" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="98" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                           <Component id="searchButton" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="0" min="-2" pref="773" max="-2" attributes="0"/>
@@ -254,7 +254,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="H&#x1ecd; t&#xea;n" type="java.lang.Object">
+                    <Column editable="true" title="ID_C&#x103;n h&#x1ed9;" type="java.lang.Object">
                       <Data value="Tr&#x1ea7;n Ch&#xed; Nguy&#xea;n"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -266,7 +266,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="S&#x110;T" type="java.lang.Object">
+                    <Column editable="true" title="H&#x1ecd; t&#xea;n" type="java.lang.Object">
                       <Data value="0829907738"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -278,7 +278,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="Email" type="java.lang.Object">
+                    <Column editable="true" title="S&#x110;T" type="java.lang.Object">
                       <Data value="trannguyen08py@gmail.com"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -290,7 +290,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="CCCD" type="java.lang.Object">
+                    <Column editable="true" title="Email" type="java.lang.Object">
                       <Data value="054205010738"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -302,7 +302,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="Ng&#xe0;y sinh" type="java.lang.Object">
+                    <Column editable="true" title="CCCD" type="java.lang.Object">
                       <Data value="23/06/2012"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -314,7 +314,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object">
+                    <Column editable="true" title="Ng&#xe0;y sinh" type="java.lang.Object">
                       <Data value="Nam"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -326,7 +326,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="true" title="ID_C&#x103;n h&#x1ed9;" type="java.lang.Object">
+                    <Column editable="true" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object">
                       <Data value="2"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -347,6 +347,11 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="130" resizable="true">
                       <Title/>
                       <Editor/>
@@ -362,7 +367,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -373,11 +378,6 @@
                       <Renderer/>
                     </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
-                      <Title/>
-                      <Editor/>
-                      <Renderer/>
-                    </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

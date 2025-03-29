@@ -145,18 +145,19 @@ public class Resident extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID_Cư dân", "Họ tên", "SĐT", "Email", "CCCD", "Ngày sinh", "Giới tính", "ID_Căn hộ"
+                "ID_Cư dân", "ID_Căn hộ", "Họ tên", "SĐT", "Email", "CCCD", "Ngày sinh", "Giới tính"
             }
         ));
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(50);
-            table.getColumnModel().getColumn(1).setPreferredWidth(130);
-            table.getColumnModel().getColumn(2).setPreferredWidth(60);
-            table.getColumnModel().getColumn(3).setPreferredWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(50);
+            table.getColumnModel().getColumn(2).setPreferredWidth(130);
+            table.getColumnModel().getColumn(3).setPreferredWidth(60);
+            table.getColumnModel().getColumn(4).setPreferredWidth(150);
             table.getColumnModel().getColumn(5).setPreferredWidth(60);
-            table.getColumnModel().getColumn(6).setPreferredWidth(40);
-            table.getColumnModel().getColumn(7).setPreferredWidth(50);
+            table.getColumnModel().getColumn(6).setPreferredWidth(60);
+            table.getColumnModel().getColumn(7).setPreferredWidth(40);
         }
 
         deleteBtn.setBackground(new java.awt.Color(32, 86, 150));
@@ -182,7 +183,7 @@ public class Resident extends javax.swing.JPanel {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(98, 98, 98)
+                        .addGap(50, 50, 50)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)

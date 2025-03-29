@@ -10,8 +10,8 @@ import javax.swing.*;
 public class addResident extends javax.swing.JFrame {
     public addResident(JTable table) {
         initComponents();
-        addButtonHandler add = new addButtonHandler (addBtn, fullName, gender, birthDate,
-                                        phoneNumber, email, idCard, apartmentID, table, this);
+        addButtonHandler add = new addButtonHandler (addBtn, apartmentID, fullName, gender, birthDate,
+                                        phoneNumber, email, idCard, table, this);
         
         this.setLocationRelativeTo(null);
         this.setTitle("Thêm cư dân");

@@ -25,10 +25,10 @@ public class residentService {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            String existingPhone = model.getValueAt(i, 2).toString();
-            String existingEmail = model.getValueAt(i, 3).toString();
-            String existingIdCard = model.getValueAt(i, 4).toString();
-            int existingApartmentID = Integer.parseInt(model.getValueAt(i, 7).toString());
+            String existingPhone = model.getValueAt(i, 3).toString();
+            String existingEmail = model.getValueAt(i, 4).toString();
+            String existingIdCard = model.getValueAt(i, 5).toString();
+            int existingApartmentID = Integer.parseInt(model.getValueAt(i, 1).toString());
 
             if (existingPhone.equals(resident.getPhoneNumber()) || existingEmail.equals(resident.getEmail()) ||
                 existingIdCard.equals(resident.getIdCard()) || existingApartmentID == resident.getApartmentID()){
@@ -100,8 +100,8 @@ public class residentService {
     }
 
     // gán dữ liệu từ dòng đã chọn vào form
-    public boolean loadSelectedRowData(JTable table, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
-                                        JTextField phoneNumber, JTextField email, JTextField idCard, JTextField apartmentID) throws ParseException {
+    public boolean loadSelectedRowData(JTable table, JTextField apartmentID, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
+                                        JTextField phoneNumber, JTextField email, JTextField idCard) throws ParseException {
         boolean error = errorNotifiaction(table);
         if( !error ) {
             return false;
@@ -109,23 +109,23 @@ public class residentService {
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        fullName.setText(model.getValueAt(selectedRow, 1).toString());
-        phoneNumber.setText(model.getValueAt(selectedRow, 2).toString());
-        email.setText(model.getValueAt(selectedRow, 3).toString());
-        idCard.setText(model.getValueAt(selectedRow, 4).toString());
-        String dateStr = model.getValueAt(selectedRow, 5).toString(); 
+        apartmentID.setText(model.getValueAt(selectedRow, 1).toString());
+        fullName.setText(model.getValueAt(selectedRow, 2).toString());
+        phoneNumber.setText(model.getValueAt(selectedRow, 3).toString());
+        email.setText(model.getValueAt(selectedRow, 4).toString());
+        idCard.setText(model.getValueAt(selectedRow, 5).toString());
+        String dateStr = model.getValueAt(selectedRow, 6).toString(); 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
         Date date = sdf.parse(dateStr); // Gán vào JDateChooser
         birthDate.setDate(date);
-        gender.setSelectedItem(model.getValueAt(selectedRow, 6).toString());
-        apartmentID.setText(model.getValueAt(selectedRow, 7).toString());
+        gender.setSelectedItem(model.getValueAt(selectedRow, 7).toString());
 
         return true;
     }
 
     // validate data
-    public boolean validateData(JTable table, JTextField fullName,JTextField phoneNumber, JTextField email,
-                                JTextField idCard, JDateChooser birthDate, JComboBox<String> gender, JTextField apartmentID) {
+    public boolean validateData(JTable table, JTextField apartmentID, JTextField fullName,JTextField phoneNumber, JTextField email,
+                                JTextField idCard, JDateChooser birthDate, JComboBox<String> gender) {
 
         String fName = fullName.getText().trim();
         String pNumber = phoneNumber.getText().trim();
@@ -176,9 +176,8 @@ public class residentService {
     public boolean updateResident(Resident resident) {
         return residentDAO.updateResident(resident);
     }
-    public boolean validateSearchInput(JTextField residentID, JTextField fullName, JComboBox<String> gender,
-                                JDateChooser birthDate, JDateChooser toBirthDate, JTextField phoneNumber,
-                                JTextField email, JTextField idCard, JTextField apartmentID) {
+    public boolean validateSearchInput(JTextField residentID, JTextField apartmentID, JTextField fullName, JComboBox<String> gender,
+                                JDateChooser birthDate, JDateChooser toBirthDate, JTextField phoneNumber,JTextField email, JTextField idCard) {
         // Kiểm tra giá trị nhập vào có hợp lệ không
         if ((!residentID.getText().trim().isEmpty() && !ScannerUtil.validateInteger(residentID.getText().trim(), "ID cư dân")) ||
            (!fullName.getText().trim().isEmpty() && !ScannerUtil.validateInteger(fullName.getText().trim(), "Họ tên cư dân")) ||
@@ -196,28 +195,29 @@ public class residentService {
         }
         return true;
     }
-    public List<RowFilter<DefaultTableModel, Integer>> createFilters(JTextField residentID, JTextField fullName,JTextField phoneNumber,
-                                                                    JTextField email, JTextField idCard, JTextField apartmentID){
+    public List<RowFilter<DefaultTableModel, Integer>> createFilters(JTextField residentID, JTextField apartmentID, JTextField fullName,JTextField phoneNumber,
+                                                                    JTextField email, JTextField idCard){
         List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
 
         if (!residentID.getText().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + residentID.getText().trim(), 0));
         }
+        if (!apartmentID.getText().trim().isEmpty()) {
+            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 1)); 
+        }
         if (!fullName.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + fullName.getText().trim(), 1));
+            filters.add(RowFilter.regexFilter("(?i)" + fullName.getText().trim(), 2));
         }
         if (!phoneNumber.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + phoneNumber.getText().trim(), 2));
+            filters.add(RowFilter.regexFilter("(?i)" + phoneNumber.getText().trim(), 3));
         }
         if (!email.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + email.getText().trim(), 3));
+            filters.add(RowFilter.regexFilter("(?i)" + email.getText().trim(), 4));
         }
         if (!idCard.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + idCard.getText().trim(), 4)); 
+            filters.add(RowFilter.regexFilter("(?i)" + idCard.getText().trim(), 5)); 
         }
-        if (!apartmentID.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 7)); 
-        }
+
         return filters;
     }
 
