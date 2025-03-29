@@ -66,7 +66,7 @@ public class searchApartment extends javax.swing.JFrame {
         jLabel2.setText("Tầng");
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jLabel7.setText("Số phòng ngủ");
+        jLabel7.setText("Số phòng ");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel3.setText("Tình trạng");

@@ -24,6 +24,8 @@ public class searchButtonHandler {
                 findIDInTable();
             }
         });
+        
+        placeHolder();
     }
 
     private void findIDInTable() {
@@ -32,7 +34,7 @@ public class searchButtonHandler {
         table.setRowSorter(sorter);
 
         String id = searchField.getText().trim();
-        if( !ScannerUtil.validateInteger(id, "Ô tìm kiếm") ) {
+        if(ScannerUtil.validateInteger(id, "Ô tìm kiếm")) {
             return;
         }
         sorter.setRowFilter(RowFilter.regexFilter("(?i)" + id, 0));
@@ -42,4 +44,25 @@ public class searchButtonHandler {
         }
     }
 
+    private void placeHolder() {
+        searchField.setForeground(java.awt.Color.GRAY);
+        searchField.setText("Nhập id căn hộ...");
+        searchField.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Nhập id căn hộ...")) {
+                    searchField.setText("");
+                    searchField.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setForeground(java.awt.Color.GRAY);
+                    searchField.setText("Nhập id căn hộ...");
+                }
+            }
+        });
+    }
 }

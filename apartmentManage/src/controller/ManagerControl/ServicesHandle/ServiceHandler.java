@@ -59,16 +59,16 @@ public class ServiceHandler {
             }
         });
 
-        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
+        //searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
     }
     
     private void addBtnClick() {
-        new addService(table).setVisible(true);
+        //new addService(table).setVisible(true);
     }
 
     private void deleteBtnClick() {
         if (deleteHandler == null) {
-            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
+            //deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
         }
     }
 
@@ -84,7 +84,7 @@ public class ServiceHandler {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        new editService(table).setVisible(true);
+        //new editService(table).setVisible(true);
     }
 
     private void searchInconClick() {

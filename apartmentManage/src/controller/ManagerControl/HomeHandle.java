@@ -69,7 +69,7 @@ public class HomeHandle {
             Report report = new Report();
             mainPanel.add(report, BorderLayout.CENTER);
         } else if( newPanel.equals(apartmentPanel) ) {
-            Apartment apartment = new Apartment();
+            ApartmentUI apartment = new ApartmentUI();
             mainPanel.add(apartment, BorderLayout.CENTER);
         } else if( newPanel.equals(residentsPanel) ) {
             Resident resident = new Resident();
@@ -78,7 +78,7 @@ public class HomeHandle {
             Employee employee = new Employee();
             mainPanel.add(employee, BorderLayout.CENTER);
         } else if( newPanel.equals(contractsPanel) ) {
-            Contract contract = new Contract();
+            ContractUI contract = new ContractUI();
             mainPanel.add(contract, BorderLayout.CENTER);
         } else if( newPanel.equals(notificationPanel) ) {
             NotificationForm noti = new NotificationForm();

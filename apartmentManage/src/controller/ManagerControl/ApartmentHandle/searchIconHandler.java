@@ -1,21 +1,20 @@
 package controller.ManagerControl.ApartmentHandle;
-import service.managerService.apartmentService;
-import util.ScannerUtil;
 
+import dao.managerDAO.ApartmentDAO;
+import service.managerService.apartmentService;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
+import model.Apartment;
+import util.ScannerUtil;
 
 public class searchIconHandler {
-    public JTextField apartmentID, fromArea, fromBuyPrice, fromRentPrice, toArea, toBuyPrice, toRentPrice1;
-    public JComboBox<String> apartmentIndex, building, status, fromFloor, fromRoomNum, toFloor, toRoomNum;
-    public JButton searchBtn;
-    public JTable table;
-    public JFrame frame;
+    private JTextField apartmentID, fromArea, fromBuyPrice, fromRentPrice, toArea, toBuyPrice, toRentPrice1;
+    private JComboBox<String> apartmentIndex, building, status, fromFloor, fromRoomNum, toFloor, toRoomNum;
+    private JButton searchBtn;
+    private JTable table;
+    private JFrame frame;
     private final service.managerService.apartmentService apartmentService = new apartmentService();
 
     public searchIconHandler(JTextField apartmentID, JComboBox<String> apartmentIndex, JComboBox<String> building,
@@ -50,85 +49,76 @@ public class searchIconHandler {
     }
 
     public void filterTableData() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-
-        List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
-
         boolean check = apartmentService.validateSeachInput(apartmentID, fromArea, toArea, fromRentPrice, toRentPrice1, fromBuyPrice,
-                                                            toBuyPrice, fromFloor, toFloor, fromRoomNum, toRoomNum);
-        if( !check ) {
+                toBuyPrice, fromFloor, toFloor, fromRoomNum, toRoomNum);
+        if (!check) {
+            System.out.println("hello");
             return;
         }
 
+        // Chuyển đổi giá trị nhập từ component, kiểm tra giá trị null và chuỗi rỗng
 
-        // nếu không null thì xét với table
-        if (!apartmentID.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 0));
-        }
-        if (apartmentIndex.getSelectedItem() != null && !apartmentIndex.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentIndex.getSelectedItem().toString().trim(), 1));
-        }
-        if (building.getSelectedItem() != null && !building.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + building.getSelectedItem().toString().trim(), 3));
-        }
-        if (status.getSelectedItem() != null && !status.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + status.getSelectedItem().toString().trim(), 5));
-        }
+        String aptIndexStr = (String) apartmentIndex.getSelectedItem();
+        int aptIndex = (aptIndexStr != null && !aptIndexStr.trim().isEmpty()) ? Integer.parseInt(aptIndexStr) : 0;
 
-        // xét các khoảng số nguyên số thực
-        RowFilter<DefaultTableModel, Integer> numberFilter = new RowFilter<>() {
-            public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
-                try {
-                    int floorVal = Integer.parseInt(entry.getStringValue(2).trim());
-                    int roomNumVal = Integer.parseInt(entry.getStringValue(4).trim());
-                    double areaVal = Double.parseDouble(entry.getStringValue(6).trim());
-                    double rentPrice = Double.parseDouble(entry.getStringValue(7).trim());
-                    double buyPrice = Double.parseDouble(entry.getStringValue(8).trim());
+        String aptIdStr = apartmentID.getText().trim();
+        int aptId = (!aptIdStr.isEmpty()) ? Integer.parseInt(aptIdStr) : 0;
 
-                    String fromFloorStr = fromFloor.getSelectedItem().toString().trim();
-                    String toFloorStr = toFloor.getSelectedItem().toString().trim();
-                    String fromRoomStr = fromRoomNum.getSelectedItem().toString().trim();
-                    String toRoomStr = toRoomNum.getSelectedItem().toString().trim();
-                    String fromAreaStr = fromArea.getText().trim();
-                    String toAreaStr = toArea.getText().trim();
-                    String fromRentStr = fromRentPrice.getText().trim();
-                    String toRentStr = toRentPrice1.getText().trim();
-                    String fromBuyStr = fromBuyPrice.getText().trim();
-                    String toBuyStr = toBuyPrice.getText().trim();
+        String build = (String) building.getSelectedItem();
 
-                    boolean floorMatch = fromFloorStr.isEmpty() || floorVal >= Integer.parseInt(fromFloorStr);
-                    boolean floorMaxMatch = toFloorStr.isEmpty() || floorVal <= Integer.parseInt(toFloorStr);
+        String stat = (String) status.getSelectedItem();
 
-                    boolean roomMatch = fromRoomStr.isEmpty() || roomNumVal >= Integer.parseInt(fromRoomStr);
-                    boolean roomMaxMatch = toRoomStr.isEmpty() || roomNumVal <= Integer.parseInt(toRoomStr);
+        Integer floorFrom = (fromFloor.getSelectedItem() == null || fromFloor.getSelectedItem().toString().trim().isEmpty())
+                            ? null : Integer.parseInt(fromFloor.getSelectedItem().toString().trim());
 
-                    boolean areaMatch = fromAreaStr.isEmpty() || areaVal >= Double.parseDouble(fromAreaStr);
-                    boolean areaMaxMatch = toAreaStr.isEmpty() || areaVal <= Double.parseDouble(toAreaStr);
+        Integer floorTo = (toFloor.getSelectedItem() == null || toFloor.getSelectedItem().toString().trim().isEmpty())
+                            ? null : Integer.parseInt(toFloor.getSelectedItem().toString().trim());
 
-                    boolean rentMatch = fromRentStr.isEmpty() || rentPrice >= Double.parseDouble(fromRentStr);
-                    boolean rentMaxMatch = toRentStr.isEmpty() || rentPrice <= Double.parseDouble(toRentStr);
+        Integer roomFrom = (fromRoomNum.getSelectedItem() == null || fromRoomNum.getSelectedItem().toString().trim().isEmpty())
+                ? null : Integer.parseInt(fromRoomNum.getSelectedItem().toString().trim());
 
-                    boolean buyMatch = fromBuyStr.isEmpty() || buyPrice >= Double.parseDouble(fromBuyStr);
-                    boolean buyMaxMatch = toBuyStr.isEmpty() || buyPrice <= Double.parseDouble(toBuyStr);
+        Integer roomTo = (toRoomNum.getSelectedItem() == null || toRoomNum.getSelectedItem().toString().trim().isEmpty())
+                ? null : Integer.parseInt(toRoomNum.getSelectedItem().toString().trim());
 
-                    return floorMatch && floorMaxMatch && roomMatch && roomMaxMatch &&
-                            areaMatch && areaMaxMatch && rentMatch && rentMaxMatch &&
-                            buyMatch && buyMaxMatch;
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-            }
-        };
 
-        filters.add(numberFilter);
-        sorter.setRowFilter(RowFilter.andFilter(filters));
+        Double areaFrom = (fromArea.getText() == null || fromArea.getText().trim().isEmpty())
+                ? null : Double.parseDouble(fromArea.getText().trim());
+
+        Double areaTo = (toArea.getText() == null || toArea.getText().trim().isEmpty())
+                ? null : Double.parseDouble(toArea.getText().trim());
+
+        Double rentFrom = (fromRentPrice.getText() == null || fromRentPrice.getText().trim().isEmpty())
+                ? null : Double.parseDouble(fromRentPrice.getText().trim());
+
+        Double rentTo = (toRentPrice1.getText() == null || toRentPrice1.getText().trim().isEmpty())
+                ? null : Double.parseDouble(toRentPrice1.getText().trim());
+
+        Double buyFrom = (fromBuyPrice.getText() == null || fromBuyPrice.getText().trim().isEmpty())
+                ? null : Double.parseDouble(fromBuyPrice.getText().trim());
+
+        Double buyTo = (toBuyPrice.getText() == null || toBuyPrice.getText().trim().isEmpty())
+                ? null : Double.parseDouble(toBuyPrice.getText().trim());
+
+
+        // Lấy danh sách căn hộ từ database
+        ApartmentDAO adao = new ApartmentDAO();
+        List<Apartment> apartments = adao.getApartmentsByFilter(
+                aptId, aptIndex, build,
+                areaFrom, areaTo,
+                rentFrom, rentTo,
+                buyFrom, buyTo,
+                floorFrom, floorTo,
+                roomFrom, roomTo,
+                stat
+        );
+
         frame.setVisible(false);
-        if (table.getRowCount() == 0) {
+        if (apartments.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+        apartmentService.loadFilterApartment(apartments, table);
     }
+
 
 
 }
