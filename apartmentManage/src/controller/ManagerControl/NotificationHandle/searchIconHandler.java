@@ -48,13 +48,13 @@ public class searchIconHandler {
 
         // validate dữ liệu nhập đúng kiểu
         if ((notiID.getText() != null && !notiID.getText().trim().isEmpty() &&
-                !ScannerUtil.validateInteger(notiID.getText().trim(), "ID Thông báo")) ||
+                ScannerUtil.validateInteger(notiID.getText().trim(), "ID Thông báo")) ||
                 (ownerID.getText() != null && !ownerID.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateInteger(ownerID.getText().trim(), "ID Cư dân")) ||
+                        ScannerUtil.validateInteger(ownerID.getText().trim(), "ID Cư dân")) ||
                 (notiTitle.getText() != null && !notiTitle.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(notiTitle.getText().trim(), "Tiêu đề")) ||
+                        ScannerUtil.validateDouble(notiTitle.getText().trim(), "Tiêu đề")) ||
                 (notification.getText() != null && !notification.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(notification.getText().trim(), "Tin nhắn"))
+                        ScannerUtil.validateDouble(notification.getText().trim(), "Tin nhắn"))
         ) {
             return;
         }

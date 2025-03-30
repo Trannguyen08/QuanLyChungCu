@@ -7,12 +7,10 @@ import view.ManagerUI.editApartment;
 import view.ManagerUI.searchApartment;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import service.managerService.apartmentService;
 
 public class ApartmentHandler {
     private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, searchButton;
@@ -20,7 +18,8 @@ public class ApartmentHandler {
     private JPanel panel;
     private JTextField searchField;
     private deleteButtonHandler deleteHandler;
-
+    private final apartmentService apartmentService = new apartmentService();
+    
     public ApartmentHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
                             JButton searchIcon, JButton searchButton, JTable table, JPanel panel) {
         this.addBtn = addBtn;
@@ -64,17 +63,10 @@ public class ApartmentHandler {
             }
         });
 
-        new ApartmentDAO().addDataToTable(table);
-
         searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
 
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 14));
-        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
+        apartmentService.setupApartmentTable(table);
+        
     }
 
     private void addBtnClick() {
@@ -82,9 +74,8 @@ public class ApartmentHandler {
     }
 
     private void deleteBtnClick() {
-        if (deleteHandler == null) {
-            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
-        }
+        deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
+        deleteHandler.deleteSelectedRow();
     }
 
     private void excelBtnClick() {

@@ -1,7 +1,7 @@
 package service.managerService;
 
 import dao.managerDAO.ApartmentDAO;
-import java.util.ArrayList;
+import java.awt.Font;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,9 +9,48 @@ import model.Apartment;
 import util.ScannerUtil;
 
 import java.util.List;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 public class apartmentService {
     private final ApartmentDAO apartmentDAO = new ApartmentDAO();
+
+    //update database
+    public boolean updateApartment(Apartment apartment) {
+        return apartmentDAO.updateApartment(apartment);
+    }
+
+    // thêm vào database
+    public boolean addApartment(Apartment apartment) {
+        return apartmentDAO.addApartment(apartment);
+    }
+
+    // Xóa căn hộ khỏi database
+    public boolean deleteApartment(int id) {
+        return apartmentDAO.deleteApartment(id);
+    }
+    
+    // load dữ liệu vào bảng
+    public void setupApartmentTable(JTable table) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        List<Apartment> apartmentList = apartmentDAO.getAllApartment();
+
+        for( Apartment apartment : apartmentList ) {
+            model.addRow(new Object[] {apartment.getId(), apartment.getIndex(), apartment.getFloor(),
+                    apartment.getBuilding(), apartment.getNumRooms(), apartment.getStatus(),
+                    apartment.getArea(), apartment.getRentPrice(), apartment.getPurchasePrice()});
+        }
+
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 15));
+        
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
     // validate trùng căn hộ
     public boolean isDuplicate(Apartment apartment, JTable table) {
@@ -31,15 +70,6 @@ public class apartmentService {
         return false;
     }
 
-    // thêm vào database
-    public boolean addApartment(Apartment apartment) {
-        return apartmentDAO.addApartment(apartment);
-    }
-
-    // lấy dòng cuối để update table
-    public Object[] getLastRow() {
-        return apartmentDAO.getLastRow();
-    }
 
     // lấy id
     public Integer getApartmentId(JTable table) {
@@ -64,11 +94,6 @@ public class apartmentService {
         }
     }
 
-    // Xóa căn hộ khỏi database
-    public boolean deleteApartment(int id) {
-        return apartmentDAO.deleteApartment(id);
-    }
-
     // Xác nhận xóa
     public boolean confirmDelete() {
         int confirm = JOptionPane.showConfirmDialog(null,
@@ -78,7 +103,7 @@ public class apartmentService {
     }
 
     // check select từ table
-    public boolean errorNotifiaction(JTable table) {
+    public boolean notification(JTable table) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -97,7 +122,7 @@ public class apartmentService {
     public boolean loadSelectedRowData(JTable table, JComboBox<String> apartmentIndex, JComboBox<String> floor,
                                        JComboBox<String> building, JComboBox<String> roomNum, JComboBox<String> status,
                                        JTextField area, JTextField rentPrice, JTextField buyPrice) {
-        boolean error = errorNotifiaction(table);
+        boolean error = notification(table);
         if( !error ) {
             return false;
         }
@@ -117,7 +142,7 @@ public class apartmentService {
     }
 
     // validate data
-    public boolean validateData(JTable table, JComboBox<String> apartmentIndex, JComboBox<String> floor,
+    public boolean validateData(JComboBox<String> apartmentIndex, JComboBox<String> floor,
                                    JComboBox<String> building, JComboBox<String> roomNum, JComboBox<String> status,
                                    JTextField area, JTextField rentPrice, JTextField buyPrice) {
 
@@ -139,82 +164,101 @@ public class apartmentService {
         }
 
         // Kiểm tra giá trị hợp lệ
-        if (!ScannerUtil.validateDouble(areaVal, "Diện tích") ||
-                !ScannerUtil.validateDouble(rent, "Giá thuê") ||
-                !ScannerUtil.validateDouble(buy, "Giá mua") ||
-                !ScannerUtil.spaceDouble(areaVal, 50, 70, "Diện tích") ||
-                !ScannerUtil.spaceDouble(rent, 5e6, 1e7, "Giá thuê") ||
-                !ScannerUtil.spaceDouble(buy, 2.5e9, 7e9, "Giá mua")) {
+        if (ScannerUtil.validateDouble(areaVal, "Diện tích") ||
+                ScannerUtil.validateDouble(rent, "Giá thuê") ||
+                ScannerUtil.validateDouble(buy, "Giá mua") ||
+                ScannerUtil.spaceDouble(areaVal, 50, 80, "Diện tích") ||
+                ScannerUtil.spaceDouble(rent, 5e6, 1.5e7, "Giá thuê") ||
+                ScannerUtil.spaceDouble(buy, 2.5e9, 10e9, "Giá mua")) {
             return false;
         }
-
         return true;
-    }
-
-    public boolean updateApartment(Apartment apartment) {
-        return apartmentDAO.updateApartment(apartment);
     }
 
     public boolean validateSeachInput(JTextField apartmentID, JTextField fromArea, JTextField toArea,
-                                 JTextField fromRentPrice, JTextField toRentPrice,
-                                 JTextField fromBuyPrice, JTextField toBuyPrice,
-                                 JComboBox<String> fromFloor, JComboBox<String> toFloor,
-                                 JComboBox<String> fromRoomNum, JComboBox<String> toRoomNum) {
-        if ((apartmentID.getText() != null && !apartmentID.getText().trim().isEmpty() &&
-                !ScannerUtil.validateInteger(apartmentID.getText().trim(), "ID Căn hộ")) ||
-                (fromArea.getText() != null && !fromArea.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(fromArea.getText().trim(), "Diện tích")) ||
-                (toArea.getText() != null && !toArea.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(toArea.getText().trim(), "Diện tích")) ||
-                (fromRentPrice.getText() != null && !fromRentPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(fromRentPrice.getText().trim(), "Giá thuê")) ||
-                (toRentPrice.getText() != null && !toRentPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(toRentPrice.getText().trim(), "Giá thuê")) ||
-                (fromBuyPrice.getText() != null && !fromBuyPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(fromBuyPrice.getText().trim(), "Giá mua")) ||
-                (toBuyPrice.getText() != null && !toBuyPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateDouble(toBuyPrice.getText().trim(), "Giá mua"))) {
+                                      JTextField fromRentPrice, JTextField toRentPrice,
+                                      JTextField fromBuyPrice, JTextField toBuyPrice,
+                                      JComboBox<String> fromFloor, JComboBox<String> toFloor,
+                                      JComboBox<String> fromRoomNum, JComboBox<String> toRoomNum) {
+
+        boolean isIDEmpty = apartmentID.getText().trim().isEmpty();
+        boolean isFromAreaEmpty = fromArea.getText().trim().isEmpty();
+        boolean isToAreaEmpty = toArea.getText().trim().isEmpty();
+        boolean isFromRentPriceEmpty = fromRentPrice.getText().trim().isEmpty();
+        boolean isToRentPriceEmpty = toRentPrice.getText().trim().isEmpty();
+        boolean isFromBuyPriceEmpty = fromBuyPrice.getText().trim().isEmpty();
+        boolean isToBuyPriceEmpty = toBuyPrice.getText().trim().isEmpty();
+        boolean isFromFloorEmpty = fromFloor.getSelectedItem().toString().trim().isEmpty();
+        boolean isToFloorEmpty = toFloor.getSelectedItem().toString().trim().isEmpty();
+        boolean isFromRoomNumEmpty = fromRoomNum.getSelectedItem().toString().trim().isEmpty();
+        boolean isToRoomNumEmpty = toRoomNum.getSelectedItem().toString().trim().isEmpty();
+
+
+        if (    (apartmentID.getText() != null && !isIDEmpty &&
+                        ScannerUtil.validateInteger(apartmentID.getText().trim(), "ID căn hộ")) ||
+                (fromArea.getText() != null && !isFromAreaEmpty &&
+                        ScannerUtil.validateDouble(fromArea.getText().trim(), "Diện tích")) ||
+                (toArea.getText() != null && !isToAreaEmpty &&
+                        ScannerUtil.validateDouble(toArea.getText().trim(), "Diện tích")) ||
+                (fromRentPrice.getText() != null && !isFromRentPriceEmpty &&
+                        ScannerUtil.validateDouble(fromRentPrice.getText().trim(), "Giá thuê")) ||
+                (toRentPrice.getText() != null && !isToRentPriceEmpty &&
+                        ScannerUtil.validateDouble(toRentPrice.getText().trim(), "Giá thuê")) ||
+                (fromBuyPrice.getText() != null && !isFromBuyPriceEmpty &&
+                        ScannerUtil.validateDouble(fromBuyPrice.getText().trim(), "Giá mua")) ||
+                (toBuyPrice.getText() != null && !isToBuyPriceEmpty &&
+                        ScannerUtil.validateDouble(toBuyPrice.getText().trim(), "Giá mua")) ||
+                (fromFloor.getSelectedItem() != null && !isFromFloorEmpty &&
+                        ScannerUtil.validateDouble(fromFloor.getSelectedItem().toString().trim(), "Tầng")) ||
+                (toFloor.getSelectedItem() != null && !isToFloorEmpty &&
+                        ScannerUtil.validateDouble(toFloor.getSelectedItem().toString().trim(), "Tầng")) ||
+                (fromRoomNum.getSelectedItem() != null && !isFromRoomNumEmpty &&
+                        ScannerUtil.validateDouble(fromRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ||
+                (toRoomNum.getSelectedItem() != null && !isToRoomNumEmpty &&
+                        ScannerUtil.validateDouble(toRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ) {
+
             return false;
         }
 
-        if ((!fromFloor.getSelectedItem().toString().trim().isEmpty() && !toFloor.getSelectedItem().toString().trim().isEmpty() &&
-                !ScannerUtil.validateRange(fromFloor.getSelectedItem().toString().trim(), toFloor.getSelectedItem().toString().trim(), "Tầng")) ||
-                (!fromRoomNum.getSelectedItem().toString().trim().isEmpty() && !toRoomNum.getSelectedItem().toString().trim().isEmpty() &&
-                        !ScannerUtil.validateRange(fromRoomNum.getSelectedItem().toString().trim(), toRoomNum.getSelectedItem().toString().trim(), "Số phòng ngủ")) ||
-                (fromArea.getText() != null && toArea.getText() != null &&
-                        !fromArea.getText().trim().isEmpty() && !toArea.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateRange(fromArea.getText().trim(), toArea.getText().trim(), "Diện tích")) ||
-                (fromRentPrice.getText() != null && toRentPrice.getText() != null &&
-                        !fromRentPrice.getText().trim().isEmpty() && !toRentPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateRange(fromRentPrice.getText().trim(), toRentPrice.getText().trim(), "Giá thuê")) ||
-                (fromBuyPrice.getText() != null && toBuyPrice.getText() != null &&
-                        !fromBuyPrice.getText().trim().isEmpty() && !toBuyPrice.getText().trim().isEmpty() &&
-                        !ScannerUtil.validateRange(fromBuyPrice.getText().trim(), toBuyPrice.getText().trim(), "Giá mua"))) {
+        if (    !isFromAreaEmpty && !isToAreaEmpty &&
+                        !ScannerUtil.validateRange(fromArea.getText().trim(), toArea.getText().trim(), "Diện tích") ||
+                !isFromFloorEmpty && !isToFloorEmpty &&
+                        !ScannerUtil.validateRange(fromFloor.getSelectedItem().toString().trim(), toFloor.getSelectedItem().toString().trim(), "Tầng") ||
+                !isFromRoomNumEmpty && !isToRoomNumEmpty &&
+                        !ScannerUtil.validateRange(fromRoomNum.getSelectedItem().toString().trim(), toRoomNum.getSelectedItem().toString().trim(), "Số phòng") ||
+                !isFromRentPriceEmpty && !isToRentPriceEmpty &&
+                        !ScannerUtil.validateRange(fromRentPrice.getText().trim(), toRentPrice.getText().trim(), "Giá thuê") ||
+                !isFromBuyPriceEmpty && !isToBuyPriceEmpty &&
+                        !ScannerUtil.validateRange(fromBuyPrice.getText().trim(), toBuyPrice.getText().trim(), "Giá mua") ) {
+
             return false;
         }
 
         return true;
     }
 
-    public List<RowFilter<DefaultTableModel, Integer>> createFilters(JTextField apartmentID, JComboBox<String> apartmentIndex,
-                                                                     JComboBox<String> building, JComboBox<String> status) {
-        List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
 
-        if (!apartmentID.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 0));
-        }
-        if (apartmentIndex.getSelectedItem() != null && !apartmentIndex.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentIndex.getSelectedItem().toString().trim(), 1));
-        }
-        if (building.getSelectedItem() != null && !building.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + building.getSelectedItem().toString().trim(), 3));
-        }
-        if (status.getSelectedItem() != null && !status.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + status.getSelectedItem().toString().trim(), 5));
-        }
+    public void loadFilterApartment(List<Apartment> apartments, JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        table.setRowSorter(null);
+        model.setRowCount(0);
 
-        return filters;
+        for (Apartment apt : apartments) {
+            model.addRow(new Object[]{
+                apt.getId(),  
+                apt.getIndex(), 
+                apt.getFloor(),       
+                apt.getBuilding(),   
+                apt.getNumRooms(),     
+                apt.getStatus(),     
+                apt.getArea(),        
+                apt.getRentPrice(),  
+                apt.getPurchasePrice()    
+            });
+        }
     }
+
+
 
 
 }

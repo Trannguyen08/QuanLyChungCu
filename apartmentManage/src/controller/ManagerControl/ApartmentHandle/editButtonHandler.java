@@ -1,9 +1,7 @@
 package controller.ManagerControl.ApartmentHandle;
 
 import model.Apartment;
-import dao.managerDAO.ApartmentDAO;
 import service.managerService.apartmentService;
-import util.ScannerUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -48,7 +46,7 @@ public class editButtonHandler {
     public void updateSelectedRow() {
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        boolean error = apartmentservice.errorNotifiaction(table);
+        boolean error = apartmentservice.notification(table);
         if( !error ) {
             return;
         }
@@ -62,7 +60,7 @@ public class editButtonHandler {
         String rent = rentPrice.getText().trim();
         String buy = buyPrice.getText().trim();
 
-        boolean check = apartmentservice.validateData(table, apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice);
+        boolean check = apartmentservice.validateData(apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice);
         if( !check ) {
             return;
         }
@@ -81,7 +79,7 @@ public class editButtonHandler {
 
         Apartment a = new Apartment(id, Integer.parseInt(apartmentIndex.getSelectedItem().toString()), Integer.parseInt(floor.getSelectedItem().toString()),
                 building.getSelectedItem().toString(), Integer.parseInt(roomNum.getSelectedItem().toString()), status.getSelectedItem().toString(),
-                Double.parseDouble(area.getText()), Double.parseDouble(rentPrice.getText()), Double.parseDouble(buyPrice.getText()));
+                Double.parseDouble(area.getText()), Double.parseDouble(rentPrice.getText()), Long.parseLong(buyPrice.getText()));
 
         boolean isUpdatedComplete = apartmentservice.updateApartment(a);
         if( isUpdatedComplete ) {

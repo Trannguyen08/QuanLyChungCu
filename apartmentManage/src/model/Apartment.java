@@ -9,9 +9,9 @@ public class Apartment {
     private String status;
     private double area;
     private double rentPrice;
-    private double purchasePrice;
+    private long purchasePrice;
 
-    public Apartment(int id, int index, int floor, String building, int numRooms, String status, double area, double rentPrice, double purchasePrice) {
+    public Apartment(int id, int index, int floor, String building, int numRooms, String status, double area, double rentPrice, long purchasePrice) {
         this.id = id;
         this.index = index;
         this.floor = floor;
@@ -47,7 +47,7 @@ public class Apartment {
         return numRooms;
     }
 
-    public double getPurchasePrice() {
+    public long getPurchasePrice() {
         return purchasePrice;
     }
 
@@ -83,7 +83,7 @@ public class Apartment {
         this.numRooms = numRooms;
     }
 
-    public void setPurchasePrice(double purchasePrice) {
+    public void setPurchasePrice(long purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
@@ -93,5 +93,20 @@ public class Apartment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Apartment{" +
+                "area=" + area +
+                ", id=" + id +
+                ", index=" + index +
+                ", floor=" + floor +
+                ", building='" + building + '\'' +
+                ", numRooms=" + numRooms +
+                ", status='" + status + '\'' +
+                ", rentPrice=" + rentPrice +
+                ", purchasePrice=" + purchasePrice +
+                '}';
     }
 }

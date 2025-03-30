@@ -1,13 +1,10 @@
 package controller.ManagerControl.ApartmentHandle;
 
-import dao.managerDAO.ApartmentDAO;
 import service.managerService.apartmentService;
-import view.ManagerUI.Apartment;
-
+import view.ManagerUI.ApartmentUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class deleteButtonHandler {
     private JButton deleteBtn;
@@ -19,27 +16,17 @@ public class deleteButtonHandler {
         this.deleteBtn = deleteBtn;
         this.table = table;
         this.panel = panel;
-        
-        for (ActionListener al : deleteBtn.getActionListeners()) {
-            deleteBtn.removeActionListener(al);
-        }
 
-        this.deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedRow();
-            }
-        });
     }
 
 
-    private void deleteSelectedRow() {
+    public void deleteSelectedRow() {
         Integer id = apartmentservice.getApartmentId(table);
         if( id == null ) {
             return;
         }
         if (apartmentservice.confirmDelete()) {
-            boolean isDeleted = (panel instanceof Apartment) && apartmentservice.deleteApartment(id);
+            boolean isDeleted = (panel instanceof ApartmentUI) && apartmentservice.deleteApartment(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Xóa dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

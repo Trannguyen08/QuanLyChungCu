@@ -12,7 +12,7 @@ public class HomePage extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Home Page");
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.add(new Apartment(), BorderLayout.CENTER);
+        mainPanel.add(new ApartmentUI(), BorderLayout.CENTER);
         HomeHandle homeHandler = new  HomeHandle(apartmentPanel, contractPanel,
                                             employeesPanel, logoutPanel,
                                             notificationPanel, reportPanel,
@@ -452,7 +452,7 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void addPanel() {
-        this.add(new Apartment());
+        this.add(new ApartmentUI());
     }
     public static void main(String args[]) {
         HomePage hm = new HomePage();

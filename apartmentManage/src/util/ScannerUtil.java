@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 public class ScannerUtil {
@@ -102,6 +103,14 @@ public class ScannerUtil {
         }
     }
 
-
+    public static boolean validateEmail(String email) {
+        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+    public static boolean validateDateRange(Date fromDate, Date toDate, String fieldName) {
+    return !fromDate.after(toDate);
+    }
+    public static boolean validatePhoneNumber(String phoneNumber) {
+    return phoneNumber.matches("^0[0-9]{9}$"); 
+}
 
 }

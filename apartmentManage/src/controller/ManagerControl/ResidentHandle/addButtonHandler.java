@@ -25,9 +25,8 @@ public class addButtonHandler {
     private JFrame add;
     private final residentService residentService = new residentService();
 
-    public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
-                            JTextField phoneNumber, JTextField email, JTextField idCard, JTextField apartmentID, 
-                            JTable table, JFrame add) {
+    public addButtonHandler(JButton addBtn, JTextField apartmentID, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate, 
+                            JTextField phoneNumber, JTextField email, JTextField idCard,JTable table, JFrame add) {
         this.addBtn = addBtn;
         this.fullName = fullName;
         this.gender = gender;
@@ -61,7 +60,7 @@ public class addButtonHandler {
         String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
         
         // Kiểm tra dữ liệu hợp lệ trước khi tiếp tục
-        boolean check = residentService.validateData(table, fullName, phoneNumber,  email, idCard,  birthDate,  gender,  apartmentID);
+        boolean check = residentService.validateData(table,  apartmentID, fullName, phoneNumber,  email, idCard,  birthDate,  gender);
         if (!check) {
             return;
         }

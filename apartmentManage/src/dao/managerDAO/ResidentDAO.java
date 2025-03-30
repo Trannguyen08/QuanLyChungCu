@@ -31,18 +31,18 @@ public class ResidentDAO {
         return count;
     }
     public boolean updateResident(Resident resident) {
-        String sql = "UPDATE residents SET full_name = ?, phone_number = ?, email = ?, " +
-                     "id_card = ?, date_of_birth = ?, gender = ?, apartment_id = ? WHERE resident_id = ?";
+        String sql = "UPDATE residents SET  apartment_id =,full_name = ?, phone_number = ?, email = ?, " +
+                     "id_card = ?, date_of_birth = ?, gender = ? ? WHERE resident_id = ?";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
-
-            pstmt.setString(1, resident.getName());
-            pstmt.setString(2, resident.getPhoneNumber());
-            pstmt.setString(3, resident.getEmail());
-            pstmt.setString(4, resident.getIdCard());
-            pstmt.setString(5, resident.getBirthDate());
-            pstmt.setString(6, resident.getGender());
-            pstmt.setInt(7, resident.getApartmentID());
+            
+            pstmt.setInt(1, resident.getApartmentID());
+            pstmt.setString(2, resident.getName());
+            pstmt.setString(3, resident.getPhoneNumber());
+            pstmt.setString(4, resident.getEmail());
+            pstmt.setString(5, resident.getIdCard());
+            pstmt.setString(6, resident.getBirthDate());
+            pstmt.setString(7, resident.getGender());
             pstmt.setInt(8, resident.getResidentID());
 
             int rowsUpdated = pstmt.executeUpdate();
@@ -54,19 +54,20 @@ public class ResidentDAO {
     }
 
     public boolean addResident(Resident resident) {
-        String sql = "INSERT INTO residents (full_name, phone_number, email, " +
-                "id_card, date_of_birth, gender, apartment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO residents ( apartment_id, full_name, phone_number, email, " +
+                "id_card, date_of_birth, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
-            pstmt.setString(1, resident.getName());
-            pstmt.setString(2, resident.getPhoneNumber());
-            pstmt.setString(3, resident.getEmail());
-            pstmt.setString(4, resident.getIdCard());
-            pstmt.setString(5, resident.getBirthDate());
-            pstmt.setString(6, resident.getGender());
-            pstmt.setInt(7, resident.getApartmentID());
+            pstmt.setInt(1, resident.getApartmentID());
+            pstmt.setString(2, resident.getName());
+            pstmt.setString(3, resident.getPhoneNumber());
+            pstmt.setString(4, resident.getEmail());
+            pstmt.setString(5, resident.getIdCard());
+            pstmt.setString(6, resident.getBirthDate());
+            pstmt.setString(7, resident.getGender());
+            
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
@@ -100,13 +101,14 @@ public class ResidentDAO {
             if (res.next()) {
                 return new Object[]{
                         res.getInt("resident_id"),
+                        res.getInt("apartment_id"),
                         res.getString("full_name"),
                         res.getString("phone_number"),
                         res.getString("email"),
                         res.getString("id_card"),
                         res.getString("date_of_birth"),
-                        res.getDouble("gender"),
-                        res.getInt("apartment_id")
+                        res.getDouble("gender")
+                        
                 };
             }
         } catch (SQLException e) {
@@ -126,13 +128,14 @@ public class ResidentDAO {
             while( res.next() ) {
                 model.addRow( new Object[]{
                         res.getInt("resident_id"),
+                        res.getInt("apartment_id"),
                         res.getString("full_name"),
                         res.getString("phone_number"),
                         res.getString("email"),
                         res.getString("id_card"),
                         res.getString("date_of_birth"),
                         res.getDouble("gender"),
-                        res.getInt("apartment_id")}
+                        }
                 );
             }
         } catch (SQLException e) {

@@ -32,10 +32,9 @@ public class searchIconHandler {
     private JFrame frame;
     private final residentService residentService = new residentService();
 
-    public searchIconHandler(JTextField residentID, JTextField fullName, JComboBox<String> gender,
+    public searchIconHandler(JTextField residentID,JTextField apartmentID,  JTextField fullName, JComboBox<String> gender,
                                 JDateChooser birthDate, JDateChooser toBirthDate, JTextField phoneNumber,
-                                JTextField email, JTextField idCard, JTextField apartmentID, 
-                                JButton searchBtn, JTable table, JFrame frame) {
+                                JTextField email, JTextField idCard,JButton searchBtn, JTable table, JFrame frame) {
         this.residentID = residentID;
         this.fullName = fullName;
         this.gender = gender;
@@ -64,7 +63,7 @@ public class searchIconHandler {
 
         List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
         
-        boolean check = residentService.validateSearchInput( residentID, fullName, gender, birthDate, toBirthDate, phoneNumber, email, idCard, apartmentID);
+        boolean check = residentService.validateSearchInput( residentID, apartmentID, fullName, gender, birthDate, toBirthDate, phoneNumber, email, idCard);
         if( !check ) {
             return;
         }
@@ -74,23 +73,23 @@ public class searchIconHandler {
         if (!residentID.getText().trim().isEmpty()) {
             filters.add(RowFilter.regexFilter("(?i)" + residentID.getText().trim(), 0));
         }
+        if (apartmentID.getText() != null && !apartmentID.getText().trim().isEmpty()) {
+            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 1));
+        }
         if (!fullName.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + fullName.getText().trim(), 1));
+            filters.add(RowFilter.regexFilter("(?i)" + fullName.getText().trim(), 2));
         }
         if (phoneNumber.getText() != null && !phoneNumber.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + phoneNumber.getText().trim(), 2));
+            filters.add(RowFilter.regexFilter("(?i)" + phoneNumber.getText().trim(), 3));
         }
         if (email.getText() != null && !email.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + email.getText().trim(), 3));
+            filters.add(RowFilter.regexFilter("(?i)" + email.getText().trim(), 4));
         }
         if (idCard.getText() != null && !idCard.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + idCard.getText().trim(), 4));
+            filters.add(RowFilter.regexFilter("(?i)" + idCard.getText().trim(), 5));
         }
         if (gender.getSelectedItem() != null && !gender.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + gender.getSelectedItem().toString().trim(), 6));
-        }
-        if (apartmentID.getText() != null && !apartmentID.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + apartmentID.getText().trim(), 7));
+            filters.add(RowFilter.regexFilter("(?i)" + gender.getSelectedItem().toString().trim(), 7));
         }
         // xét các khoảng số nguyên số thực
         RowFilter<DefaultTableModel, Integer> numberFilter = new RowFilter<>() {
@@ -98,7 +97,7 @@ public class searchIconHandler {
                 try {
                     // Chuyển đổi ngày tuyển dụng từ bảng
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date hiringDateFrom = sdf.parse(entry.getStringValue(5).trim()); 
+                    Date hiringDateFrom = sdf.parse(entry.getStringValue(6).trim()); 
 
                     Date birthDateInput = birthDate.getDate();
                     Date toBirthDateInput = toBirthDate.getDate();

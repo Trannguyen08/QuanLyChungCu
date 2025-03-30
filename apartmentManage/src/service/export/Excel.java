@@ -1,6 +1,7 @@
 package service.export;
 
 import DatabaseConnect.ConnectDB;
+import dao.managerDAO.ContractDAO;
 import java.awt.Desktop;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -8,6 +9,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
+import model.Contract;
+import service.managerService.contractService;
 
 public class Excel {
 
@@ -70,8 +74,55 @@ public class Excel {
         exportToExcel(filePath, "residents");
     }
     
-    public static void exportContracts(String filePath) {
-        exportToExcel(filePath, "contracts");
+    public static void exportContracts(String directoryPath) {
+        List<Contract> contractList = new ContractDAO().getAllContract();
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs(); 
+        }
+        String filePath = directoryPath + File.separator + "contract.xlsx";
+        
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Contracts");
+            
+            // Tạo hàng tiêu đề
+            String[] headers = {"ID", "Tên Chủ Sở Hữu", "Căn Hộ", "Loại Hợp Đồng", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Giá Trị Hợp Đồng", "Tình Trạng Hợp Đồng"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+            
+            // Ghi dữ liệu từ danh sách hợp đồng
+            int rowNum = 1;
+            for( Contract contract : contractList ) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(contract.getId());
+                row.createCell(1).setCellValue(contract.getOwnerName());
+                row.createCell(2).setCellValue(contract.getApartmentIndex() );
+                row.createCell(3).setCellValue(contract.getContractType());
+                row.createCell(4).setCellValue(contract.getStartDate());
+                row.createCell(5).setCellValue(contract.getEndDate());
+                row.createCell(6).setCellValue(contract.getContractValue());
+                row.createCell(7).setCellValue(contract.getContractStatus());
+            }
+            
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+                System.out.println("Xuất dữ liệu thành công vào: " + filePath);
+            }
+            
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(new File(filePath));
+            } else {
+                System.out.println("Mở file không được hỗ trợ trên hệ thống này.");
+            }
+            
+            System.out.println("Xuất hợp đồng thành công: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     public static void exportServices(String filePath) {

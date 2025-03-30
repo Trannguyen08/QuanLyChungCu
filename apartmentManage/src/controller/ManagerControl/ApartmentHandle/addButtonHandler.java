@@ -1,9 +1,6 @@
 package controller.ManagerControl.ApartmentHandle;
 
 import model.Apartment;
-import dao.managerDAO.ApartmentDAO;
-import util.ScannerUtil;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -50,14 +47,14 @@ public class addButtonHandler {
         String rent = rentPrice.getText().trim();
         String buy = buyPrice.getText().trim();
 
-        boolean check = apartmentService.validateData(table, apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice );
+        boolean check = apartmentService.validateData(apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice );
         if( !check ) {
             return;
         }
 
         Apartment apartment = new Apartment(0, Integer.parseInt(aIndex.toString()), Integer.parseInt(floorNum.toString()),
                                             buildingNum.toString(), Integer.parseInt(roomNumber.toString()), statusVal.toString(),
-                                            Double.parseDouble(areaVal), Double.parseDouble(rent), Double.parseDouble(buy));
+                                            Double.parseDouble(areaVal), Double.parseDouble(rent), Long.parseLong(buy));
 
         // check trùng căn hộ
         if (apartmentService.isDuplicate(apartment, table)) {
@@ -71,7 +68,10 @@ public class addButtonHandler {
         // thêm vào database và table
         boolean isAddedComplete = apartmentService.addApartment(apartment);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.addRow(apartmentService.getLastRow());
+
+        model.addRow(new Object[] {apartment.getId(), apartment.getIndex(), apartment.getFloor(),
+                apartment.getBuilding(), apartment.getNumRooms(), apartment.getStatus(),
+                apartment.getArea(), apartment.getRentPrice(), apartment.getPurchasePrice()});
 
         if( isAddedComplete ) {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.",
