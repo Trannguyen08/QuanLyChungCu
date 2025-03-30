@@ -7,6 +7,8 @@ import model.Service;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceDAO {
     public boolean addService(Service service) {
