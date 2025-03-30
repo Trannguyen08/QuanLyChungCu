@@ -83,6 +83,9 @@ public class HomeHandle {
         } else if( newPanel.equals(notificationPanel) ) {
             NotificationForm noti = new NotificationForm();
             mainPanel.add(noti, BorderLayout.CENTER);
+        } else if( newPanel.equals(servicePanel) ) {
+            ServicesForm noti = new ServicesForm();
+            mainPanel.add(noti, BorderLayout.CENTER);
         } 
         mainPanel.revalidate();
         mainPanel.repaint();

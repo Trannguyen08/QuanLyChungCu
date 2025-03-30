@@ -73,9 +73,10 @@ public class ServiceHandler {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
+    }
     
     private void addBtnClick() {
-        //new addService(table).setVisible(true);
+        new addService(table).setVisible(true);
     }
 
     private void deleteBtnClick() {
