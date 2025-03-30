@@ -1,14 +1,21 @@
 package controller.ManagerControl.NotificationHandle;
 
+import dao.managerDAO.NotificationDAO;
 import service.export.Excel;
 import view.ManagerUI.addNotification;
 import view.ManagerUI.editNotification;
 import view.ManagerUI.searchNotification;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class NotificationHandler {
@@ -53,14 +60,17 @@ public class NotificationHandler {
                 editBtnClick();
             }
         });
-        this.searchIcon.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchInconClick();
-            }
-        });
+        
+        new NotificationDAO().addDataToTable(table);
 
         searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
     
     private void addBtnClick() {
