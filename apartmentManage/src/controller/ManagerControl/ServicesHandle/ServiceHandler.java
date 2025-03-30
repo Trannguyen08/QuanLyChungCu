@@ -1,5 +1,6 @@
 package controller.ManagerControl.ServicesHandle;
 
+import dao.managerDAO.ServiceDAO;
 import service.export.Excel;
 import view.ManagerUI.addService;
 import view.ManagerUI.editService;
@@ -9,6 +10,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
 
 public class ServiceHandler {
     private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, searchButton;
@@ -59,8 +63,16 @@ public class ServiceHandler {
             }
         });
 
-        //searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
-    }
+
+        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
     
     private void addBtnClick() {
         //new addService(table).setVisible(true);

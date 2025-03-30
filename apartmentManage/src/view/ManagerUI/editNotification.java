@@ -33,6 +33,11 @@ public class editNotification extends javax.swing.JFrame {
         notification = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         notiType = new javax.swing.JComboBox<>();
+        notiID.setColumns(32);
+        notiTitle.setColumns(32);
+        notification.setColumns(32);
+        ownerID.setColumns(32);
+
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel1.setText("ID thông báo");

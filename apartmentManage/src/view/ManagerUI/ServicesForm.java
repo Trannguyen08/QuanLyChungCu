@@ -90,7 +90,7 @@ public class ServicesForm extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "ID_DịchVụ", "Tên Dịch Vụ", "Kiểu Dịch Vụ", "Giá", "Đề tài"
+                "ID_DịchVụ", "Tên Dịch Vụ", "Kiểu Dịch Vụ", "Giá", "Đơn vị"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
