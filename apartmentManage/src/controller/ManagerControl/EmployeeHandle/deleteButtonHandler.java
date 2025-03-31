@@ -32,7 +32,6 @@ public class deleteButtonHandler {
             }
         });
     }
-
     private void deleteSelectedRow() {
         Integer id = employeeService.getEmployeeId(table);
         if( id == null ) {

@@ -47,9 +47,9 @@
                           <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
                           <Component id="searchButton" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" alignment="0" min="-2" pref="773" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="787" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="editBtn" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="excelBtn" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -255,7 +255,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="ID_C&#x103;n h&#x1ed9;" type="java.lang.Object">
-                      <Data value="Tr&#x1ea7;n Ch&#xed; Nguy&#xea;n"/>
+                      <Data value="1"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -267,7 +267,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="H&#x1ecd; t&#xea;n" type="java.lang.Object">
-                      <Data value="0829907738"/>
+                      <Data value="L&#x1b0;u &#x110;&#xec;nh Ngh&#x129;a"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -279,7 +279,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="S&#x110;T" type="java.lang.Object">
-                      <Data value="trannguyen08py@gmail.com"/>
+                      <Data value="0336451045"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -291,7 +291,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="Email" type="java.lang.Object">
-                      <Data value="054205010738"/>
+                      <Data value="nghia@gmail.com"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -303,7 +303,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="CCCD" type="java.lang.Object">
-                      <Data value="23/06/2012"/>
+                      <Data value="066325100257"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -315,7 +315,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="Ng&#xe0;y sinh" type="java.lang.Object">
-                      <Data value="Nam"/>
+                      <Data value="30/01/2006"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -327,7 +327,7 @@
                       <Data value="null"/>
                     </Column>
                     <Column editable="true" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object">
-                      <Data value="2"/>
+                      <Data value="Nam"/>
                       <Data value="null"/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -342,12 +342,12 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -367,7 +367,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="70" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -377,7 +377,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

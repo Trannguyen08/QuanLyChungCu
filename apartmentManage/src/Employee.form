@@ -50,12 +50,12 @@
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="searchIcon" min="-2" pref="38" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="searchButton" min="-2" pref="120" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane2" min="-2" pref="798" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" pref="805" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="40" max="32767" attributes="0"/>
+                  <EmptySpace pref="33" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="deleteBtn" min="-2" pref="150" max="-2" attributes="0"/>
                       <Component id="addBtn" min="-2" pref="150" max="-2" attributes="0"/>
@@ -396,7 +396,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="40" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -416,12 +416,12 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="55" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="75" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="75" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

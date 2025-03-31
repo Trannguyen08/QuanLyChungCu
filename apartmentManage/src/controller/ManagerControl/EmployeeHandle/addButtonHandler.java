@@ -82,7 +82,9 @@ public class addButtonHandler {
         // thêm vào database và table
         boolean isAddedComplete = employeeService.addEmployee(employee);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.addRow(employeeService.getLastRow());
+                model.addRow(new Object[] {employee.getId(), employee.getName(), employee.getGender(),
+                employee.getPhoneNumber(), employee.getEmail(), employee.getPosition(),
+                employee.getSalary(), employee.getHiringDate(), employee.getStatus()});
 
         if( isAddedComplete ) {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.",

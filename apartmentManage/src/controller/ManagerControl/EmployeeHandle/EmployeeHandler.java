@@ -1,5 +1,6 @@
 package controller.ManagerControl.EmployeeHandle;
 
+import controller.ManagerControl.ResidentHandle.ResidentHandler;
 import dao.managerDAO.EmployeeDAO;
 import service.export.Excel;
 import view.ManagerUI.addEmployee;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.managerService.employeeService;
 
 
 public class EmployeeHandler {
@@ -24,6 +26,7 @@ public class EmployeeHandler {
     private JPanel panel;
     private JTextField searchField;
     private deleteButtonHandler deleteHandler;
+    private final employeeService employeeService = new employeeService();
 
     public EmployeeHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
                             JButton searchIcon, JButton searchButton, JTable table, JPanel panel) {
@@ -61,7 +64,7 @@ public class EmployeeHandler {
                 try {
                     editBtnClick();
                 } catch (ParseException ex) {
-                    Logger.getLogger(EmployeeHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ResidentHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -71,8 +74,6 @@ public class EmployeeHandler {
                 searchInconClick();
             }
         });
-
-        new EmployeeDAO().addDataToTable(table);
 
         searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
 
@@ -84,6 +85,7 @@ public class EmployeeHandler {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
+
 
     private void addBtnClick() {
         new addEmployee(table).setVisible(true);
