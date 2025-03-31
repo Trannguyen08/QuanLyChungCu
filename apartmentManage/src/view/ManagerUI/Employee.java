@@ -164,12 +164,13 @@ public class Employee extends javax.swing.JPanel {
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(10);
             table.getColumnModel().getColumn(1).setPreferredWidth(130);
-            table.getColumnModel().getColumn(2).setPreferredWidth(40);
-            table.getColumnModel().getColumn(3).setPreferredWidth(60);
+            table.getColumnModel().getColumn(2).setPreferredWidth(60);
+            table.getColumnModel().getColumn(3).setPreferredWidth(65);
             table.getColumnModel().getColumn(4).setPreferredWidth(150);
-            table.getColumnModel().getColumn(5).setPreferredWidth(50);
-            table.getColumnModel().getColumn(6).setPreferredWidth(55);
-            table.getColumnModel().getColumn(7).setPreferredWidth(60);
+            table.getColumnModel().getColumn(5).setPreferredWidth(70);
+            table.getColumnModel().getColumn(6).setPreferredWidth(90);
+            table.getColumnModel().getColumn(7).setPreferredWidth(90);
+            table.getColumnModel().getColumn(8).setPreferredWidth(80);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -185,8 +186,8 @@ public class Employee extends javax.swing.JPanel {
                         .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(115, 115, 115)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)

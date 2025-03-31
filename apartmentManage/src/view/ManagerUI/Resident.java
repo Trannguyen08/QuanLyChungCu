@@ -19,7 +19,7 @@ public class Resident extends javax.swing.JPanel {
         searchField.addFocusListener(new java.awt.event.FocusListener() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Nhập id nhân viên...")) {
+                if (searchField.getText().equals("Nhập id cư dân...")) {
                     searchField.setText("");
                     searchField.setForeground(java.awt.Color.BLACK);
                 }
@@ -29,7 +29,7 @@ public class Resident extends javax.swing.JPanel {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().isEmpty()) {
                     searchField.setForeground(java.awt.Color.GRAY);
-                    searchField.setText("Nhập id nhân viên...");
+                    searchField.setText("Nhập id cư dân...");
                 }
             }
         });

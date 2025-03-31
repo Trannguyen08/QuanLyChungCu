@@ -26,7 +26,6 @@ public class EmployeeHandler {
     private JPanel panel;
     private JTextField searchField;
     private deleteButtonHandler deleteHandler;
-    private final employeeService employeeService = new employeeService();
 
     public EmployeeHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
                             JButton searchIcon, JButton searchButton, JTable table, JPanel panel) {
@@ -99,7 +98,7 @@ public class EmployeeHandler {
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportApartments(directoryPath);
+        Excel.exportEmployees(directoryPath);
         
     }
     
