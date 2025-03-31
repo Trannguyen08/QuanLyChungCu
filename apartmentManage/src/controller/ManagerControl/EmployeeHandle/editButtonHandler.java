@@ -66,6 +66,7 @@ public class editButtonHandler {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
         
+        int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
         model.setValueAt(fullName.getText(), selectedRow, 1);
         model.setValueAt(gender.getSelectedItem(), selectedRow, 2);
         model.setValueAt(phoneNumber.getText(), selectedRow, 3);
@@ -74,8 +75,27 @@ public class editButtonHandler {
         model.setValueAt(salary.getText(), selectedRow, 6);
         model.setValueAt(formattedDate, selectedRow, 7);
         model.setValueAt(status.getSelectedItem(), selectedRow, 8);
-
         edit.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Cập nhật thông tin nhân viên thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+
+        Employee a = new Employee(
+            id,  
+            fullName.getText(),  
+            gender.getSelectedItem().toString(),
+            phoneNumber.getText(),  
+            email.getText(),  
+            position.getSelectedItem().toString(),
+            Double.parseDouble(salary.getText()),
+            formattedDate,  
+            status.getSelectedItem().toString()
+        );
+        boolean isUpdatedComplete = employeeService.updateEmployee(a);
+        if( isUpdatedComplete ) {
+            JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu thành công.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu không thành công.",
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }

@@ -70,7 +70,12 @@ public class ResidentHandler {
                 }
             }
         });
-        new ResidentDAO().addDataToTable(table);
+        this.searchIcon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchInconClick();
+            }
+        });
 
         searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
 

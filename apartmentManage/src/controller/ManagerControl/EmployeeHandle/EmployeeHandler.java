@@ -1,5 +1,6 @@
 package controller.ManagerControl.EmployeeHandle;
 
+import controller.ManagerControl.ResidentHandle.ResidentHandler;
 import dao.managerDAO.EmployeeDAO;
 import service.export.Excel;
 import view.ManagerUI.addEmployee;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.managerService.employeeService;
 
 
 public class EmployeeHandler {
@@ -61,7 +63,7 @@ public class EmployeeHandler {
                 try {
                     editBtnClick();
                 } catch (ParseException ex) {
-                    Logger.getLogger(EmployeeHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ResidentHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -71,8 +73,6 @@ public class EmployeeHandler {
                 searchInconClick();
             }
         });
-
-        new EmployeeDAO().addDataToTable(table);
 
         searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
 
@@ -84,6 +84,7 @@ public class EmployeeHandler {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
+
 
     private void addBtnClick() {
         new addEmployee(table).setVisible(true);
@@ -97,7 +98,7 @@ public class EmployeeHandler {
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportApartments(directoryPath);
+        Excel.exportEmployees(directoryPath);
         
     }
     
