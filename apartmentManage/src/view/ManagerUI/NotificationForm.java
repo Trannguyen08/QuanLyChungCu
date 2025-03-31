@@ -18,6 +18,12 @@ public class NotificationForm extends javax.swing.JPanel {
     public NotificationForm() {
         initComponents();
         NotificationHandler notificationHandler = new NotificationHandler(searchField, addBtn, deleteBtn, editBtn, excelBtn, searchIcon, searchBtn, table, this);
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                NotificationForm.this.requestFocusInWindow();
+            }
+        });
     }
 
     /**

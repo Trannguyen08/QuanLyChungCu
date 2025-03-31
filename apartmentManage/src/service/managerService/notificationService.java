@@ -2,6 +2,7 @@ package service.managerService;
 
 import dao.managerDAO.NotificationDAO;
 import java.util.ArrayList;
+import java.awt.Font;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -9,17 +10,24 @@ import model.Notification;
 import util.ScannerUtil;
 
 import java.util.List;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 public class notificationService {
     private final NotificationDAO notificationDAO = new NotificationDAO();
+    
+    public boolean updateNotification(Notification notification){
+        return notificationDAO.updateNotification(notification);
+    }
     
     public boolean addNotification(Notification notification){
         return notificationDAO.addNotification(notification);
     }
     
-    public Object[] getLastRow(){
-        return notificationDAO.getLastRow();
+    public boolean deleteNotification(int id){
+        return notificationDAO.deleteNotification(id);
     }
+    
     
     public Integer getNotificationID(JTable table){
         int selectedRow = table.getSelectedRow();
@@ -41,11 +49,43 @@ public class notificationService {
             return null;
         }
     }
-    
-    public boolean deleteNotification(int id){
-        return notificationDAO.deleteNotification(id);
+
+    public void setupNotificationTable(JTable table) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Xóa dữ liệu cũ trong bảng
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+
+        List<Notification> notificationList = notificationDAO.getAllNotification();
+
+        for (Notification notification : notificationList) {
+            model.addRow(new Object[]{
+                    notification.getID(),
+                    notification.getOwnerID(),
+                    notification.getTitle(),
+                    notification.getMess(),
+                    notification.getType()
+            });
+        }
+        
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 15));
+        
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+
+        
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
     }
-    
+
+
     public boolean confirmDelete() {
         int confirm = JOptionPane.showConfirmDialog(null,
                 "Bạn có chắc muốn xóa hàng này?",

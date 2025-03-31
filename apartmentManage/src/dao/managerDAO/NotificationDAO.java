@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Notification;
@@ -124,4 +126,80 @@ public class NotificationDAO {
             e.printStackTrace();
         }
     }
+
+    public List<Notification> getAllNotification() {
+        String query = "SELECT * FROM notification";
+
+        List<Notification> notificationList = new ArrayList<>();
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet res = pstmt.executeQuery()) {
+
+            while (res.next()) {
+                notificationList.add(new Notification(
+                        res.getInt("ID"),
+                        res.getInt("ownerID"),
+                        res.getString("title"),
+                        res.getString("mess"),
+                        res.getString("type")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return notificationList;
+    }
+
+    public List<Notification> getNotificationsByFilter(Integer notificationID, Integer ownerID, String title, String mess, String type) {
+        List<Notification> notifications = new ArrayList<>();
+        String query = "SELECT * FROM notification WHERE 1=1";
+
+        List<Object> params = new ArrayList<>();
+
+        if (notificationID != null) {
+            query += " AND ID = ?";
+            params.add(notificationID);
+        }
+        if (ownerID != null) {
+            query += " AND ownerID = ?";
+            params.add(ownerID);
+        }
+        if (title != null && !title.isEmpty()) {
+            query += " AND title LIKE ?";
+            params.add("%" + title + "%");
+        }
+        if (mess != null && !mess.isEmpty()) {
+            query += " AND mess LIKE ?";
+            params.add("%" + mess + "%");
+        }
+        if (type != null && !type.isEmpty()) {
+            query += " AND type = ?";
+            params.add(type);
+        }
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            for (int i = 0; i < params.size(); i++) {
+                pstmt.setObject(i + 1, params.get(i));
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                notifications.add(new Notification(
+                        rs.getInt("ID"),
+                        rs.getInt("ownerID"),
+                        rs.getString("title"),
+                        rs.getString("mess"),
+                        rs.getString("type")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return notifications;
+    }
+
+
 }

@@ -15,6 +15,7 @@ public class searchNotification extends javax.swing.JFrame {
     
         this.setLocationRelativeTo(null);
         this.setTitle("Tìm kiếm thông báo");
+        this.setSize(600, 800);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 

@@ -16,6 +16,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.managerService.notificationService;
 
 
 public class NotificationHandler {
@@ -24,6 +25,7 @@ public class NotificationHandler {
     private JPanel panel;
     private JTextField searchField;
     private deleteButtonHandler deleteHandler;
+    private final notificationService notificationService = new notificationService();
     
     public NotificationHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
                             JButton searchIcon, JButton searchButton, JTable table, JPanel panel){
@@ -60,17 +62,15 @@ public class NotificationHandler {
                 editBtnClick();
             }
         });
+        this.searchIcon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchInconClick();
+            }
+        });
         
-        new NotificationDAO().addDataToTable(table);
+        notificationService.setupNotificationTable(table);
 
-        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 14));
-        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
     }
     
     private void addBtnClick() {
@@ -79,7 +79,7 @@ public class NotificationHandler {
 
     private void deleteBtnClick() {
         if (deleteHandler == null) {
-            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
+            deleteHandler.deleteSelectedRow();
         }
     }
 

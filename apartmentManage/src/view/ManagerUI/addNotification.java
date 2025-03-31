@@ -8,7 +8,12 @@ public class addNotification extends javax.swing.JFrame {
 
     public addNotification(JTable table) {
         initComponents();
-        addButtonHandler add = new addButtonHandler(notiTitle, notification, notiType, notiID, ownerID);
+        addButtonHandler add = new addButtonHandler(addBtn, notiTitle, notification, notiType, notiID, ownerID, table, this);
+        this.setLocationRelativeTo(null);
+        this.setSize(400, 700);
+        this.setTitle("Thêm thông tin");
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -29,7 +34,7 @@ public class addNotification extends javax.swing.JFrame {
         ownerID = new javax.swing.JTextField();
         notiTitle = new javax.swing.JTextField();
         notification = new javax.swing.JTextField();
-        add = new javax.swing.JButton();
+        addBtn = new javax.swing.JButton();
         notiType = new javax.swing.JComboBox<>();
 
         notiID.setColumns(32);
@@ -65,11 +70,11 @@ public class addNotification extends javax.swing.JFrame {
             }
         });
 
-        add.setBackground(new java.awt.Color(0, 51, 255));
-        add.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        add.setForeground(new java.awt.Color(255, 255, 255));
-        add.setText("Thêm");
-        add.addActionListener(new java.awt.event.ActionListener() {
+        addBtn.setBackground(new java.awt.Color(0, 51, 255));
+        addBtn.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addBtn.setText("Thêm");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addActionPerformed(evt);
             }
@@ -106,7 +111,7 @@ public class addNotification extends javax.swing.JFrame {
                 .addContainerGap(110, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(add)
+                .addComponent(addBtn)
                 .addGap(201, 201, 201))
         );
         layout.setVerticalGroup(
@@ -139,7 +144,7 @@ public class addNotification extends javax.swing.JFrame {
                         .addComponent(notiType, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)))
                 .addGap(87, 87, 87)
-                .addComponent(add)
+                .addComponent(addBtn)
                 .addContainerGap(138, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -158,7 +163,7 @@ public class addNotification extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton add;
+    private javax.swing.JButton addBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
