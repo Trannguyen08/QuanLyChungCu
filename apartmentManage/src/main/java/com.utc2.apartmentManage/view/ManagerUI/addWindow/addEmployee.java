@@ -61,9 +61,12 @@ public class addEmployee extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        salary.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
         jLabel20.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel20.setText("Trạng thái");
 
+        fullName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         fullName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fullNameActionPerformed(evt);
@@ -85,6 +88,8 @@ public class addEmployee extends javax.swing.JFrame {
         position.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bảo vệ", "Lễ tân", "Kỹ thuật", "Dọn dẹp" }));
 
+        phoneNumber.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
         jLabel23.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel23.setText("Lương");
 
@@ -93,6 +98,8 @@ public class addEmployee extends javax.swing.JFrame {
 
         status.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang làm việc", "Nghỉ việc" }));
+
+        email.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jLabel25.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel25.setText("Ngày tuyển dụng");
@@ -105,6 +112,9 @@ public class addEmployee extends javax.swing.JFrame {
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setText("Thêm ");
 
+        hiringDate.setDateFormatString("yyyy-MM-dd");
+        hiringDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,7 +123,7 @@ public class addEmployee extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel26)
@@ -137,11 +147,11 @@ public class addEmployee extends javax.swing.JFrame {
                                     .addComponent(salary, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(hiringDate, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(email)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addGap(131, 131, 131)
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,9 +188,9 @@ public class addEmployee extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(51, 51, 51)
+                .addGap(40, 40, 40)
                 .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42))
+                .addGap(53, 53, 53))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

@@ -1,7 +1,7 @@
 package main.java.com.utc2.apartmentManage.controller.LoginControl;
 
 
-import util.ScannerUtil;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;

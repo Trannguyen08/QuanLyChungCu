@@ -27,13 +27,13 @@ public class searchIconHandler {
         this.toValue = toValue;
         this.id = id;
         this.fromValue = fromValue;
-        this.searchBtn = searchBtn;
         this.startDate = startDate;
         this.endDate = endDate;
         this.contractType = contractType;
         this.contractStatus = contractStatus;
         this.table = table;
         this.frame = frame;
+        this.searchBtn = searchBtn;
 
         this.searchBtn.addActionListener(new ActionListener() {
             @Override
@@ -44,9 +44,18 @@ public class searchIconHandler {
     }
     
     public void filterTableData() {
-        boolean check = contract_service.validateSeachInput(id, ownerName, fromValue, toValue, startDate, endDate, contractType);
+        boolean check = contract_service.validateSeachInput(id, ownerName, fromValue, toValue, 
+                                                            startDate, endDate, contractType);
         
         if( !check ) {
+            return;
+        }
+        
+        if( contract_service.checkAllNull(id, ownerName, fromValue, toValue, 
+                                        startDate, endDate, contractStatus, contractType) ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
+                                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            frame.setVisible(false);
             return;
         }
         int myID = 0;
@@ -79,9 +88,10 @@ public class searchIconHandler {
 
         boolean checkRun = contract_service.filterContracts(contract, startDate, endDate, 
                                          minValue, maxValue, table);
-        if( checkRun ) {
-            frame.setVisible(false);
-        }
+        
+        frame.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
+                                            "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     }
     
 }

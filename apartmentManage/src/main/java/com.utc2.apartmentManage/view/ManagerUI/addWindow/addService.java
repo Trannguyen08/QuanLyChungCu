@@ -1,14 +1,13 @@
 
 package main.java.com.utc2.apartmentManage.view.ManagerUI.addWindow;
 
-import controller.ManagerControl.ServicesHandle.addButtonHandler;
 import javax.swing.*;
 
 public class addService extends javax.swing.JFrame {
 
     public addService(JTable table) {
         initComponents();
-        addButtonHandler add = new addButtonHandler(ServiceID, ServiceName, ServicePrice, ServiceUnit, ServiceType);
+        //addButtonHandler add = new addButtonHandler(ServiceID, ServiceName, ServicePrice, ServiceUnit, ServiceType);
         this.setLocationRelativeTo(null);
         this.setTitle("Thêm thông tin");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

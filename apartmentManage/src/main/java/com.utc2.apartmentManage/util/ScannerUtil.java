@@ -1,5 +1,6 @@
-package util;
+package main.java.com.utc2.apartmentManage.util;
 
+import com.toedter.calendar.JDateChooser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -111,20 +112,45 @@ public class ScannerUtil {
     }
 
     public static boolean validateEmail(String email) {
-        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        boolean isValid = email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, "Email không hợp lệ: " + email, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        return isValid;
     }
+
     public static boolean validateDateRange(Date fromDate, Date toDate, String fieldName) {
-        return !fromDate.after(toDate);
+        boolean isValid = !fromDate.after(toDate);
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, "Ngày bắt đầu không thể sau ngày kết thúc.", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        return isValid;
     }
+
     public static boolean validatePhoneNumber(String phoneNumber) {
-        return phoneNumber.matches("^0[0-9]{9}$"); 
+        boolean isValid = phoneNumber.matches("^0[0-9]{9}$");
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ: " + phoneNumber, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        return isValid;
     }
+
     public static boolean isValidCCCD(String cccd) {
-        return cccd.matches("\\d{12}"); // Chuỗi gồm đúng 12 chữ số
+        boolean isValid = cccd.matches("\\d{12}"); 
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, "CCCD không hợp lệ: " + cccd, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        return isValid;
     }
+    
     public static boolean isValidFullName(String fullName) {
-        return fullName.matches("^[A-Za-zÀ-Ỹà-ỹ]+(\\s[A-Za-zÀ-Ỹà-ỹ]+)+$");
+         boolean isValid = fullName.matches("^[A-Za-zÀ-Ỹà-ỹ]+(\\s[A-Za-zÀ-Ỹà-ỹ]+)+$");
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, "Họ và tên không hợp lệ", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        }
+        return isValid;
     }
+    
     public static boolean isValidAge(Date selectedDate) {
         LocalDate birthDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now(); 
@@ -134,15 +160,24 @@ public class ScannerUtil {
         
         return age >= 18;
     }
-    public static Date stringToDate(String s) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date birthDate = null;
-        try {
-            birthDate = new Date(sdf.parse(s).getTime()); // Ví dụ
-        } catch (ParseException ex) {
-            Logger.getLogger(ScannerUtil.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public static String convertJDateChooserToString(JDateChooser dateChooser) {
+        Date date = dateChooser.getDate();
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                return sdf.format(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return birthDate;
+        return null;
+    }
+
+    
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return (date != null) ? sdf.format(date) : null;    
     }
 
 }

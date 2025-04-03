@@ -99,7 +99,7 @@ public class searchApartment extends javax.swing.JFrame {
 
         fromRoomNum.setBackground(new java.awt.Color(250, 250, 250));
         fromRoomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        fromRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
+        fromRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "1", "2", "3", "4" }));
 
         status.setBackground(new java.awt.Color(250, 250, 250));
         status.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -148,7 +148,7 @@ public class searchApartment extends javax.swing.JFrame {
 
         toRoomNum.setBackground(new java.awt.Color(250, 250, 250));
         toRoomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        toRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "1", "2", "3", "4", "" }));
+        toRoomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "1", "2", "3", "4" }));
 
         jLabel18.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel18.setText("ID Căn hộ");

@@ -68,35 +68,35 @@ public class searchIconHandler {
         String stat = (String) status.getSelectedItem();
 
         Integer floorFrom = (fromFloor.getSelectedItem() == null || fromFloor.getSelectedItem().toString().trim().isEmpty())
-                            ? null : Integer.parseInt(fromFloor.getSelectedItem().toString().trim());
+                            ? null : Integer.valueOf(fromFloor.getSelectedItem().toString().trim());
 
         Integer floorTo = (toFloor.getSelectedItem() == null || toFloor.getSelectedItem().toString().trim().isEmpty())
-                            ? null : Integer.parseInt(toFloor.getSelectedItem().toString().trim());
+                            ? null : Integer.valueOf(toFloor.getSelectedItem().toString().trim());
 
         Integer roomFrom = (fromRoomNum.getSelectedItem() == null || fromRoomNum.getSelectedItem().toString().trim().isEmpty())
-                ? null : Integer.parseInt(fromRoomNum.getSelectedItem().toString().trim());
+                ? null : Integer.valueOf(fromRoomNum.getSelectedItem().toString().trim());
 
         Integer roomTo = (toRoomNum.getSelectedItem() == null || toRoomNum.getSelectedItem().toString().trim().isEmpty())
-                ? null : Integer.parseInt(toRoomNum.getSelectedItem().toString().trim());
+                ? null : Integer.valueOf(toRoomNum.getSelectedItem().toString().trim());
 
 
         Double areaFrom = (fromArea.getText() == null || fromArea.getText().trim().isEmpty())
-                ? null : Double.parseDouble(fromArea.getText().trim());
+                ? null : Double.valueOf(fromArea.getText().trim());
 
         Double areaTo = (toArea.getText() == null || toArea.getText().trim().isEmpty())
-                ? null : Double.parseDouble(toArea.getText().trim());
+                ? null : Double.valueOf(toArea.getText().trim());
 
         Double rentFrom = (fromRentPrice.getText() == null || fromRentPrice.getText().trim().isEmpty())
-                ? null : Double.parseDouble(fromRentPrice.getText().trim());
+                ? null : Double.valueOf(fromRentPrice.getText().trim());
 
         Double rentTo = (toRentPrice1.getText() == null || toRentPrice1.getText().trim().isEmpty())
-                ? null : Double.parseDouble(toRentPrice1.getText().trim());
+                ? null : Double.valueOf(toRentPrice1.getText().trim());
 
         Double buyFrom = (fromBuyPrice.getText() == null || fromBuyPrice.getText().trim().isEmpty())
-                ? null : Double.parseDouble(fromBuyPrice.getText().trim());
+                ? null : Double.valueOf(fromBuyPrice.getText().trim());
 
         Double buyTo = (toBuyPrice.getText() == null || toBuyPrice.getText().trim().isEmpty())
-                ? null : Double.parseDouble(toBuyPrice.getText().trim());
+                ? null : Double.valueOf(toBuyPrice.getText().trim());
 
 
         // Lấy danh sách căn hộ từ database
@@ -111,11 +111,11 @@ public class searchIconHandler {
                 stat
         );
 
+        apartmentService.loadFilterApartment(apartments, table);
         frame.setVisible(false);
         if (apartments.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-        apartmentService.loadFilterApartment(apartments, table);
     }
 
 

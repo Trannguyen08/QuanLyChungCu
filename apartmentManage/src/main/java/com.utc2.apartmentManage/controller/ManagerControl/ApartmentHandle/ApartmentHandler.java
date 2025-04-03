@@ -12,7 +12,7 @@ import main.java.com.utc2.apartmentManage.service.managerService.apartmentServic
 import main.java.com.utc2.apartmentManage.view.ManagerUI.addWindow.addApartment;
 import main.java.com.utc2.apartmentManage.view.ManagerUI.editWindow.editApartment;
 import main.java.com.utc2.apartmentManage.view.ManagerUI.searchWindow.searchApartment;
-import util.ScannerUtil;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 
 
 public class ApartmentHandler {
@@ -73,6 +73,7 @@ public class ApartmentHandler {
                 searchButtonClick();
             }
         });
+
         
         placeHolder();
 
@@ -115,7 +116,7 @@ public class ApartmentHandler {
                                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        if( ScannerUtil.validateInteger(id, "Ô tìm kiếm") ) {
+        if( !ScannerUtil.validateInteger(id, "Ô tìm kiếm") ) {
             return;
         }
         

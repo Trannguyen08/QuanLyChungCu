@@ -17,12 +17,19 @@ public class searchButtonHandler {
     }
 
     public void searchBtnClick() {
-        String searchText = searchField.getText().trim();
-        if( searchText.trim().isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập từ khóa tìm kiếm!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        String content = searchField.getText().trim();
+        if( content.equals("Nhập id, tên cư dân...") || searchField.getText() == null ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị cho ô tìm kiếm",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        if( content.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng không nhập chuỗi chỉ chứa khoảng trắng",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        contract_service.updateTableWithContracts(searchText, table);
+        contract_service.updateTableWithContracts(content, table);
     }
 }
