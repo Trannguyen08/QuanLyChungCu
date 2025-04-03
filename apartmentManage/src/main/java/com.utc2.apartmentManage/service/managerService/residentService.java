@@ -2,7 +2,7 @@ package main.java.com.utc2.apartmentManage.service.managerService;
 
 import com.toedter.calendar.JDateChooser;
 import main.java.com.utc2.apartmentManage.repository.managerRepository.residentRepository;
-import util.ScannerUtil;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +42,34 @@ public class residentService {
                 "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
         return confirm == JOptionPane.YES_OPTION;
     }
+    
+    // check trùng
+    public boolean isDuplicate(Resident resident) {
+        
+        int ans = residentRepository.isDuplicateResident(resident);
+        
+        switch(ans) {
+            case 1 -> {
+                JOptionPane.showMessageDialog(null, "Mã căn hộ này đã thuộc về cư dân khác.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            case 2 -> {
+                JOptionPane.showMessageDialog(null, "Email này đã tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            case 3 -> {
+                JOptionPane.showMessageDialog(null, "Số điện thoại này đã tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+            case 4 -> {
+                JOptionPane.showMessageDialog(null, "CCCD này đã tồn tại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return false;            
+            }
+        }
+        
+        return true; 
+    }
+
 
     // Thiết lập dữ liệu bảng cư dân
     public void setupResidentTable(JTable table) {
@@ -64,11 +92,6 @@ public class residentService {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);
         model.setRowCount(0);
-
-        if (residentList.isEmpty()) {
-            showErrorMessage("Không tìm thấy cư dân nào!", "Thông báo");
-            return false;
-        }
 
         for (Resident resident : residentList) {
             model.addRow(new Object[]{
@@ -197,17 +220,34 @@ public class residentService {
     }
 
     // Kiểm tra dữ liệu tìm kiếm
-    public boolean validateSearchInput(JTextField residentID, JTextField apartmentID, JTextField fullName, JComboBox<String> gender,
-                                   JDateChooser birthDate, JDateChooser toBirthDate, JTextField phoneNumber, JTextField email, JTextField idCard) {
+    public boolean validateSearchInput(JTextField residentID, JTextField apartmentID, JDateChooser birthDate, 
+                                    JDateChooser toBirthDate, JTextField phoneNumber, JTextField email, JTextField idCard) {
 
-        if ((!residentID.getText().trim().isEmpty() && !ScannerUtil.validateInteger(residentID.getText().trim(), "ID cư dân")) ||
-            (!fullName.getText().trim().isEmpty() && !ScannerUtil.validateInteger(fullName.getText().trim(), "Họ tên cư dân")) ||
-            (!phoneNumber.getText().trim().isEmpty() && !ScannerUtil.validatePhoneNumber(phoneNumber.getText().trim())) ||
-            (!email.getText().trim().isEmpty() && !ScannerUtil.validateEmail(email.getText().trim())) ||
-            (!idCard.getText().trim().isEmpty() && !ScannerUtil.validateInteger(idCard.getText().trim(), "CCCD")) ||
-            (!apartmentID.getText().trim().isEmpty() && !ScannerUtil.validateInteger(apartmentID.getText().trim(), "Mã căn hộ"))) {
+        if (!residentID.getText().trim().isEmpty() && 
+            !ScannerUtil.validateInteger(residentID.getText().trim(), "ID cư dân")) {
             return false;
         }
+
+        if (!phoneNumber.getText().trim().isEmpty() && 
+            !ScannerUtil.validatePhoneNumber(phoneNumber.getText().trim())) {
+            return false;
+        }
+
+        if (!email.getText().trim().isEmpty() && 
+            !ScannerUtil.validateEmail(email.getText().trim())) {
+            return false;
+        }
+
+        if (!idCard.getText().trim().isEmpty() && 
+            !ScannerUtil.validateInteger(idCard.getText().trim(), "CCCD")) {
+            return false;
+        }
+
+        if (!apartmentID.getText().trim().isEmpty() && 
+            !ScannerUtil.validateInteger(apartmentID.getText().trim(), "Mã căn hộ")) {
+            return false;
+        }
+
         // Kiểm tra ngày sinh hợp lệ
 
         return !(birthDate.getDate() != null && toBirthDate.getDate() != null &&

@@ -3,12 +3,14 @@ package main.java.com.utc2.apartmentManage.controller.ManagerControl.EmployeeHan
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.com.utc2.apartmentManage.model.Employee;
 import main.java.com.utc2.apartmentManage.service.managerService.employeeService;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
+
 
 
 public class addButtonHandler {
@@ -19,6 +21,7 @@ public class addButtonHandler {
     private JTable table;
     private JFrame add;
     private final employeeService employeeService = new employeeService();
+    private DecimalFormat df = new DecimalFormat("#,###");
 
     public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                             JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
@@ -44,21 +47,6 @@ public class addButtonHandler {
     }
 
     private void addNewRow() {
-        String fName = fullName.getText().trim();
-        Object eGender = gender.getSelectedItem().toString();
-        String pNumber = phoneNumber.getText().trim();
-        String eEmail = email.getText().trim();
-        Object ePosition = position.getSelectedItem().toString();
-        Object eStatus = status.getSelectedItem().toString();
-
-        // Lấy ngày và định dạng
-        Date selectedDate = hiringDate.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
-
-
-        double salaryValue = Double.parseDouble(salary.getText().trim());
-
         // Kiểm tra dữ liệu hợp lệ trước khi tiếp tục
         boolean check = employeeService.validateData(table, fullName, gender, phoneNumber, email, position, salary, hiringDate, status);
         if (!check) {
@@ -66,10 +54,11 @@ public class addButtonHandler {
         }
 
         // Tạo đối tượng Employee
-       Employee employee = new Employee(0, fullName.getText().trim(), gender.getSelectedItem().toString(), phoneNumber.getText().trim(), 
-                            email.getText().trim(), position.getSelectedItem().toString(), Double.parseDouble(salary.getText().trim()), 
-                           (hiringDate.getDate() != null) ? new SimpleDateFormat("yyyy-MM-dd").format(hiringDate.getDate()) : "N/A", 
-                                status.getSelectedItem().toString());
+        int id = employeeService.getNewID();
+        String date = ScannerUtil.convertJDateChooserToString(hiringDate);
+        Employee employee = new Employee(id, fullName.getText().trim(), gender.getSelectedItem().toString(), phoneNumber.getText().trim(), 
+                            email.getText().trim(), date, position.getSelectedItem().toString(), 
+                                Long.parseLong(salary.getText().trim()),status.getSelectedItem().toString());
 
         // Kiểm tra trùng lặp nhân viên
         if (employeeService.isDuplicate(employee, table)) {
@@ -81,9 +70,10 @@ public class addButtonHandler {
         boolean isAddedComplete = employeeService.addEmployee(employee);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
                 model.addRow(new Object[] {employee.getId(), employee.getName(), employee.getGender(),
-                employee.getPhoneNumber(), employee.getEmail(), employee.getPosition(),
-                employee.getSalary(), employee.getHiringDate(), employee.getStatus()});
+                employee.getPhoneNumber(), employee.getEmail(), employee.getHiringDate(), 
+                employee.getPosition(), df.format(employee.getSalary()), employee.getStatus()});
 
+        add.setVisible(false);
         if( isAddedComplete ) {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);

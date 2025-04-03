@@ -1,26 +1,24 @@
-
 package main.java.com.utc2.apartmentManage.service.managerService;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
-
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.com.utc2.apartmentManage.repository.managerRepository.employeeRepository;
-import util.ScannerUtil;
-import java.util.List;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import main.java.com.utc2.apartmentManage.model.Contract;
 import main.java.com.utc2.apartmentManage.model.Employee;
+
 
 public class employeeService {
     private final employeeRepository employeeDAO = new employeeRepository();
+    private DecimalFormat df = new DecimalFormat("#,###");
 
     // validate trùng số điện thoại và email
     public boolean isDuplicate(Employee employee, JTable table) {
@@ -37,17 +35,21 @@ public class employeeService {
         return false;
     }
     
-    public void setupContractTable(JTable table) {
-        //List<Contract> contractList = contractDAO.getAllContract();
+    public int getNewID() {
+        return employeeDAO.getIDMinNotExist();
+    }
+    
+    public void setupEmployeeTable(JTable table) {
+        List<Employee> employList = employeeDAO.getAllEmployee();
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        /*
-        for( Contract contract : contractList ) {
-            model.addRow(new Object[] {contract.getId(), contract.getOwnerName(), contract.getApartmentIndex(),
-                    contract.getContractType(), contract.getStartDate(), contract.getEndDate(),
-                    contract.getContractValue(), contract.getContractStatus()});
-        }*/
+        
+        for( Employee emp : employList ) {
+            model.addRow(new Object[] {emp.getId(), emp.getName(), emp.getGender(), emp.getPhoneNumber(),
+                                        emp.getEmail(), emp.getHiringDate(), emp.getPosition(),
+                                        df.format(emp.getSalary()), emp.getStatus()});
+        }
 
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Arial", Font.BOLD, 14));
@@ -57,6 +59,7 @@ public class employeeService {
         }
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
     }
+    
     // thêm vào database
     public boolean addEmployee(Employee employee) {
         return employeeDAO.addEmployee(employee);
@@ -134,12 +137,14 @@ public class employeeService {
         gender.setSelectedItem(model.getValueAt(selectedRow, 2).toString());
         phoneNumber.setText(model.getValueAt(selectedRow, 3).toString());
         email.setText(model.getValueAt(selectedRow, 4).toString());
-        position.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
-        salary.setText(model.getValueAt(selectedRow, 6).toString());
-        String dateStr = model.getValueAt(selectedRow, 7).toString(); 
+        
+        String dateStr = model.getValueAt(selectedRow, 5).toString();        
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date date = sdf.parse(dateStr); // Gán vào JDateChooser
-        hiringDate.setDate(date);
+        Date sqlDate = new Date(sdf.parse(dateStr).getTime());
+        hiringDate.setDate(sqlDate);
+        
+        position.setSelectedItem(model.getValueAt(selectedRow, 6).toString());
+        salary.setText(model.getValueAt(selectedRow, 7).toString());
         status.setSelectedItem(model.getValueAt(selectedRow, 8).toString());
 
         return true;
@@ -156,45 +161,47 @@ public class employeeService {
         String eEmail = email.getText().trim();
         Object ePosition = position.getSelectedItem().toString();
         Object eStatus = status.getSelectedItem().toString();
-
-        // Lấy ngày và định dạng
         Date selectedDate = hiringDate.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = (selectedDate != null) ? sdf.format(selectedDate) : "N/A";
+        Date today = new Date();
+        String sal = salary.getText().trim();
 
-        double salaryValue = Double.parseDouble(salary.getText().trim());
-
-        // Kiểm tra các giá trị có rỗng không
         if (eGender == null || ePosition == null || eStatus == null ||
             fName.isEmpty() || pNumber.isEmpty() || eEmail.isEmpty() || 
-            salary.getText().trim().isEmpty() || formattedDate == null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin trước khi cập nhật!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            sal.isEmpty() || selectedDate == null) {
+            
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin trước khi thêm!", 
+                                            "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if( !ScannerUtil.isValidFullName(fName) ) {
+            return false;
+        }
+        
+        if( selectedDate.after(today) ) {
+            JOptionPane.showMessageDialog(null, "Ngày tuyển dụng không thể lớn hơn ngày hôm nay", 
+                                            "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        // Kiểm tra lương hợp lệ
-        try {
-            salaryValue = Double.parseDouble(salary.getText().trim());
-            if (salaryValue <= 0) {
-                JOptionPane.showMessageDialog(null, "Lương phải lớn hơn 0!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+        if( !ScannerUtil.validateDouble(sal, "Lương" ) ) {
+            return false;
+        } else { 
+            double salaryValue = Double.parseDouble(salary.getText().trim());
+            if (salaryValue <= 3000000) {
+                JOptionPane.showMessageDialog(null, "Lương phải lớn hơn 3.000.000!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Lương phải là một số hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+        } 
 
-        // Kiểm tra số điện thoại hợp lệ
         if (!ScannerUtil.validatePhoneNumber(pNumber)) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại phải có đúng 10 chữ số!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
-        // Kiểm tra email hợp lệ
         if (!ScannerUtil.validateEmail(eEmail)) {
-            JOptionPane.showMessageDialog(null, "Email không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        
         return true;
     }
 

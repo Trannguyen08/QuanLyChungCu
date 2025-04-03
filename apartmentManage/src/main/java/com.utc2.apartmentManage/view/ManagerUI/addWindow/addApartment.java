@@ -86,7 +86,7 @@ public class addApartment extends javax.swing.JFrame {
 
         roomNum.setBackground(new java.awt.Color(250, 250, 250));
         roomNum.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        roomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", " " }));
+        roomNum.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
 
         status.setBackground(new java.awt.Color(250, 250, 250));
         status.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N

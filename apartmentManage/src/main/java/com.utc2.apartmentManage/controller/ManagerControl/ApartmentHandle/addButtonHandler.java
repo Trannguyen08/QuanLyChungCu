@@ -2,11 +2,9 @@ package main.java.com.utc2.apartmentManage.controller.ManagerControl.ApartmentHa
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import main.java.com.utc2.apartmentManage.model.Apartment;
 import main.java.com.utc2.apartmentManage.service.managerService.apartmentService;
@@ -54,24 +52,13 @@ public class addButtonHandler {
         });
 
     }
-    
+
     private void selectImages() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setMultiSelectionEnabled(true);
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Hình ảnh", "jpg", "png", "jpeg"));
-
-        int returnValue = fileChooser.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            File[] selectedFiles = fileChooser.getSelectedFiles();
-            selectedImageNames.clear(); // Xóa danh sách cũ để tránh lưu trùng
-
-            for (File file : selectedFiles) {
-                selectedImageNames.add(file.getAbsolutePath());
-            }
-
-            JOptionPane.showMessageDialog(null, "Đã chọn " + selectedImageNames.size() + " ảnh.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        if( !apartmentService.selectImages(selectedImageNames, 4) ) {
+            return;
         }
     }
+
 
     // Bước 2: Thêm căn hộ -> lấy ID -> thêm ảnh vào DB
     private void addNewApartment() {

@@ -146,8 +146,8 @@ public class apartmentRepository {
              PreparedStatement pstmt = con.prepareStatement(query);
              ResultSet res = pstmt.executeQuery()) {
 
-            while( res.next() ) {
-                apartmentList.add( new Apartment(
+            while (res.next()) {
+                apartmentList.add(new Apartment(
                         res.getInt("apartment_id"),
                         res.getInt("apartmentIndex"),
                         res.getInt("floor"),
@@ -164,26 +164,6 @@ public class apartmentRepository {
         }
         return apartmentList;
     }
-
-    public boolean saveApartmentImages(int apartmentID, List<String> imagePaths) {
-        String sql = "INSERT INTO apartment_images (apartment_id, image_url) VALUES (?, ?)";
-
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            for (String path : imagePaths) {
-                stmt.setInt(1, apartmentID);
-                stmt.setString(2, path);
-                stmt.addBatch();
-            }
-            stmt.executeBatch();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
     public List<Apartment> getApartmentsByFilter(int apartmentID, int apartmentIndex, String building, Double fromArea, Double toArea,
                                              Double fromRentPrice, Double toRentPrice, Double fromBuyPrice, Double toBuyPrice,
@@ -275,6 +255,24 @@ public class apartmentRepository {
             e.printStackTrace();
         }
         return apartments;
+    }
+
+    public List<String> getImageByID(int id) {
+        List<String> imgList = new ArrayList<>();
+        String sql = "SELECT image_url FROM apartment_images WHERE apartment_id = ?";
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                imgList.add(rs.getString("image_url"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return imgList;
     }
 
 
