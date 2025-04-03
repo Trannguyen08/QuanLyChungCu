@@ -23,7 +23,7 @@ CREATE TABLE apartments (
 );
 
 CREATE TABLE apartment_images (
-    image_id INT PRIMARY KEY,
+	img_id INT PRIMARY KEY,
     apartment_id INT NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE
@@ -107,10 +107,31 @@ CREATE TABLE notifications (
     FOREIGN KEY (recipient_id) REFERENCES residents(resident_id) ON DELETE CASCADE  
 );
 
-INSERT INTO apartments (apartmentIndex, floor, building, num_rooms, status, area, rent_price, purchase_price)
-VALUES
-( 1, 1, 'A', 3, 'Đã thuê', 55, 5500000, 4500000000),
-( 2, 1, 'A', 2, 'Đã mua', 60.0, 5000000, 4000000000),
-( 3, 2, 'B', 4, 'Trống', 62, 6500000, 8000000000);
+-- Thêm 4 tài khoản
+INSERT INTO accounts (id, username, password, email, phoneNum, role) VALUES
+(1, 'user1', 'password1', 'user1@example.com', '0987654321', 'user'),
+(2, 'user2', 'password2', 'user2@example.com', '0987654322', 'user'),
+(3, 'user3', 'password3', 'manager1@example.com', '0987654323', 'user'),
+(4, 'user4', 'password4', 'admin1@example.com', '0987654324', 'user');
+
+-- Thêm 4 căn hộ
+INSERT INTO apartments (apartment_id, apartmentIndex, floor, building, num_rooms, status, area, rent_price, purchase_price) VALUES
+(101, 1, 3, 'A', 2, 'Đã thuê', 75.50, 5000000.00, 2700000000.00),
+(102, 2, 5, 'A', 3, 'Đã thuê', 85.00, 6000000.00, 3700000000.00),
+(103, 3, 2, 'B', 4, 'Đã bán', 95.75, 8000000, 6000000000.00),
+(104, 4, 7, 'C', 1, 'Bảo trì', 55.00, 4000000.00, 2500000000.00);
+
+-- Thêm 3 cư dân
+INSERT INTO residents (resident_id, apartment_id, user_id, full_name, gender, date_of_birth, phoneNum, id_card, email) VALUES
+(201, 102, 1, 'Nguyễn Văn A', 'Nam', '1990-05-15', '0987111222', '123456789012', 'nguyenvana@example.com'),
+(202, 103, 2, 'Trần Thị B', 'Nữ', '1985-07-20', '0987111333', '234567890123', 'tranthib@example.com'),
+(203, 101, 3, 'Lê Văn C', 'Nam', '1992-11-30', '0987111444', '345678901234', 'levanc@example.com');
+
+-- Thêm 3 hợp đồng
+INSERT INTO contracts (contract_id, apartment_id, resident_id, contract_type, start_date, end_date, contract_value, payment_status, contract_status) VALUES
+(301, 102, 201, 'Cho thuê', '2024-01-01', '2025-01-01', 6000000.00, 'Đã thanh toán', 'Hiệu lực'),
+(302, 103, 202, 'Mua bán', '2023-06-01', NULL, 1500000000.00, 'Trả góp', 'Hiệu lực'),
+(303, 101, 203, 'Cho thuê', '2024-03-01', '2025-03-01', 5000000.00, 'Chưa thanh toán', 'Hiệu lực');
+
 
 
