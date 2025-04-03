@@ -1,8 +1,7 @@
 
 package main.java.com.utc2.apartmentManage.controller.ManagerControl.EmployeeHandle;
 
-import util.ScannerUtil;
-
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;

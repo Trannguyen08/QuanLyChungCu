@@ -1,7 +1,6 @@
 package main.java.com.utc2.apartmentManage.service.managerService;
 
 
-import util.ScannerUtil;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -15,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import main.java.com.utc2.apartmentManage.model.Contract;
 import main.java.com.utc2.apartmentManage.repository.managerRepository.contractRepository;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
+
 
 public class contractService {
     private final contractRepository contractDAO = new contractRepository();
@@ -99,17 +100,17 @@ public class contractService {
                                       JComboBox<String> contractType) {
 
         if (    (contractID.getText() != null && !contractID.getText().trim().isEmpty() &&
-                        ScannerUtil.validateInteger(contractID.getText().trim(), "ID hợp đồng")) ||
+                        !ScannerUtil.validateInteger(contractID.getText().trim(), "ID hợp đồng")) ||
                 (fromValue.getText() != null && !fromValue.getText().trim().isEmpty() &&
-                        ScannerUtil.validateDouble(fromValue.getText().trim(), "Giá trị hợp đồng")) ||
+                        !ScannerUtil.validateDouble(fromValue.getText().trim(), "Giá trị hợp đồng")) ||
                 (toValue.getText() != null && !toValue.getText().trim().isEmpty() &&
-                        ScannerUtil.validateDouble(toValue.getText().trim(), "Giá trị hợp đồng")) ) {
+                        !ScannerUtil.validateDouble(toValue.getText().trim(), "Giá trị hợp đồng")) ) {
             
             return false;
         }
 
         if (  !fromValue.getText().trim().isEmpty() && !toValue.getText().trim().isEmpty() &&
-              ScannerUtil.validateRange(fromValue.getText().trim(), toValue.getText().trim(), "Giá trị hợp đồng") ) {
+              !ScannerUtil.validateRange(fromValue.getText().trim(), toValue.getText().trim(), "Giá trị hợp đồng") ) {
             
             return false;
         }
@@ -147,13 +148,9 @@ public class contractService {
     
     public boolean filterContracts(Contract contract, JDateChooser startDate, 
                                           JDateChooser endDate, double fromValue, double toValue, JTable table){
+        
         List<Contract> contractList = contractDAO.getFilteredContracts(contract, startDate, endDate, fromValue, toValue);
-        
-        if (contractList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy hợp đồng nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return false;
-        }
-        
+          
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);
         model.setRowCount(0);
@@ -197,5 +194,29 @@ public class contractService {
             });
         }
     }
+    
+    public boolean checkAllNull(JTextField id, JTextField ownerName, JTextField fromValue, JTextField toValue,
+                                       JDateChooser startDate, JDateChooser endDate, 
+                                        JComboBox<String> contractStatus, JComboBox<String> contractType ) {
+
+        if (ownerName.getText().isEmpty() || fromValue.getText().isEmpty() || toValue.getText().isEmpty() 
+                || contractStatus.getSelectedItem().toString().trim().isEmpty()
+                || contractType.getSelectedItem().toString().trim().isEmpty() ) {
+            return true;
+        }
+
+        if( id.getText().trim().isEmpty() ) {
+            return true;
+        }
+
+        Date start = startDate.getDate();
+        Date end = endDate.getDate();
+        if (start == null || end == null) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 }

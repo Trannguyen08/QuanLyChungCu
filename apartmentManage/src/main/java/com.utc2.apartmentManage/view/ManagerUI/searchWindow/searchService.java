@@ -1,6 +1,5 @@
 package main.java.com.utc2.apartmentManage.view.ManagerUI.searchWindow;
 
-import controller.ManagerControl.ServicesHandle.searchIconHandler;
 
 import javax.swing.*;
 
@@ -9,7 +8,6 @@ public class searchService extends javax.swing.JFrame {
 
     public searchService(JTable table) {
         initComponents();
-        searchIconHandler search = new searchIconHandler(ServiceID, ServiceName, ServicePrice, ServiceUnit, ServiceType, table, this, SearchBtt);
         this.setLocationRelativeTo(null);
         this.setTitle("Tìm kiếm thông báo");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

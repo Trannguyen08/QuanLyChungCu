@@ -6,16 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import main.java.com.utc2.apartmentManage.model.Apartment;
 import main.java.com.utc2.apartmentManage.service.managerService.apartmentService;
+import main.java.com.utc2.apartmentManage.view.ManagerUI.editWindow.editImages;
 
 public class editButtonHandler {
-    private JButton editBtn;
+    private JButton editBtn, editImg;
     private JComboBox<String> apartmentIndex, building, floor, roomNum, status;
     private JTextField area, buyPrice, rentPrice;
     private JTable table;
     private JFrame edit;
     private final apartmentService apartmentservice = new apartmentService();
     
-    public editButtonHandler(JButton addBtn, JComboBox<String> apartmentIndex, JTextField area,
+    public editButtonHandler(JButton editImg, JButton addBtn, JComboBox<String> apartmentIndex, JTextField area,
                        JComboBox<String> building, JTextField buyPrice, JComboBox<String> floor, 
                        JTextField rentPrice, JComboBox<String> roomNum, JComboBox<String> status, JTable table, JFrame edit) {
         this.editBtn = addBtn;
@@ -29,11 +30,20 @@ public class editButtonHandler {
         this.status = status;
         this.table = table;
         this.edit = edit;
+        this.editImg = editImg;
 
         this.editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateSelectedRow();
+                new editImages(table).addImage();
+            }
+        });
+
+        this.editImg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadImage();
             }
         });
     }
@@ -90,6 +100,10 @@ public class editButtonHandler {
         model.setValueAt(apartment.getArea(), rowIndex, 6);
         model.setValueAt(apartment.getRentPrice(), rowIndex, 7);
         model.setValueAt(apartment.getPurchasePrice(), rowIndex, 8);
+    }
+
+    private void loadImage() {
+        new editImages(table).setVisible(true);
     }
 
 }

@@ -1,15 +1,18 @@
 package main.java.com.utc2.apartmentManage.service.managerService;
 
 import java.awt.Font;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import util.ScannerUtil;
+import main.java.com.utc2.apartmentManage.repository.managerRepository.apartmentImageRepository;
+import main.java.com.utc2.apartmentManage.util.ScannerUtil;
 import java.util.List;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import main.java.com.utc2.apartmentManage.model.Apartment;
 import main.java.com.utc2.apartmentManage.repository.managerRepository.apartmentRepository;
+
 
 public class apartmentService {
     private final apartmentRepository apartmentDAO = new apartmentRepository();
@@ -42,6 +45,11 @@ public class apartmentService {
     // check xem căn hộ đã có chủ chưa
     public boolean isHaveOwner(int id) {
         return apartmentDAO.isHaveOwner(id);
+    }
+
+    // lấy danh sách hình ảnh có id == id đã cho
+    public List<String> getAllImageByID(int id) {
+        return apartmentDAO.getImageByID(id);
     }
     
     
@@ -216,27 +224,27 @@ public class apartmentService {
 
 
         if (    (apartmentID.getText() != null && !isIDEmpty &&
-                        ScannerUtil.validateInteger(apartmentID.getText().trim(), "ID căn hộ")) ||
+                        !ScannerUtil.validateInteger(apartmentID.getText().trim(), "ID căn hộ")) ||
                 (fromArea.getText() != null && !isFromAreaEmpty &&
-                        ScannerUtil.validateDouble(fromArea.getText().trim(), "Diện tích")) ||
+                        !ScannerUtil.validateDouble(fromArea.getText().trim(), "Diện tích")) ||
                 (toArea.getText() != null && !isToAreaEmpty &&
-                        ScannerUtil.validateDouble(toArea.getText().trim(), "Diện tích")) ||
+                        !ScannerUtil.validateDouble(toArea.getText().trim(), "Diện tích")) ||
                 (fromRentPrice.getText() != null && !isFromRentPriceEmpty &&
-                        ScannerUtil.validateDouble(fromRentPrice.getText().trim(), "Giá thuê")) ||
+                        !ScannerUtil.validateDouble(fromRentPrice.getText().trim(), "Giá thuê")) ||
                 (toRentPrice.getText() != null && !isToRentPriceEmpty &&
-                        ScannerUtil.validateDouble(toRentPrice.getText().trim(), "Giá thuê")) ||
+                        !ScannerUtil.validateDouble(toRentPrice.getText().trim(), "Giá thuê")) ||
                 (fromBuyPrice.getText() != null && !isFromBuyPriceEmpty &&
-                        ScannerUtil.validateDouble(fromBuyPrice.getText().trim(), "Giá mua")) ||
+                        !ScannerUtil.validateDouble(fromBuyPrice.getText().trim(), "Giá mua")) ||
                 (toBuyPrice.getText() != null && !isToBuyPriceEmpty &&
-                        ScannerUtil.validateDouble(toBuyPrice.getText().trim(), "Giá mua")) ||
+                        !ScannerUtil.validateDouble(toBuyPrice.getText().trim(), "Giá mua")) ||
                 (fromFloor.getSelectedItem() != null && !isFromFloorEmpty &&
-                        ScannerUtil.validateDouble(fromFloor.getSelectedItem().toString().trim(), "Tầng")) ||
+                        !ScannerUtil.validateDouble(fromFloor.getSelectedItem().toString().trim(), "Tầng")) ||
                 (toFloor.getSelectedItem() != null && !isToFloorEmpty &&
-                        ScannerUtil.validateDouble(toFloor.getSelectedItem().toString().trim(), "Tầng")) ||
+                        !ScannerUtil.validateDouble(toFloor.getSelectedItem().toString().trim(), "Tầng")) ||
                 (fromRoomNum.getSelectedItem() != null && !isFromRoomNumEmpty &&
-                        ScannerUtil.validateDouble(fromRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ||
+                        !ScannerUtil.validateDouble(fromRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ||
                 (toRoomNum.getSelectedItem() != null && !isToRoomNumEmpty &&
-                        ScannerUtil.validateDouble(toRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ) {
+                        !ScannerUtil.validateDouble(toRoomNum.getSelectedItem().toString().trim(), "Số phòng")) ) {
 
             return false;
         }
@@ -274,7 +282,33 @@ public class apartmentService {
     }
     
     public boolean saveApartmentImages(int apartmentID, List<String> imagePaths) {
-        return apartmentDAO.saveApartmentImages(apartmentID, imagePaths);
+        return new apartmentImageRepository().saveApartmentImages(apartmentID, imagePaths);
+    }
+    
+    public boolean selectImages(List<String> selectedImageNames, int maxImgAccept) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setMultiSelectionEnabled(true);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Hình ảnh", "jpg", "png", "jpeg"));
+
+        int returnValue = fileChooser.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File[] selectedFiles = fileChooser.getSelectedFiles();
+
+            if (selectedFiles.length > maxImgAccept) {
+                JOptionPane.showMessageDialog(null, "Chỉ được chọn tối đa " + maxImgAccept + " ảnh!", 
+                                            "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+                return false;
+            }
+
+            selectedImageNames.clear();
+            for (File file : selectedFiles) {
+                selectedImageNames.add(file.getAbsolutePath());
+            }
+
+            JOptionPane.showMessageDialog(null, "Đã chọn " + selectedImageNames.size() + " ảnh.",
+                                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        return true;
     }
 
 }

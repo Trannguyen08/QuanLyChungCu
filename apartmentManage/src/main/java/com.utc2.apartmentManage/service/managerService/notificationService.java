@@ -2,7 +2,6 @@ package main.java.com.utc2.apartmentManage.service.managerService;
 
 import java.util.ArrayList;
 import java.awt.Font;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.com.utc2.apartmentManage.repository.managerRepository.notifiRepository;

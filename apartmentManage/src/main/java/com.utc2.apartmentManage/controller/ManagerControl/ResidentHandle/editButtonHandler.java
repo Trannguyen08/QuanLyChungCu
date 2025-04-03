@@ -67,6 +67,10 @@ public class editButtonHandler {
         Resident resident = new Resident(id, fullName.getText().trim(), gender.getSelectedItem().toString(), sqlDate,
                                         phoneNumber.getText().trim(),email.getText().trim(), idCard.getText().trim(),
                                         Integer.parseInt(apartmentID.getText().trim()));
+        // check trùng
+        if( !residentService.isDuplicate(resident) ) {
+            return;
+        }
         
         // check update và update table
         if( residentService.updateResident(resident) ) {
