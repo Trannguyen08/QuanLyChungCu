@@ -3,15 +3,81 @@ package main.java.utc2_apartmentManage.service.userService;
 
 import main.java.utc2_apartmentManage.repository.UserRepository.billRepository;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Font;
+import java.text.NumberFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import main.java.utc2_apartmentManage.model.Bill;
 import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 public class billService {
     private final billRepository billDAO = new billRepository();
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
+
+  
+    // load dữ liệu vào bảng
+    public void setupBilltTable(JTable table) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        List<Bill> billList = billDAO.getAllBills();
+
+        for (Bill bill : billList) {
+            model.addRow(new Object[]{
+                bill.getBillId(), 
+                bill.getApartmentId(), 
+                bill.getTotalAmount(),
+                bill.getBillDate(), 
+                bill.getDueDate(), 
+                bill.getStatus()
+            });
+        }
+
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 15));
+        
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    
+    // check select từ table
+    public boolean notification(JTable table) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        if (model == null) {
+            JOptionPane.showMessageDialog(null, "Lỗi: Dữ liệu bảng chưa được khởi tạo.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+
+    // lấy id
+    public Integer getBillId(JTable table) {
+        notification(table);
+        int selectedRow = table.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        Object value = model.getValueAt(selectedRow, 0);
+        try {
+            return Integer.valueOf(value.toString());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ID không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
 
     public boolean checkSelectRow(JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -52,6 +118,10 @@ public class billService {
             !ScannerUtil.validateInteger(billId.getText().trim(), "ID hóa đơn")) {
             return false;
         }
+        if (apartmentId.getText() != null && !apartmentId.getText().trim().isEmpty() &&
+            !ScannerUtil.validateInteger(apartmentId.getText().trim(), "ID căn hộ")) {
+            return false;
+        }
         if (totalAmount.getText() != null && !totalAmount.getText().trim().isEmpty() &&
             !ScannerUtil.validateDouble(totalAmount.getText().trim(), "Tổng số tiền hóa đơn")) {
             return false;
@@ -76,10 +146,9 @@ public class billService {
         return true;
     }
     
-    public boolean filterBills(Bill bill, double totalAmoun, double to_totalAmount, 
-                               JDateChooser billDate, JDateChooser dueDate, JTable table) {
+    public boolean filterBills(Bill bill, double totalAmoun, double to_totalAmount, JTable table) {
 
-        List<Bill> billList = billDAO.getFilteredBills(bill, totalAmoun, to_totalAmount, billDate, dueDate);
+        List<Bill> billList = billDAO.getFilteredBills(bill, totalAmoun, to_totalAmount);
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);  

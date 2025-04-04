@@ -112,8 +112,7 @@ public class searchIconHandler {
         Bill bill = new Bill(id, apartmentIdInt, minTotalAmount, 
                              "", "", status.getSelectedItem().toString().trim());
 
-        boolean checkRun = billService.filterBills(bill, minTotalAmount, maxTotalAmount, 
-                                         billDate, dueDate, table);
+        boolean checkRun = billService.filterBills(bill, minTotalAmount, maxTotalAmount, table);
         
         frame.setVisible(false);
         JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 

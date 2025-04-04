@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 import main.java.utc2_apartmentManage.service.export.Excel;
 import main.java.utc2_apartmentManage.service.export.PDF;
 import main.java.utc2_apartmentManage.service.userService.billService;
-import main.java.utc2_apartmentManage.view.UserUI.Pages.searchBill;
+import main.java.utc2_apartmentManage.view.ManagerUI.searchWindow.searchBill;
+
 public class BillHandler {
     private JButton pdfBtn, searchButton, searchIcon;
     private JTextField searchField;
@@ -18,7 +21,7 @@ public class BillHandler {
     private JPanel panel;
     private final billService billService = new billService();
 
-    public BillHandler( JButton pdfBtn,JButton searchButton, JButton searchIcon, 
+    public BillHandler( JButton pdfBtn, JButton searchButton, JButton searchIcon, 
                       JTextField searchField, JTable table, JPanel panel) {
       
         this.pdfBtn = pdfBtn;
@@ -38,7 +41,7 @@ public class BillHandler {
         this.searchIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchIconClick();
+                searchInconClick();
             }
         });
 
@@ -49,7 +52,8 @@ public class BillHandler {
                 pdfBtnClick();
             }
         });
-
+        placeHolder();
+        billService.setupBilltTable(table);
     }
 
     private void pdfBtnClick() {
@@ -82,7 +86,7 @@ public class BillHandler {
             e.printStackTrace();
         }
 
-        // Xuất hợp đồng
+        // Xuất hóa đơn
         PDF.exportContractToPDF(fullFilePath, id);
 
         // Kiểm tra xem file có tồn tại sau khi xuất
@@ -94,14 +98,29 @@ public class BillHandler {
         }
     }
 
-
-
-    private void searchButtonClick() {
-        searchButtonHandler handler = new searchButtonHandler(searchField, searchButton, table);
-        handler.searchBtnClick();
-    }
-    private void searchIconClick() {
+    private void searchInconClick() {
         new searchBill(table).setVisible(true);
+    }
+    
+    private void searchButtonClick() {
+        String id = searchField.getText().trim();
+        if( id.equals("Nhập id hóa đơn...") || id.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị cho ô tìm kiếm",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if( !ScannerUtil.validateInteger(id, "Ô tìm kiếm") ) {
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + id, 0));
+        if (table.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     private void placeHolder() {
@@ -125,5 +144,5 @@ public class BillHandler {
             }
         });
     }
-     
+
 }

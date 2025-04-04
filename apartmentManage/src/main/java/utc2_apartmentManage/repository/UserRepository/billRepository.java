@@ -8,9 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import main.java.utc2_apartmentManage.model.Bill;
 import main.java.utc2_apartmentManage.databaseConnect.ConnectDB;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class billRepository {
@@ -43,8 +45,7 @@ public class billRepository {
         }
         return billList;
     }
-    public List<Bill> getFilteredBills(Bill bill, double totalAmoun, double to_totalAmount, 
-                                     JDateChooser billDate, JDateChooser dueDate) {
+    public List<Bill> getFilteredBills(Bill bill, double totalAmoun, double to_totalAmount) {
         List<Bill> bills = new ArrayList<>();
         String sql = ("SELECT b.bill_id, b.apartment_id, b.total_amount," +
                                                 " b.bill_date, b.due_date, b.status " +
@@ -69,13 +70,13 @@ public class billRepository {
         }
         // Lọc theo khoảng ngày từ JDateChooser
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        if (billDate.getDate() != null) {
+        if (bill.getBillDate() != null) {
             sql += " AND cb.due_date >= ?";
-            parameters.add(dateFormat.format(billDate.getDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(bill.getBillDate()));
         }
-        if (dueDate.getDate() != null) {
+        if (bill.getDueDate()!= null)  {
             sql += " AND b.due_date <= ?";
-            parameters.add(dateFormat.format(dueDate.getDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(bill.getDueDate()));
         }
         // Lọc theo khoảng giá trị hợp đồng
         if (totalAmoun >= 0 && to_totalAmount > 0) {  
@@ -97,8 +98,8 @@ public class billRepository {
                     rs.getInt("bill_id"),
                     rs.getInt("apartment_id"),
                     rs.getDouble("total_amount"),
-                    rs.getString("bill_date"),
-                    rs.getString("due_date"),
+                    ScannerUtil.convertDateFormat2(rs.getString("bill_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("due_date")),
                     rs.getString("status")
                 ));
             }
@@ -128,8 +129,8 @@ public class billRepository {
                      rs.getInt("bill_id"),
                      rs.getInt("apartment_id"),
                      rs.getDouble("total_amount"),
-                     rs.getString("bill_date"),
-                     rs.getString("due_date"),
+                    ScannerUtil.convertDateFormat2(rs.getString("bill_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("due_date")),
                      rs.getString("status")
                  ));
         }
