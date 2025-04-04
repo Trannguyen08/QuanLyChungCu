@@ -7,11 +7,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import main.java.utc2_apartmentManage.model.Contract;
 import main.java.utc2_apartmentManage.repository.managerRepository.contractRepository;
 import main.java.utc2_apartmentManage.util.ScannerUtil;
@@ -19,6 +22,7 @@ import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 public class contractService {
     private final contractRepository contractDAO = new contractRepository();
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
     public boolean checkSelectRow(JTable table) {
         int selectedRow = table.getSelectedRow();
@@ -72,7 +76,7 @@ public class contractService {
         for( Contract contract : contractList ) {
             model.addRow(new Object[] {contract.getId(), contract.getOwnerName(), contract.getApartmentIndex(),
                     contract.getContractType(), contract.getStartDate(), contract.getEndDate(),
-                    contract.getContractValue(), contract.getContractStatus()});
+                    df.format(contract.getContractValue()), contract.getContractStatus()});
         }
 
         JTableHeader header = table.getTableHeader();
@@ -146,8 +150,8 @@ public class contractService {
         return true;
     }
     
-    public boolean filterContracts(Contract contract, JDateChooser startDate, 
-                                          JDateChooser endDate, double fromValue, double toValue, JTable table){
+    public boolean filterContracts(Contract contract, String startDate, 
+                                          String endDate, double fromValue, double toValue, JTable table){
         
         List<Contract> contractList = contractDAO.getFilteredContracts(contract, startDate, endDate, fromValue, toValue);
           

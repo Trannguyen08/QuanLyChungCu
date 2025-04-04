@@ -3,8 +3,6 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.EmployeeHandle;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import main.java.utc2_apartmentManage.service.managerService.employeeService;
 import main.java.utc2_apartmentManage.view.ManagerUI.Pages.Employee;
 
@@ -20,18 +18,8 @@ public class deleteButtonHandler {
         this.table = table;
         this.panel = panel;
         
-        for (ActionListener al : deleteBtn.getActionListeners()) {
-            deleteBtn.removeActionListener(al);
-        }
-
-        this.deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedRow();
-            }
-        });
     }
-    private void deleteSelectedRow() {
+    public void deleteSelectedRow() {
         Integer id = employeeService.getEmployeeId(table);
         if( id == null ) {
             return;

@@ -9,9 +9,10 @@ public class Apartment {
     private String status;
     private double area;
     private double rentPrice;
-    private long purchasePrice;
+    private double purchasePrice;
 
-    public Apartment(int id, int index, int floor, String building, int numRooms, String status, double area, double rentPrice, long purchasePrice) {
+    public Apartment(int id, int index, int floor, String building, int numRooms, String status, 
+                            double area, double rentPrice, double purchasePrice) {
         this.id = id;
         this.index = index;
         this.floor = floor;
@@ -47,7 +48,7 @@ public class Apartment {
         return numRooms;
     }
 
-    public long getPurchasePrice() {
+    public double getPurchasePrice() {
         return purchasePrice;
     }
 
@@ -83,7 +84,7 @@ public class Apartment {
         this.numRooms = numRooms;
     }
 
-    public void setPurchasePrice(long purchasePrice) {
+    public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 

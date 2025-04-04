@@ -20,7 +20,6 @@ public class EmployeeHandler {
     private JTable table;
     private JPanel panel;
     private JTextField searchField;
-    private deleteButtonHandler deleteHandler;
     private employeeService es = new employeeService();
 
     public EmployeeHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
@@ -33,6 +32,7 @@ public class EmployeeHandler {
         this.searchButton = searchButton;
         this.table = table;
         this.panel = panel;
+        this.searchField = searchField;
 
         
         this.addBtn.addActionListener(new ActionListener() {
@@ -70,7 +70,13 @@ public class EmployeeHandler {
             }
         });
 
-        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
+        this.searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchButtonClick();
+            }
+        });
+        placeHolder();
 
         es.setupEmployeeTable(table);
         
@@ -82,9 +88,9 @@ public class EmployeeHandler {
     }
 
     private void deleteBtnClick() {
-        if (deleteHandler == null) {
-            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
-        }
+        deleteButtonHandler deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
+        deleteHandler.deleteSelectedRow();
+
     }
 
     private void excelBtnClick() {
@@ -104,6 +110,33 @@ public class EmployeeHandler {
 
     private void searchInconClick() {
         new searchEmployee(table).setVisible(true);
+    }
+    
+    private void searchButtonClick() {
+        searchButtonHandler sbh = new searchButtonHandler(searchField, searchButton, table);
+        sbh.searchBtnClick();
+    }
+    
+    private void placeHolder() {
+        searchField.setForeground(java.awt.Color.GRAY);
+        searchField.setText("Nhập id, tên nhân viên...");
+        searchField.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Nhập id, tên nhân viên...")) {
+                    searchField.setText("");
+                    searchField.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setForeground(java.awt.Color.GRAY);
+                    searchField.setText("Nhập id, tên nhân viên...");
+                }
+            }
+        });
     }
 
 }

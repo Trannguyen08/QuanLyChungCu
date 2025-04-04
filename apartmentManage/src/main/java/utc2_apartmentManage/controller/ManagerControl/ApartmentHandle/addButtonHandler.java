@@ -2,12 +2,17 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.ApartmentHandle
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.utc2_apartmentManage.model.Apartment;
 import main.java.utc2_apartmentManage.service.managerService.apartmentService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
+
 
 
 public class addButtonHandler {
@@ -19,6 +24,7 @@ public class addButtonHandler {
     private JFrame add;
     private final apartmentService apartmentService = new apartmentService();
     private List<String> selectedImageNames = new ArrayList<>();
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     
     public addButtonHandler(JButton addBtn, JButton addImage, JLabel imglabel, JComboBox<String> apartmentIndex, JTextField area,
                        JComboBox<String> building, JTextField buyPrice, JComboBox<String> floor, 
@@ -71,15 +77,16 @@ public class addButtonHandler {
         String rent = rentPrice.getText().trim();
         String buy = buyPrice.getText().trim();
 
-        boolean check = apartmentService.validateData(apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice );
+        boolean check = apartmentService.validateData(apartmentIndex, floor, building, roomNum, 
+                                                    status, area, rentPrice, buyPrice );
         if( !check ) {
             return;
         }
 
         int id = apartmentService.getIDMin();
         Apartment apartment = new Apartment(id, Integer.parseInt(aIndex.toString()), Integer.parseInt(floorNum.toString()),
-                buildingNum.toString(), Integer.parseInt(roomNumber.toString()), statusVal.toString(),
-                Double.parseDouble(areaVal), Double.parseDouble(rent), Long.parseLong(buy));
+                                buildingNum.toString(), Integer.parseInt(roomNumber.toString()), statusVal.toString(),
+                                ScannerUtil.parseToDouble(areaVal), ScannerUtil.parseToDouble(rent), ScannerUtil.parseToDouble(buy));
 
         if (apartmentService.isDuplicate(apartment, table)) {
             JOptionPane.showMessageDialog(null, "Căn hộ này đã tồn tại trong cùng tầng và tòa nhà!", "Lỗi trùng lặp", JOptionPane.ERROR_MESSAGE);
@@ -97,7 +104,8 @@ public class addButtonHandler {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         Apartment a = apartmentService.getLastRow();
         model.addRow(new Object[] {a.getId(), a.getIndex(), a.getFloor(), a.getBuilding(), a.getNumRooms(), 
-                                    a.getStatus(),a.getArea(), a.getRentPrice(), a.getPurchasePrice()});
+                                    a.getStatus(),df.format(a.getArea()), df.format(a.getRentPrice()), 
+                                    df.format(a.getPurchasePrice())});
 
         // Thêm ảnh vào DB (sau khi thêm căn hộ)
         boolean isImageSaved = apartmentService.saveApartmentImages(a.getId(), selectedImageNames);

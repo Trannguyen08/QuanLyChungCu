@@ -214,7 +214,7 @@ public class editResident extends javax.swing.JFrame {
         editBtn.setText("Cập Nhật");
         editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        birthDate.setDateFormatString("yyyy-MM-dd");
+        birthDate.setDateFormatString("dd/MM/yyyy");
         birthDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -303,7 +303,6 @@ public class editResident extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed

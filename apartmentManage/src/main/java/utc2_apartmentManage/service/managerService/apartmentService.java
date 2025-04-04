@@ -2,11 +2,13 @@ package main.java.utc2_apartmentManage.service.managerService;
 
 import java.awt.Font;
 import java.io.File;
+import java.text.NumberFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.utc2_apartmentManage.repository.managerRepository.apartmentImageRepository;
 import main.java.utc2_apartmentManage.util.ScannerUtil;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
@@ -16,6 +18,7 @@ import main.java.utc2_apartmentManage.repository.managerRepository.apartmentRepo
 
 public class apartmentService {
     private final apartmentRepository apartmentDAO = new apartmentRepository();
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
     //update database
     public boolean updateApartment(Apartment apartment) {
@@ -66,7 +69,8 @@ public class apartmentService {
         for( Apartment apartment : apartmentList ) {
             model.addRow(new Object[] {apartment.getId(), apartment.getIndex(), apartment.getFloor(),
                     apartment.getBuilding(), apartment.getNumRooms(), apartment.getStatus(),
-                    apartment.getArea(), apartment.getRentPrice(), apartment.getPurchasePrice()});
+                    df.format(apartment.getArea()), df.format(apartment.getRentPrice()), 
+                    df.format(apartment.getPurchasePrice())});
         }
 
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,8 +157,11 @@ public class apartmentService {
         roomNum.setSelectedItem(model.getValueAt(selectedRow, 4).toString());
         status.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
         area.setText(model.getValueAt(selectedRow, 6).toString());
-        rentPrice.setText(model.getValueAt(selectedRow, 7).toString());
-        buyPrice.setText(model.getValueAt(selectedRow, 8).toString());
+        String rentPriceText = model.getValueAt(selectedRow, 7).toString().replace(".", "");
+        String buyPriceText = model.getValueAt(selectedRow, 8).toString().replace(",", ".");
+
+        rentPrice.setText(rentPriceText);
+        buyPrice.setText(buyPriceText);
 
         return true;
     }
@@ -185,7 +192,7 @@ public class apartmentService {
         if (!ScannerUtil.validateDouble(areaVal, "Diện tích")) {
             return false;
         }
-        if (!ScannerUtil.spaceDouble(areaVal, 50, 80, "Diện tích")) {
+        if (!ScannerUtil.spaceDouble(areaVal, 50, 90, "Diện tích")) {
             return false;
         }
 
@@ -193,7 +200,7 @@ public class apartmentService {
         if (!ScannerUtil.validateDouble(rent, "Giá thuê")) {
             return false;
         }
-        if (!ScannerUtil.spaceDouble(rent, 5e6, 1.5e7, "Giá thuê")) {
+        if (!ScannerUtil.spaceDouble(rent, 4e6, 1.5e7, "Giá thuê")) {
             return false;
         }
 
@@ -201,7 +208,7 @@ public class apartmentService {
         if (!ScannerUtil.validateDouble(buy, "Giá mua")) {
             return false;
         }
-        if (!ScannerUtil.spaceDouble(buy, 2.5e9, 10e9, "Giá mua")) {
+        if (!ScannerUtil.spaceDouble(buy, 2e9, 10e9, "Giá mua")) {
             return false;
         }
         return true;

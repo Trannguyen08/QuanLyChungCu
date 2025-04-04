@@ -8,12 +8,12 @@ public class Employee {
     private String phoneNumber;
     private String email;
     private String position;
-    private long salary;
+    private double salary;
     private String hiringDate;
     private String status;
 
     public Employee(int id, String name, String gender, String phoneNumber, String email, String hiringDate,
-                    String position, long salary, String status) {
+                    String position, double salary, String status) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -49,7 +49,7 @@ public class Employee {
         return position;
     }
 
-    public long getSalary() {
+    public double getSalary() {
         return salary;
     }
 
@@ -85,7 +85,7 @@ public class Employee {
         this.position = position;
     }
 
-    public void setSalary(long salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 

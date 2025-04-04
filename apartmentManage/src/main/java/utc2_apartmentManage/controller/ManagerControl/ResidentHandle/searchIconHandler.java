@@ -10,6 +10,7 @@ import java.util.List;
 import main.java.utc2_apartmentManage.model.Resident;
 import main.java.utc2_apartmentManage.repository.managerRepository.residentRepository;
 import main.java.utc2_apartmentManage.service.managerService.residentService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class searchIconHandler {
@@ -57,31 +58,22 @@ public class searchIconHandler {
         int resID = (residentID.getText().trim().isEmpty()) ? 0 : Integer.parseInt(residentID.getText().trim());
         int aptID = (apartmentID.getText().trim().isEmpty()) ? 0 : Integer.parseInt(apartmentID.getText().trim());
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if (birthDate.getDate() != null && toBirthDate.getDate() == null) {
-                toBirthDate.setDate(new Date()); // Set endDate thành ngày hôm nay
-            } else if (birthDate.getDate() == null && toBirthDate.getDate() != null) {
-                birthDate.setDate(dateFormat.parse("1990-01-01"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date utilDate = birthDate.getDate(); // Có thể là null
-        java.sql.Date sqlDate = null;
-        if (utilDate != null) {
-            sqlDate = new java.sql.Date(utilDate.getTime());
+        String start = ScannerUtil.convertJDateChooserToString(birthDate);
+        String end = ScannerUtil.convertJDateChooserToString(toBirthDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if (birthDate.getDate() == null && toBirthDate.getDate() != null) {
+            start = "01/01/1900";
+        } else if (birthDate.getDate() != null && toBirthDate.getDate() == null) {
+            end = dateFormat.format(new Date());
         }
         
         Resident resident = new Resident(resID, fullName.getText().trim(), 
-                                        gender.getSelectedItem().toString(), sqlDate, 
+                                        gender.getSelectedItem().toString(), start, 
                                         phoneNumber.getText().trim(), email.getText().trim(), 
                                         idCard.getText().trim(), aptID);
         
-        List<Resident> residentList = new residentRepository().getAllFilterResident(resident, toBirthDate.getDate());
+        List<Resident> residentList = new residentRepository().getAllFilterResident(resident, end);
         residentService.addDataToTable(residentList, table);
         frame.setVisible(false);
         if( residentList.isEmpty() ) {

@@ -42,9 +42,9 @@ public class employeeRepository {
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setString(1, employee.getName());
-            pstmt.setString(2, employee.getGender());
-            pstmt.setString(3, employee.getPhoneNumber());
-            pstmt.setString(4, employee.getEmail());
+            pstmt.setString(2, employee.getPhoneNumber());
+            pstmt.setString(3, employee.getEmail());
+            pstmt.setString(4, employee.getGender());
             pstmt.setString(5, employee.getPosition());
             pstmt.setDouble(6, employee.getSalary());
             pstmt.setString(7, employee.getHiringDate());
@@ -113,7 +113,7 @@ public class employeeRepository {
                     res.getString("email"),
                     res.getString("hire_date"),
                     res.getString("position"),
-                    res.getLong("salary"),
+                    res.getDouble("salary"),
                     res.getString("status")
                 };
             }
@@ -140,7 +140,7 @@ public class employeeRepository {
                     res.getString("email"),
                     res.getString("hire_date"),
                     res.getString("position"),
-                    res.getLong("salary"),
+                    res.getDouble("salary"),
                     res.getString("status")
                 );
                 employeeList.add(employee);
@@ -151,6 +151,126 @@ public class employeeRepository {
 
         return employeeList;
     }
+    
+    public List<Employee> getFilteredEmployeeByKeyword(String keyword) {
+        List<Employee> emps = new ArrayList<>();
+        String sql = "SELECT * FROM employees " +   
+                     "WHERE employee_id LIKE ? OR full_name LIKE ?";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "%" + keyword + "%"); 
+            pstmt.setString(2, "%" + keyword + "%"); 
+
+            ResultSet res = pstmt.executeQuery();
+            while (res.next()) {
+                emps.add(new Employee(
+                    res.getInt("employee_id"),
+                    res.getString("full_name"),
+                    res.getString("gender"),
+                    res.getString("phone_number"),
+                    res.getString("email"),
+                    res.getString("hire_date"),
+                    res.getString("position"),
+                    res.getDouble("salary"),
+                    res.getString("status")
+                ));
+            }
+            res.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return emps;
+    }
+    
+    public List<Employee> getAllEmployeeBySearchIcon(Employee emp, String toBirthDay, double toSalary) {
+        
+        String query = "SELECT * FROM employees WHERE 1=1";
+        List<Employee> emps = new ArrayList<>();
+        List<Object> parameter = new ArrayList<>();
+        
+        if( emp.getId() > 0 ) {
+            query += " AND employee_id = ?";
+            parameter.add(emp.getId());
+        }
+        if (emp.getName() != null && !emp.getName().isEmpty()) {
+            query += " AND full_name LIKE ?";
+            parameter.add("%" + emp.getName().trim() + "%");
+        }
+        if (emp.getGender() != null && !emp.getGender().isEmpty()) {
+            query += " AND gender = ?";
+            parameter.add(emp.getGender().trim());
+        }
+        if (emp.getPhoneNumber() != null && !emp.getPhoneNumber().isEmpty()) {
+            query += " AND phoneNum LIKE ?";
+            parameter.add("%" + emp.getPhoneNumber().trim() + "%");
+        }
+        if (emp.getEmail() != null && !emp.getEmail().trim().isEmpty()) {
+            query += " AND email LIKE ?";
+            parameter.add("%" + emp.getEmail().trim() + "%");
+        }
+        if (emp.getPosition() != null && !emp.getPosition().isEmpty()) {
+            query += " AND position = ?";
+            parameter.add(emp.getPosition().trim());
+        }
+        if (emp.getStatus() != null && !emp.getStatus().isEmpty()) {
+            query += " AND status = ?";
+            parameter.add(emp.getStatus().trim());
+        }
+
+        // Xử lý lương trong khoảng
+        if (emp.getSalary() > 0) {
+            query += " AND salary >= ?";
+            parameter.add(emp.getSalary());
+        }    
+        if (toSalary > 0) { 
+            query += " AND salary <= ?";
+            parameter.add(toSalary);
+            
+        }
+
+        // Xử lý ngày sinh trong khoảng
+        if (emp.getHiringDate() != null) {
+            query += " AND hiring_date >= ?";
+            parameter.add(emp.getHiringDate());
+        }
+        if (toBirthDay != null) {
+            query += " AND hiring_date <= ?";
+            parameter.add(toBirthDay);
+        }
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            for (int i = 0; i < parameter.size(); i++) {
+                stmt.setObject(i + 1, parameter.get(i));
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Employee e = new Employee(
+                rs.getInt("employee_id"),
+                rs.getString("full_name"),
+                rs.getString("gender"),
+                rs.getString("phoneNum"),
+                rs.getString("email"),
+                rs.getString("hiring_date"),
+                rs.getString("position"),
+                rs.getDouble("salary"),
+                rs.getString("status"));
+
+                emps.add(e);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return emps;
+    } 
+
 
 
 

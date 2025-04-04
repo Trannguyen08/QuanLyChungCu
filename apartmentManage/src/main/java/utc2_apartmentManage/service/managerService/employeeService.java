@@ -2,11 +2,10 @@ package main.java.utc2_apartmentManage.service.managerService;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.utc2_apartmentManage.repository.managerRepository.employeeRepository;
@@ -18,8 +17,7 @@ import main.java.utc2_apartmentManage.model.Employee;
 
 public class employeeService {
     private final employeeRepository employeeDAO = new employeeRepository();
-    private DecimalFormat df = new DecimalFormat("#,###");
-
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     // validate trùng số điện thoại và email
     public boolean isDuplicate(Employee employee, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -125,7 +123,7 @@ public class employeeService {
     // gán dữ liệu từ dòng đã chọn vào form
     public boolean loadSelectedRowData(JTable table, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                                         JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
-                                        JComboBox<String> status) throws ParseException {
+                                        JComboBox<String> status) {
         boolean error = errorNotifiaction(table);
         if( !error ) {
             return false;
@@ -139,12 +137,14 @@ public class employeeService {
         email.setText(model.getValueAt(selectedRow, 4).toString());
         
         String dateStr = model.getValueAt(selectedRow, 5).toString();        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
-        Date sqlDate = new Date(sdf.parse(dateStr).getTime());
-        hiringDate.setDate(sqlDate);
+        ScannerUtil.setDateChooserFromString(hiringDate, dateStr);
         
         position.setSelectedItem(model.getValueAt(selectedRow, 6).toString());
-        salary.setText(model.getValueAt(selectedRow, 7).toString());
+        
+        String salaryText = model.getValueAt(selectedRow, 7).toString().replace(".", "");
+        salaryText = salaryText.replace(",", ".");
+        salary.setText(salaryText);
+        
         status.setSelectedItem(model.getValueAt(selectedRow, 8).toString());
 
         return true;
@@ -188,8 +188,8 @@ public class employeeService {
             return false;
         } else { 
             double salaryValue = Double.parseDouble(salary.getText().trim());
-            if (salaryValue <= 3000000) {
-                JOptionPane.showMessageDialog(null, "Lương phải lớn hơn 3.000.000!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            if (salaryValue < 3000000 || salaryValue > 20000000) {
+                JOptionPane.showMessageDialog(null, "Lương nhân viên phải nằm trong khoảng từ 3 triệu đến 20 triệu", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         } 
@@ -212,17 +212,18 @@ public class employeeService {
                                        JTextField phoneNumber, JTextField email, JComboBox<String> position,
                                        JTextField salary, JDateChooser hiringDate, JComboBox<String> status,
                                        JTextField toSalary, JDateChooser toHiringDate) {
-        // Kiểm tra giá trị nhập vào có hợp lệ không
+
+        
         if ((!employeeID.getText().trim().isEmpty() && !ScannerUtil.validateInteger(employeeID.getText().trim(), "ID nhân viên")) ||
-            (!fullName.getText().trim().isEmpty() && !ScannerUtil.validateInteger(fullName.getText().trim(), "Họ tên nhân viên")) ||
-            (!salary.getText().trim().isEmpty() && !ScannerUtil.validateDouble(salary.getText().trim(), "Lương")) ||
+            (!fullName.getText().trim().isEmpty() && !ScannerUtil.isValidFullName(fullName.getText().trim())) ||
+            (!salary.getText().trim().isEmpty() && !ScannerUtil.validateDouble(salary.getText().trim(), "Lương tối thiểu")) ||
             (!toSalary.getText().trim().isEmpty() && !ScannerUtil.validateDouble(toSalary.getText().trim(), "Lương tối đa")) ||
             (!phoneNumber.getText().trim().isEmpty() && !ScannerUtil.validatePhoneNumber(phoneNumber.getText().trim())) ||
             (!email.getText().trim().isEmpty() && !ScannerUtil.validateEmail(email.getText().trim()))) {
             return false;
         }
 
-        // Kiểm tra giá trị trong phạm vi hợp lệ
+        
         if ((!salary.getText().trim().isEmpty() && !toSalary.getText().trim().isEmpty() &&
              !ScannerUtil.validateRange(salary.getText().trim(), toSalary.getText().trim(), "Lương")) ||
             (hiringDate.getDate() != null && toHiringDate.getDate() != null &&
@@ -231,6 +232,26 @@ public class employeeService {
         }
 
         return true;
+    }
+    
+    public void updateTable(String keyword, JTable table) {
+        List<Employee> emps = employeeDAO.getFilteredEmployeeByKeyword(keyword);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        table.setRowSorter(null);
+        model.setRowCount(0); 
+
+        if (emps.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        for( Employee emp : emps ) {
+            model.addRow(new Object[]{
+                emp.getId(), emp.getName(), emp.getGender(), emp.getPhoneNumber(),
+                emp.getEmail(), emp.getHiringDate(), emp.getPosition(),
+                df.format(emp.getSalary()), emp.getStatus()
+            });
+        }
     }
 
     

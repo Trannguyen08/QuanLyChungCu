@@ -85,10 +85,10 @@ public class searchResident extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel3.setText("Ngày sinh");
 
-        birthDate.setDateFormatString("yyyy-MM-dd");
+        birthDate.setDateFormatString("dd/MM/yyyy");
         birthDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
-        toBirthDate.setDateFormatString("yyyy-MM-dd");
+        toBirthDate.setDateFormatString("dd/MM/yyyy");
         toBirthDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         jLabel18.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N

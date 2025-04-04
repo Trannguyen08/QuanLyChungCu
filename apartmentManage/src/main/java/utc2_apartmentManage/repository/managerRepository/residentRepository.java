@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import main.java.utc2_apartmentManage.databaseConnect.ConnectDB;
 import main.java.utc2_apartmentManage.model.Resident;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 
@@ -40,7 +41,7 @@ public class residentRepository {
             pstmt.setString(3, resident.getPhoneNumber());
             pstmt.setString(4, resident.getEmail());
             pstmt.setString(5, resident.getIdCard());
-            pstmt.setDate(6, resident.getBirthDate());
+            pstmt.setString(6, ScannerUtil.convertDateFormat1(resident.getBirthDate()));
             pstmt.setString(7, resident.getGender());
             pstmt.setInt(8, resident.getResidentID());
 
@@ -80,7 +81,7 @@ public class residentRepository {
                         res.getInt("resident_id"),
                         res.getString("full_name"),
                         res.getString("gender"),
-                        res.getDate("date_of_birth"),
+                        ScannerUtil.convertDateFormat2(res.getString("date_of_birth")),
                         res.getString("phoneNum"),
                         res.getString("email"),
                         res.getString("id_card"),
@@ -107,7 +108,7 @@ public class residentRepository {
                     res.getInt("resident_id"),
                         res.getString("full_name"),
                         res.getString("gender"),
-                        res.getDate("date_of_birth"),
+                        ScannerUtil.convertDateFormat2(res.getString("date_of_birth")),
                         res.getString("phoneNum"),
                         res.getString("email"),
                         res.getString("id_card"),
@@ -179,7 +180,7 @@ public class residentRepository {
         return false; 
     }
     
-    public List<Resident> getAllFilterResident(Resident resident, Date toDate) {
+    public List<Resident> getAllFilterResident(Resident resident, String toDate) {
         List<Resident> residentList = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM residents WHERE 1=1");
 
@@ -216,11 +217,11 @@ public class residentRepository {
         }
         if (resident.getBirthDate() != null) {
             sql.append(" AND date_of_birth >= ?");
-            params.add(new java.sql.Date(resident.getBirthDate().getTime()));
+            params.add(ScannerUtil.convertDateFormat1(resident.getBirthDate()));
         }
         if (toDate != null) {
             sql.append(" AND date_of_birth <= ?");
-            params.add(new java.sql.Date(toDate.getTime()));
+            params.add(ScannerUtil.convertDateFormat1(toDate));
         }
 
         try (Connection conn = ConnectDB.getConnection();
@@ -237,7 +238,7 @@ public class residentRepository {
                     rs.getInt("resident_id"),
                     rs.getString("full_name"),
                     rs.getString("gender"),
-                    rs.getDate("date_of_birth"),
+                    ScannerUtil.convertDateFormat2(rs.getString("date_of_birth")),
                     rs.getString("phoneNum"),
                     rs.getString("email"),
                     rs.getString("id_card"),

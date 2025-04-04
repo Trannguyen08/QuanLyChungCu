@@ -1,16 +1,15 @@
 package main.java.utc2_apartmentManage.repository.managerRepository;
 
 
-import com.toedter.calendar.JDateChooser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2_apartmentManage.databaseConnect.ConnectDB;
 import main.java.utc2_apartmentManage.model.Contract;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 public class contractRepository {
 
@@ -65,8 +64,8 @@ public class contractRepository {
                         rs.getString("full_name"),
                         rs.getString("indexs"),
                         rs.getString("contract_type"),
-                        rs.getString("start_date"),
-                        rs.getString("end_date"),
+                        ScannerUtil.convertDateFormat2(rs.getString("start_date")),
+                        ScannerUtil.convertDateFormat2(rs.getString("end_date")),
                         rs.getLong("contract_value"),
                         rs.getString("contract_status")
                 ));
@@ -78,8 +77,8 @@ public class contractRepository {
         return contractList;
     }
     
-    public List<Contract> getFilteredContracts(Contract contract, JDateChooser startDate, 
-                                           JDateChooser endDate, double fromValue, double toValue) {
+    public List<Contract> getFilteredContracts(Contract contract, String startDate, 
+                                           String endDate, double fromValue, double toValue) {
         List<Contract> contracts = new ArrayList<>();
         String sql = "SELECT c.contract_id, r.full_name AS resident_name, " +
                      "a.apartmentIndex, a.floor, a.building, " +
@@ -116,16 +115,14 @@ public class contractRepository {
             parameters.add(toValue);
         }
 
-        // Lọc theo khoảng ngày từ JDateChooser
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        if (startDate.getDate() != null) {
+        if (startDate != null) {
             sql += " AND c.start_date >= ?";
-            parameters.add(dateFormat.format(startDate.getDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(startDate));
         }
-        if (endDate.getDate() != null) {
+        if (endDate != null) {
             sql += " AND c.end_date <= ?";
-            parameters.add(dateFormat.format(endDate.getDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(endDate));
         }
 
         // Kết nối DB và thực thi truy vấn
@@ -146,8 +143,8 @@ public class contractRepository {
                     rs.getString("resident_name"),  
                     apartmentInfo,  
                     rs.getString("contract_type"),
-                    rs.getString("start_date"),
-                    rs.getString("end_date"),
+                    ScannerUtil.convertDateFormat2(rs.getString("start_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("end_date")),
                     rs.getLong("contract_value"),  
                     rs.getString("contract_status")
                 ));
@@ -188,8 +185,8 @@ public class contractRepository {
                     rs.getString("resident_name"),
                     apartmentInfo,
                     rs.getString("contract_type"),
-                    rs.getString("start_date"),
-                    rs.getString("end_date"),
+                    ScannerUtil.convertDateFormat2(rs.getString("start_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("end_date")),
                     rs.getLong("contract_value"),  
                     rs.getString("contract_status")
                 ));
