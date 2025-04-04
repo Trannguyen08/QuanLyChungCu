@@ -70,7 +70,7 @@ public class searchContract extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel7.setText("Từ");
 
-        startDate.setDateFormatString("yyyy-MM-dd");
+        startDate.setDateFormatString("dd/MM/yyyy");
         startDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         startDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -81,7 +81,7 @@ public class searchContract extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel8.setText("Đến");
 
-        endDate.setDateFormatString("yyyy-MM-dd");
+        endDate.setDateFormatString("dd-MM-yyyy");
         endDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         fromValue.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N

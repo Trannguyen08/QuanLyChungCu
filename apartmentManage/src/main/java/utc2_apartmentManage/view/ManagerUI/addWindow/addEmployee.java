@@ -112,7 +112,7 @@ public class addEmployee extends javax.swing.JFrame {
         addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setText("Thêm ");
 
-        hiringDate.setDateFormatString("yyyy-MM-dd");
+        hiringDate.setDateFormatString("dd/MM/yyyy");
         hiringDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

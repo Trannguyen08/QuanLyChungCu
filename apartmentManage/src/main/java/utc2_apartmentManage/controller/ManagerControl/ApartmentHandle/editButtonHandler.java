@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 import main.java.utc2_apartmentManage.model.Apartment;
 import main.java.utc2_apartmentManage.service.managerService.apartmentService;
 import main.java.utc2_apartmentManage.view.ManagerUI.editWindow.editImages;
@@ -15,6 +18,7 @@ public class editButtonHandler {
     private JTable table;
     private JFrame edit;
     private final apartmentService apartmentservice = new apartmentService();
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     
     public editButtonHandler(JButton editImg, JButton addBtn, JComboBox<String> apartmentIndex, JTextField area,
                        JComboBox<String> building, JTextField buyPrice, JComboBox<String> floor, 
@@ -84,9 +88,9 @@ public class editButtonHandler {
             building.getSelectedItem().toString(),
             Integer.parseInt(roomNum.getSelectedItem().toString()),
             status.getSelectedItem().toString(),
-            Double.parseDouble(area.getText().trim()),
-            Double.parseDouble(rentPrice.getText().trim()),
-            Long.parseLong(buyPrice.getText().trim())
+            ScannerUtil.parseToDouble(area.getText().trim()),
+            ScannerUtil.parseToDouble(rentPrice.getText().trim()),
+            ScannerUtil.parseToDouble(buyPrice.getText().trim())
         );
     }
 
@@ -97,9 +101,9 @@ public class editButtonHandler {
         model.setValueAt(apartment.getBuilding(), rowIndex, 3);
         model.setValueAt(apartment.getNumRooms(), rowIndex, 4);
         model.setValueAt(apartment.getStatus(), rowIndex, 5);
-        model.setValueAt(apartment.getArea(), rowIndex, 6);
-        model.setValueAt(apartment.getRentPrice(), rowIndex, 7);
-        model.setValueAt(apartment.getPurchasePrice(), rowIndex, 8);
+        model.setValueAt(df.format(apartment.getArea()), rowIndex, 6);
+        model.setValueAt(df.format(apartment.getRentPrice()), rowIndex, 7);
+        model.setValueAt(df.format(apartment.getPurchasePrice()), rowIndex, 8);
     }
 
     private void loadImage() {

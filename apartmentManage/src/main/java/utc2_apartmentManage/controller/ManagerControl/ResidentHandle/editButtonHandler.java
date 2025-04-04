@@ -1,4 +1,3 @@
-
 package main.java.utc2_apartmentManage.controller.ManagerControl.ResidentHandle;
 
 import com.toedter.calendar.JDateChooser;
@@ -10,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import main.java.utc2_apartmentManage.model.Resident;
 import main.java.utc2_apartmentManage.service.managerService.residentService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 
@@ -60,11 +60,9 @@ public class editButtonHandler {
             return;
         }
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date utilDate = birthDate.getDate(); 
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        String date = ScannerUtil.convertJDateChooserToString(birthDate);
         
-        Resident resident = new Resident(id, fullName.getText().trim(), gender.getSelectedItem().toString(), sqlDate,
+        Resident resident = new Resident(id, fullName.getText().trim(), gender.getSelectedItem().toString(), date,
                                         phoneNumber.getText().trim(),email.getText().trim(), idCard.getText().trim(),
                                         Integer.parseInt(apartmentID.getText().trim()));
         // check trùng

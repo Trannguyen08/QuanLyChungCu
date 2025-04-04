@@ -3,7 +3,8 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.EmployeeHandle;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.utc2_apartmentManage.model.Employee;
@@ -20,7 +21,7 @@ public class addButtonHandler {
     private JTable table;
     private JFrame add;
     private final employeeService employeeService = new employeeService();
-    private DecimalFormat df = new DecimalFormat("#,###");
+    private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
     public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JTextField phoneNumber, 
                             JTextField email, JComboBox<String> position, JTextField salary, JDateChooser hiringDate, 
@@ -55,9 +56,11 @@ public class addButtonHandler {
         // Tạo đối tượng Employee
         int id = employeeService.getNewID();
         String date = ScannerUtil.convertJDateChooserToString(hiringDate);
-        Employee employee = new Employee(id, fullName.getText().trim(), gender.getSelectedItem().toString(), phoneNumber.getText().trim(), 
-                            email.getText().trim(), date, position.getSelectedItem().toString(), 
-                                Long.parseLong(salary.getText().trim()),status.getSelectedItem().toString());
+        Employee employee = new Employee(id, fullName.getText().trim(), gender.getSelectedItem().toString(), 
+                            phoneNumber.getText().trim(), email.getText().trim(), 
+                            date, position.getSelectedItem().toString(), 
+                           ScannerUtil.parseToDouble(salary.getText().trim()),
+                            status.getSelectedItem().toString());
 
         // Kiểm tra trùng lặp nhân viên
         if (employeeService.isDuplicate(employee, table)) {

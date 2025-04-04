@@ -3,9 +3,10 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.ContractControl
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 import main.java.utc2_apartmentManage.model.Contract;
 import main.java.utc2_apartmentManage.service.managerService.contractService;
 
@@ -66,15 +67,13 @@ public class searchIconHandler {
             System.out.println(myID);
         }
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if (startDate.getDate() == null && endDate.getDate() != null) {
-                startDate.setDate(dateFormat.parse("2000-01-01"));
-            } else if (startDate.getDate() != null && endDate.getDate() == null) {
-                endDate.setDate(dateFormat.parse("2100-01-01"));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        String start = ScannerUtil.convertJDateChooserToString(startDate);
+        String end = ScannerUtil.convertJDateChooserToString(endDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if (startDate.getDate() == null && endDate.getDate() != null) {
+            start = "01/01/2015";
+        } else if (startDate.getDate() != null && endDate.getDate() == null) {
+            end = "01/01/2190";
         }
 
         // Xử lý giá trị value
@@ -86,7 +85,7 @@ public class searchIconHandler {
                                          " ", " ", 0, 
                                          contractStatus.getSelectedItem().toString().trim());
 
-        boolean checkRun = contract_service.filterContracts(contract, startDate, endDate, 
+        boolean checkRun = contract_service.filterContracts(contract, start, end, 
                                          minValue, maxValue, table);
         
         frame.setVisible(false);

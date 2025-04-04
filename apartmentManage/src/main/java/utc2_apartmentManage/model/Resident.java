@@ -7,13 +7,13 @@ public class Resident {
     private int residentID;
     private String name;
     private String gender;
-    private Date birthDate;
+    private String birthDate;
     private String phoneNumber;
     private String email;
     private String idCard;
     private int apartmentID;
 
-    public Resident(int residentID, String name, String gender, Date birthDate, 
+    public Resident(int residentID, String name, String gender, String birthDate, 
                     String phoneNumber, String email, String idCard, int apartmentID) {
         this.residentID = residentID;
         this.name = name;
@@ -37,7 +37,7 @@ public class Resident {
         return gender;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -69,7 +69,7 @@ public class Resident {
         this.gender = gender;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 
