@@ -1,4 +1,5 @@
-package main.java.utc2_apartmentManage.controller.UserControl;
+package main.java.utc2_apartmentManage.service.export;
+
 
 import com.toedter.calendar.JDateChooser;
 import main.java.utc2_apartmentManage.view.UserUI.Pages.Infomation;
@@ -18,15 +19,12 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
     
     // Các JLabel từ Infomation
     private JLabel idTheLabel, idCuDanLabel, idTKLabel, nameLabel, phoneNumLabel, emailLabel, 
-                   passwordLabel, genderLabel, dateOfBirthLabel, idApartmentLabel, 
-                   numApartmentLabel, areaApartmentLabel, statusApartmentLabel;
+                   passwordLabel, genderLabel, dateOfBirthLabel;
 
     public EditButtonListenerInfomationHandler(Infomation infomationPanel, 
                                                JLabel idTheLabel, JLabel idCuDanLabel, JLabel idTKLabel, 
                                                JLabel nameLabel, JLabel phoneNumLabel, JLabel emailLabel, 
-                                               JLabel passwordLabel, JLabel genderLabel, JLabel dateOfBirthLabel, 
-                                               JLabel idApartmentLabel, JLabel numApartmentLabel, 
-                                               JLabel areaApartmentLabel, JLabel statusApartmentLabel) {
+                                               JLabel passwordLabel, JLabel genderLabel, JLabel dateOfBirthLabel) {
         this.infomationPanel = infomationPanel;
         this.idTheLabel = idTheLabel;
         this.idCuDanLabel = idCuDanLabel;
@@ -37,10 +35,7 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
         this.passwordLabel = passwordLabel;
         this.genderLabel = genderLabel;
         this.dateOfBirthLabel = dateOfBirthLabel;
-        this.idApartmentLabel = idApartmentLabel;
-        this.numApartmentLabel = numApartmentLabel;
-        this.areaApartmentLabel = areaApartmentLabel;
-        this.statusApartmentLabel = statusApartmentLabel;
+        
     }
 
     @Override
@@ -67,10 +62,7 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
         JTextField editPassword = new JTextField();
         JComboBox<String> editGender = new JComboBox<>(new String[]{"Nam", "Nữ", "Khác"});
         JDateChooser editDateOfBirth = new JDateChooser();
-        JTextField editIDApartment = new JTextField();
-        JTextField editNumApartment = new JTextField();
-        JTextField editArea = new JTextField();
-        JTextField editStatus = new JTextField();
+        
 
         // Thêm các field vào panel
         editPanel.add(new JLabel("ID thẻ:"));
@@ -91,18 +83,10 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
         editPanel.add(editGender);
         editPanel.add(new JLabel("Ngày sinh:"));
         editPanel.add(editDateOfBirth);
-        editPanel.add(new JLabel("ID căn hộ:"));
-        editPanel.add(editIDApartment);
-        editPanel.add(new JLabel("Số căn hộ:"));
-        editPanel.add(editNumApartment);
-        editPanel.add(new JLabel("Diện tích:"));
-        editPanel.add(editArea);
-        editPanel.add(new JLabel("Trạng thái:"));
-        editPanel.add(editStatus);
 
         // Load dữ liệu từ JLabel vào các field
         loadDataToFields(editIDThe, editIDCuDan, editIDTK, editName, editPhone, editEmail, editPassword,
-                         editGender, editDateOfBirth, editIDApartment, editNumApartment, editArea, editStatus);
+                         editGender, editDateOfBirth);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -187,9 +171,8 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
 
     private void loadDataToFields(JTextField editIDThe, JTextField editIDCuDan, JTextField editIDTK, 
                                  JTextField editName, JTextField editPhone, JTextField editEmail, 
-                                 JTextField editPassword, JComboBox<String> editGender, JDateChooser editDateOfBirth, 
-                                 JTextField editIDApartment, JTextField editNumApartment, JTextField editArea, 
-                                 JTextField editStatus) {
+                                 JTextField editPassword, JComboBox<String> editGender, JDateChooser editDateOfBirth
+                                 ) {
         editIDThe.setText(idTheLabel.getText());
         editIDCuDan.setText(idCuDanLabel.getText());
         editIDTK.setText(idTKLabel.getText());
@@ -209,9 +192,6 @@ public class EditButtonListenerInfomationHandler implements ActionListener {
             editDateOfBirth.setDate(null); // Nếu lỗi định dạng, để trống
         }
 
-        editIDApartment.setText(idApartmentLabel.getText());
-        editNumApartment.setText(numApartmentLabel.getText());
-        editArea.setText(areaApartmentLabel.getText());
-        editStatus.setText(statusApartmentLabel.getText());
+        
     }
 }

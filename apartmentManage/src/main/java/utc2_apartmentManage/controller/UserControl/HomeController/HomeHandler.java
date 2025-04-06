@@ -64,7 +64,7 @@ public class HomeHandler {
             Bill report = new Bill();
             mainPanel.add(report, BorderLayout.CENTER);
         } 
-        if (newPanel == infoPanel) {
+        if (newPanel.equals(infoPanel)) {
             Infomation report = new Infomation();
             report.setVisible(true);
             mainPanel.add(report, BorderLayout.CENTER);
