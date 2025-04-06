@@ -21,12 +21,11 @@ public class Infomation extends javax.swing.JPanel {
         btnEdit.addActionListener(new EditButtonListenerInfomationHandler(
             this, 
             IDThe_label, IDCuDan_label, IDTK_label, name_label, phoneNum_label, 
-            email_label, password_label, gender_label, dateOfBirth_label, 
-            IDApartment_label, NumApartment_label, AreaApartment_lablel, StatusApartment_label
+            email_label, password_label, gender_label, dateOfBirth_label
         ));
     }
     
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
