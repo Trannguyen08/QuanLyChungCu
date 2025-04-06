@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import main.java.utc2_apartmentManage.databaseConnect.ConnectDB;
 
 public class Infomation extends javax.swing.JPanel {
    
