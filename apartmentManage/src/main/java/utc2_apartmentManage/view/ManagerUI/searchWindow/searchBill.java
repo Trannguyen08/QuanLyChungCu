@@ -63,6 +63,16 @@ public class searchBill extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel6.setText("Trạng thái");
 
+        billId.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        apartmentId.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        billDate.setDateFormatString("dd/MM/yyyy");
+        billDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
+        dueDate.setDateFormatString("dd/MM/yyyy");
+        dueDate.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+
         totalAmount.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         totalAmount.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

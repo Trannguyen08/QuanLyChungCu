@@ -16,6 +16,41 @@ import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class billRepository {
+    public int getRowCount() {
+        String query = "SELECT COUNT(*) FROM bills";
+        int count = 0;
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet res = pstmt.executeQuery()) {
+
+            if( res.next() ) {
+                count = res.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
+    public boolean updateBill(Bill bill) {
+        String sql = "UPDATE bills SET apartment_id = ?, total_amount = ?, bill_date = ?, due_date = ?, status = ? WHERE bill_id = ?";
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, bill.getApartmentId());
+            pstmt.setDouble(2, bill.getTotalAmount());
+            pstmt.setString(3, ScannerUtil.convertDateFormat1(bill.getBillDate()));
+            pstmt.setString(4, ScannerUtil.convertDateFormat1(bill.getDueDate()));
+            pstmt.setString(5, bill.getStatus());
+            pstmt.setInt(6, bill.getBillId());
+
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0; 
+        } catch (SQLException e) {
+            System.err.println("Lỗi cập nhật hóa đơn: " + e.getMessage());
+        }
+        return false; 
+    }
     public List<Bill> getAllBills() {
         String query = "SELECT b.bill_id, " +
                    "a.apartmentIndex, a.floor, a.building, " +
@@ -34,8 +69,8 @@ public class billRepository {
                     rs.getInt("bill_id"),
                     rs.getInt("apartment_id"),
                     rs.getDouble("total_amount"),
-                    rs.getString("bill_date"), 
-                    rs.getString("due_date"), 
+                    ScannerUtil.convertDateFormat2(rs.getString("bill_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("due_date")),
                     rs.getString("status") 
                 ));
             }
@@ -45,7 +80,7 @@ public class billRepository {
         }
         return billList;
     }
-    public List<Bill> getFilteredBills(Bill bill, double totalAmoun, double to_totalAmount) {
+    public List<Bill> getFilteredBills(Bill bill, double totalAmoun, double to_totalAmount, String billDate, String dueDate) {
         List<Bill> bills = new ArrayList<>();
         String sql = ("SELECT b.bill_id, b.apartment_id, b.total_amount," +
                                                 " b.bill_date, b.due_date, b.status " +
@@ -69,16 +104,16 @@ public class billRepository {
             parameters.add(bill.getStatus().trim());
         }
         // Lọc theo khoảng ngày từ JDateChooser
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        if (bill.getBillDate() != null) {
+        if (billDate != null) {
             sql += " AND cb.due_date >= ?";
-            parameters.add(ScannerUtil.convertDateFormat1(bill.getBillDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(billDate));
         }
-        if (bill.getDueDate()!= null)  {
+        if (dueDate != null) {
             sql += " AND b.due_date <= ?";
-            parameters.add(ScannerUtil.convertDateFormat1(bill.getDueDate()));
+            parameters.add(ScannerUtil.convertDateFormat1(dueDate));
         }
-        // Lọc theo khoảng giá trị hợp đồng
+        
+        // Lọc theo khoảng tổng tiền
         if (totalAmoun >= 0 && to_totalAmount > 0) {  
             sql += " AND b.total_amount BETWEEN ? AND ?";
             parameters.add(totalAmoun);

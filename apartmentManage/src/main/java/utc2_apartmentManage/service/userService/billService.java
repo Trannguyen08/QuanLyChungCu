@@ -1,19 +1,23 @@
 
 package main.java.utc2_apartmentManage.service.userService;
 
-import main.java.utc2_apartmentManage.repository.UserRepository.billRepository;
 import com.toedter.calendar.JDateChooser;
-import java.awt.Font;
-import java.text.NumberFormat;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
 import main.java.utc2_apartmentManage.model.Bill;
 import main.java.utc2_apartmentManage.util.ScannerUtil;
+import main.java.utc2_apartmentManage.repository.UserRepository.billRepository;
 
 public class billService {
     private final billRepository billDAO = new billRepository();
@@ -22,31 +26,30 @@ public class billService {
   
     // load dữ liệu vào bảng
     public void setupBilltTable(JTable table) {
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
         List<Bill> billList = billDAO.getAllBills();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         for (Bill bill : billList) {
             model.addRow(new Object[]{
-                bill.getBillId(), 
-                bill.getApartmentId(), 
-                bill.getTotalAmount(),
-                bill.getBillDate(), 
-                bill.getDueDate(), 
+                bill.getBillId(),
+                bill.getApartmentId(),
+                df.format(bill.getTotalAmount()),
+                bill.getBillDate(),
+                bill.getDueDate(),
                 bill.getStatus()
             });
         }
 
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 15));
-        
-        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+
+        for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
     }
-
     
     // check select từ table
     public boolean notification(JTable table) {
@@ -87,7 +90,72 @@ public class billService {
         }
         return true;
     }
-    public void updateTableWithBills(String keyword, JTable table) {
+
+    public boolean validateSeachInput(JTextField billId, JTextField apartmentId, JTextField totalAmount,
+                                    JDateChooser billDate, JDateChooser dueDate, JComboBox<String> status,
+                                    JTextField to_totalAmount) {
+
+        if (billId.getText() != null && !billId.getText().trim().isEmpty() &&
+            !ScannerUtil.validateInteger(billId.getText().trim(), "ID hóa đơn")) {
+            return false;
+        }
+        if (apartmentId.getText() != null && !apartmentId.getText().trim().isEmpty() &&
+            !ScannerUtil.validateInteger(apartmentId.getText().trim(), "ID căn hộ")) {
+            return false;
+        }
+        if (totalAmount.getText() != null && !totalAmount.getText().trim().isEmpty() &&
+            !ScannerUtil.validateDouble(totalAmount.getText().trim(), "Tổng số tiền hóa đơn")) {
+            return false;
+        }
+        if (to_totalAmount != null && !to_totalAmount.getText().trim().isEmpty() &&
+            !ScannerUtil.validateDouble(to_totalAmount.getText().trim(), "Tổng số tiền hoa đơn")) {
+            return false;
+        }
+        if (!totalAmount.getText().trim().isEmpty() && !totalAmount.getText().trim().isEmpty() &&
+            !ScannerUtil.validateRange(totalAmount.getText().trim(), totalAmount.getText().trim(), "Tổng số tiền hóa đơn")) {
+            return false;
+        }
+        if (billDate.getDate() != null && dueDate.getDate() != null) {
+            Date billDateValue = billDate.getDate();
+            Date dueDateValue = dueDate.getDate();
+
+            // Kiểm tra nếu ngày lập hóa đơn sau ngày đến hạn
+            if (billDateValue.after(dueDateValue)) {
+                JOptionPane.showMessageDialog(null, "Ngày lập hóa đơn không thể lớn hơn ngày đến hạn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            // Chuyển Date thành LocalDate để dễ kiểm tra khoảng cách
+            LocalDate startLocal = billDateValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate endLocal = dueDateValue.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        }
+        return true;
+    }
+    
+    public boolean filterBills(Bill bill, double totalAmoun, double to_totalAmount, String billDate, String dueDate, JTable table) {
+
+        List<Bill> billList = billDAO.getFilteredBills(bill, totalAmoun, to_totalAmount, billDate, dueDate);
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        table.setRowSorter(null);  
+        model.setRowCount(0);  
+
+        for (Bill b : billList) {
+            model.addRow(new Object[]{
+                b.getBillId(),
+                b.getApartmentId(),
+                b.getTotalAmount(),
+                b.getStatus(),
+                b.getBillDate(),
+                b.getDueDate()
+            });
+        }
+
+        return true;
+    }
+    
+        public void updateTableWithBills(String keyword, JTable table) {
         List<Bill> billList = billDAO.getFilteredBillsByKeyword(keyword);
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -110,63 +178,7 @@ public class billService {
             });
         }
     }
-    public boolean validateSeachInput(JTextField billId, JTextField apartmentId, JTextField totalAmount,
-                                    JDateChooser billDate, JDateChooser dueDate, JComboBox<String> status,
-                                    JTextField to_totalAmount) {
-
-        if (billId.getText() != null && !billId.getText().trim().isEmpty() &&
-            !ScannerUtil.validateInteger(billId.getText().trim(), "ID hóa đơn")) {
-            return false;
-        }
-        if (apartmentId.getText() != null && !apartmentId.getText().trim().isEmpty() &&
-            !ScannerUtil.validateInteger(apartmentId.getText().trim(), "ID căn hộ")) {
-            return false;
-        }
-        if (totalAmount.getText() != null && !totalAmount.getText().trim().isEmpty() &&
-            !ScannerUtil.validateDouble(totalAmount.getText().trim(), "Tổng số tiền hóa đơn")) {
-            return false;
-        }
-        if (to_totalAmount != null && !to_totalAmount.getText().trim().isEmpty() &&
-            !ScannerUtil.validateDouble(to_totalAmount.getText().trim(), "Tổng số tiền hoa đơn lớn nhất")) {
-            return false;
-        }
-        if (!totalAmount.getText().trim().isEmpty() && !totalAmount.getText().trim().isEmpty() &&
-            !ScannerUtil.validateRange(totalAmount.getText().trim(), totalAmount.getText().trim(), "Tổng số tiền hóa đơn")) {
-            return false;
-        }
-        if (billDate.getDate() != null && dueDate.getDate() != null) {
-            Date billDateValue = billDate.getDate();
-            Date dueDateValue = dueDate.getDate();
-            if (billDateValue.after(dueDateValue)) {
-                JOptionPane.showMessageDialog(null, "Ngày lập hóa đơn không thể lớn hơn ngày đến hạn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        }
-
-        return true;
-    }
-    
-    public boolean filterBills(Bill bill, double totalAmoun, double to_totalAmount, JTable table) {
-
-        List<Bill> billList = billDAO.getFilteredBills(bill, totalAmoun, to_totalAmount);
-
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        table.setRowSorter(null);  
-        model.setRowCount(0);  
-
-        for (Bill b : billList) {
-            model.addRow(new Object[]{
-                b.getBillId(),
-                b.getApartmentId(),
-                b.getTotalAmount(),
-                b.getStatus(),
-                b.getBillDate(),
-                b.getDueDate()
-            });
-        }
-
-        return true;
-    }
+        
    public boolean checkAllNull(JTextField billId, JTextField apartmentId, JTextField totalAmount,
                              JDateChooser billDate, JDateChooser dueDate,JComboBox<String> status,
                              JTextField to_totalAmount ) {
@@ -177,9 +189,11 @@ public class billService {
         return true;
     }
 
-    if (billDate.getDate() == null || dueDate.getDate() == null) {
-        return true;
-    }
+        Date billDateValue = billDate.getDate();
+        Date dueDateValue = dueDate.getDate();
+        if (billDateValue == null || dueDateValue == null) {
+            return true;
+        }
 
     double minTotalAmount = 0, maxTotalAmount = Double.MAX_VALUE;
 
