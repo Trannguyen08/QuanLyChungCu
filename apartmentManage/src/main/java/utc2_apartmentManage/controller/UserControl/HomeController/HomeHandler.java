@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import main.java.utc2_apartmentManage.view.Login.Login;
 import main.java.utc2_apartmentManage.view.UserUI.Pages.Bill;
 import main.java.utc2_apartmentManage.view.UserUI.Pages.HomePageUser;
+import main.java.utc2_apartmentManage.view.UserUI.Pages.Infomation;
 
 
 
@@ -63,6 +64,12 @@ public class HomeHandler {
             Bill report = new Bill();
             mainPanel.add(report, BorderLayout.CENTER);
         } 
+        if (newPanel == infoPanel) {
+            Infomation report = new Infomation();
+            report.setVisible(true);
+            mainPanel.add(report, BorderLayout.CENTER);
+        }
+
         mainPanel.revalidate();
         mainPanel.repaint();
     }
