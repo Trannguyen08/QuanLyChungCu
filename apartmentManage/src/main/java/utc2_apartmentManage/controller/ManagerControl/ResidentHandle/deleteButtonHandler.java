@@ -1,11 +1,9 @@
 package main.java.utc2_apartmentManage.controller.ManagerControl.ResidentHandle;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import main.java.utc2_apartmentManage.service.managerService.residentService;
 import main.java.utc2_apartmentManage.view.ManagerUI.Pages.Resident;
-
 
 
 public class deleteButtonHandler {
@@ -31,7 +29,7 @@ public class deleteButtonHandler {
             return;
         }
         
-        if (residentService.confirmDelete()) {
+        if (residentService.confirmDelete("cư dân")) {
             boolean isDeleted = (panel instanceof Resident) && 
                                 residentService.deleteResident(id);
             if (isDeleted) {

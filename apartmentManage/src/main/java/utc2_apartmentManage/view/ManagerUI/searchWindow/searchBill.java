@@ -2,7 +2,7 @@
 package main.java.utc2_apartmentManage.view.ManagerUI.searchWindow;
 
 import javax.swing.*;
-import main.java.utc2_apartmentManage.controller.UserControl.searchIconHandler;
+//import main.java.utc2_apartmentManage.controller.UserControl.searchIconHandler;
 
 /**
  *
@@ -12,8 +12,8 @@ public class searchBill extends javax.swing.JFrame {
 
     public searchBill(JTable table) {
         initComponents();
-        searchIconHandler search = new searchIconHandler(billId, apartmentId, totalAmount, searchBtn,
-                                                    billDate, dueDate, status, table, this, to_totalAmount);
+        //searchIconHandler search = new searchIconHandler(billId, apartmentId, totalAmount, searchBtn,
+                                                    //billDate, dueDate, status, table, this, to_totalAmount);
         this.setLocationRelativeTo(null);
         this.setTitle("Tìm kiếm hóa đơn");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

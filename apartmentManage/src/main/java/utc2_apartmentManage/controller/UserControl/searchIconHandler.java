@@ -5,7 +5,6 @@ import main.java.utc2_apartmentManage.model.Bill;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import main.java.utc2_apartmentManage.service.userService.billService;
@@ -13,7 +12,7 @@ import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class searchIconHandler {
-    private JTextField billId, apartmentId, totalAmount, to_totalAmount;
+    private JTextField billId, totalAmount, to_totalAmount;
     private JButton searchBtn;
     private JDateChooser billDate, dueDate;
     private JComboBox<String> status;
@@ -21,14 +20,13 @@ public class searchIconHandler {
     private JFrame frame;
     private billService billService = new billService();
 
-    public searchIconHandler(JTextField billId, JTextField apartmentId, JTextField totalAmount,
+    public searchIconHandler(JTextField billId, JTextField totalAmount,
                              JButton searchBtn, JDateChooser billDate, JDateChooser dueDate, 
                              JComboBox<String> status, JTable table, JFrame frame ,JTextField to_talAmount) {
         
         this.billId = billId;
-        this.apartmentId = apartmentId;
         this.totalAmount = totalAmount;
-        this.to_totalAmount = to_totalAmount;
+        this.to_totalAmount = to_talAmount;
         this.searchBtn = searchBtn;
         this.billDate = billDate;
         this.dueDate = dueDate;
@@ -45,20 +43,21 @@ public class searchIconHandler {
     }
     
     public void filterTableData() {
-        boolean check = billService.validateSeachInput(billId, apartmentId, totalAmount,billDate,
+        boolean check = billService.validateSeachInput(billId, totalAmount,billDate,
                                                          dueDate, status, to_totalAmount);
         
         if( !check ) {
             return;
         }
         
-        if( billService.checkAllNull(billId, apartmentId, totalAmount, billDate, 
+        if( billService.checkAllNull(billId, totalAmount, billDate, 
                                     dueDate, status, to_totalAmount) ) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
                                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             frame.setVisible(false);
             return;
         }
+        
         // Lấy ID của hóa đơn
         int id = 0;
         String idText = billId.getText().trim();
@@ -67,54 +66,25 @@ public class searchIconHandler {
             System.out.println(id);
         }
         
-        // Lấy ID căn hộ
-        int apartmentIdInt = 0;
-        String apartmentIdText = apartmentId.getText().trim();
-        if( !apartmentIdText.isEmpty() ) {
-            apartmentIdInt = Integer.parseInt(apartmentIdText);
-            System.out.println(apartmentIdInt);
-        }
-        
         String billDateValue = ScannerUtil.convertJDateChooserToString(billDate);
         String dueDateValue = ScannerUtil.convertJDateChooserToString(dueDate);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        if (billDate.getDate() == null && dueDate.getDate() != null) {
-            billDateValue = "01/01/2015";
-        } else if (billDate.getDate() != null && dueDate.getDate() == null) {
-            dueDateValue = "01/01/2190";
-        }
+        
+        Double minTotalAmount = (totalAmount.getText() == null || totalAmount.getText().trim().isEmpty())
+                ? null : ScannerUtil.replaceDouble(totalAmount);
 
-       // Xử lý giá trị tiền
-        double minTotalAmount = 0, maxTotalAmount = Double.MAX_VALUE;
-        try {
-            if (!totalAmount.getText().trim().isEmpty()) {
-                minTotalAmount = Double.parseDouble(totalAmount.getText().trim());
-            }
-            if (!to_totalAmount.getText().trim().isEmpty()) {
-                maxTotalAmount = Double.parseDouble(to_totalAmount.getText().trim());
-            }
-
-            // Đảm bảo minTotalAmount không lớn hơn maxTotalAmount
-            if (minTotalAmount > maxTotalAmount) {
-                JOptionPane.showMessageDialog(null, "Giá trị tối thiểu không thể lớn hơn giá trị tối đa!", 
-                                              "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập số hợp lệ cho tổng số tiền!", 
-                                          "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
+        Double maxTotalAmount = (to_totalAmount.getText() == null || to_totalAmount.getText().trim().isEmpty())
+                ? null : ScannerUtil.replaceDouble(to_totalAmount);
+        
         // Tạo đối tượng Bill và gọi phương thức lọc
-        Bill bill = new Bill(id, apartmentIdInt, minTotalAmount, 
-                             "", "", status.getSelectedItem().toString().trim());
+        Bill bill = new Bill(id, minTotalAmount, 
+                             billDateValue, dueDateValue, status.getSelectedItem().toString().trim());
 
-        boolean checkRun = billService.filterBills(bill, minTotalAmount, maxTotalAmount, billDateValue, dueDateValue, table);
+        boolean checkRun = billService.filterBillByIcon(bill, maxTotalAmount, table);
         
         frame.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
+        if( !checkRun ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
                                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }

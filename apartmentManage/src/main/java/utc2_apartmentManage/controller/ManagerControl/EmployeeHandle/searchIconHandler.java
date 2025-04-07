@@ -4,9 +4,9 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import main.java.utc2_apartmentManage.model.Employee;
 import main.java.utc2_apartmentManage.service.managerService.employeeService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 
@@ -56,23 +56,29 @@ public class searchIconHandler {
             return;
         }
         
-        String hiring = "", tohiring = "";
-
-        if (hiringDate == null ) {
-            if (toHiringDate != null) {
-                hiring = "01/01/2015"; // Gán giá trị mặc định
-            }
-        } else if (toHiringDate == null ) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            tohiring = dateFormat.format(new Date()); 
+        int id = 0;
+        String idStr = employeeID.getText().trim();
+        if( !idStr.isEmpty() ) {
+            id = Integer.parseInt(idStr);
         }
-
-        double minValue = salary.getText().trim().isEmpty() ? 0 : Double.parseDouble(salary.getText().trim());
-        double maxValue = toSalary.getText().trim().isEmpty() ? Double.MAX_VALUE : Double.parseDouble(toSalary.getText().trim());
-                
         
+        String hiring = ScannerUtil.convertJDateChooserToString(hiringDate);
+        String tohiring = ScannerUtil.convertJDateChooserToString(toHiringDate);
+
+        double fsalary = (salary.getText() == null || salary.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(salary);
+
+        double tsalary = (toSalary.getText() == null || toSalary.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(toSalary);
+        
+        Employee emp = new Employee(id, fullName.getText().trim(), gender.getSelectedItem().toString().trim(), 
+                                    phoneNumber.getText().trim(), email.getText().trim(),
+                                    hiring, position.getSelectedItem().toString().trim(), fsalary, 
+                                    status.getSelectedItem().toString().trim());
+        
+        boolean checkRun = employeeService.filterEmployeeIcon(table, emp, tohiring, tsalary);
         frame.setVisible(false);
-        if (table.getRowCount() == 0) {
+        if ( !checkRun ) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }

@@ -5,8 +5,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import main.java.utc2_apartmentManage.model.Resident;
 import main.java.utc2_apartmentManage.service.managerService.residentService;
 import main.java.utc2_apartmentManage.util.ScannerUtil;

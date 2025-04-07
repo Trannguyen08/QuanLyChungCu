@@ -135,11 +135,11 @@ public class mainHandler {
     
     private void placeHolder() {
         searchField.setForeground(java.awt.Color.GRAY);
-        searchField.setText("Nhập id, tên cư dân...");
+        searchField.setText("Nhập id hợp đồng, tên chủ sở hữu...");
         searchField.addFocusListener(new java.awt.event.FocusListener() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Nhập id, tên cư dân...")) {
+                if (searchField.getText().equals("Nhập id hợp đồng, tên chủ sở hữu...")) {
                     searchField.setText("");
                     searchField.setForeground(java.awt.Color.BLACK);
                 }
@@ -149,7 +149,7 @@ public class mainHandler {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().isEmpty()) {
                     searchField.setForeground(java.awt.Color.GRAY);
-                    searchField.setText("Nhập id, tên cư dân...");
+                    searchField.setText("Nhập id hợp đồng, tên chủ sở hữu ...");
                 }
             }
         });

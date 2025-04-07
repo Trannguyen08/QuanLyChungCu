@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class ScannerUtil {
     
@@ -36,16 +37,9 @@ public class ScannerUtil {
             return true;
         }
         from = from.trim();
+        from = from.replace(",", ".");
         to = to.trim();
-        if( from.isEmpty() && !to.isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị từ cho " + fieldName, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        if( !from.isEmpty() && to.isEmpty() ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị đến cho " + fieldName, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+        to = to.replace(",", ".");
 
         if( !from.isEmpty() && !to.isEmpty() ) {
             try {
@@ -98,6 +92,7 @@ public class ScannerUtil {
             return true;
         }
 
+        input = input.replace(",", ".");
         try {
             if(Double.parseDouble(input.trim()) < 0 ) {
                 JOptionPane.showMessageDialog(null, "Vui lòng nhập số thực dương hợp lệ cho " + fieldName, "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
@@ -111,6 +106,7 @@ public class ScannerUtil {
     }
     
     public static boolean spaceDouble(String input, double min, double max, String fieldName) {
+        input = input.replace(",", ".");
         try {
             double value = Double.parseDouble(input);
             if (value < min || value > max) {
@@ -206,7 +202,7 @@ public class ScannerUtil {
             return outputFormat.format(date); 
 
         } catch (ParseException e) {
-            return "Ngày không hợp lệ!";
+            return null;
         }
     }
     
@@ -223,7 +219,7 @@ public class ScannerUtil {
             return outputFormat.format(date); 
 
         } catch (ParseException e) {
-            return "Ngày không hợp lệ!";
+            return null;
         }
     }
     
@@ -237,11 +233,18 @@ public class ScannerUtil {
             System.out.println("Lỗi: Không thể chuyển đổi chuỗi thành ngày tháng.");
         }
     }
-
     
-    public static String convertDateToString(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return (date != null) ? sdf.format(date) : null;    
+    public static boolean comfirmWindow(String s) {
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Bạn có chắc muốn xóa " + " này?",
+                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+        return confirm == JOptionPane.YES_OPTION;
+    }
+    
+    public static double replaceDouble(JTextField value) {
+        String valStr = value.getText().trim();
+        valStr = valStr.replace(",", ".");
+        return Double.parseDouble(valStr);
     }
 
 }

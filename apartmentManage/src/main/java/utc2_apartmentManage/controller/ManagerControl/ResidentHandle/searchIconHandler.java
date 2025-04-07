@@ -61,12 +61,7 @@ public class searchIconHandler {
         
         String start = ScannerUtil.convertJDateChooserToString(birthDate);
         String end = ScannerUtil.convertJDateChooserToString(toBirthDate);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        if (birthDate.getDate() == null && toBirthDate.getDate() != null) {
-            start = "01/01/1900";
-        } else if (birthDate.getDate() != null && toBirthDate.getDate() == null) {
-            end = dateFormat.format(new Date());
-        }
+        
         
         Resident resident = new Resident(resID, fullName.getText().trim(), 
                                         gender.getSelectedItem().toString(), start, 

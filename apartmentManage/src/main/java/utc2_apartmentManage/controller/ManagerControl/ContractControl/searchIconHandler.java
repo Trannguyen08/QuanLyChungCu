@@ -54,9 +54,10 @@ public class searchIconHandler {
         
         if( contract_service.checkAllNull(id, ownerName, fromValue, toValue, 
                                         startDate, endDate, contractStatus, contractType) ) {
+            
+            frame.setVisible(false);
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
                                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            frame.setVisible(false);
             return;
         }
         int myID = 0;
@@ -68,17 +69,16 @@ public class searchIconHandler {
         }
         
         String start = ScannerUtil.convertJDateChooserToString(startDate);
+        System.out.println(start);
+        System.out.println(ScannerUtil.convertDateFormat1(start));
         String end = ScannerUtil.convertJDateChooserToString(endDate);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        if (startDate.getDate() == null && endDate.getDate() != null) {
-            start = "01/01/2015";
-        } else if (startDate.getDate() != null && endDate.getDate() == null) {
-            end = "01/01/2190";
-        }
+        System.out.println(end);
+        System.out.println(ScannerUtil.convertDateFormat1(end));
+       
 
         // Xử lý giá trị value
         double minValue = fromValue.getText().trim().isEmpty() ? 0 : Double.parseDouble(fromValue.getText().trim());
-        double maxValue = toValue.getText().trim().isEmpty() ? Double.MAX_VALUE : Double.parseDouble(toValue.getText().trim());
+        double maxValue = toValue.getText().trim().isEmpty() ? 20000000 : Double.parseDouble(toValue.getText().trim());
 
         Contract contract = new Contract(myID, ownerName.getText().trim(), " ", 
                                          contractType.getSelectedItem().toString().trim(), 
@@ -89,8 +89,10 @@ public class searchIconHandler {
                                          minValue, maxValue, table);
         
         frame.setVisible(false);
-        JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
+        if( !checkRun ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 
                                             "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
 }

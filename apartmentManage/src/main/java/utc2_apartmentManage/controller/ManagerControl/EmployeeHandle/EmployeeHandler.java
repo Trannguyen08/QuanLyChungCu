@@ -76,6 +76,7 @@ public class EmployeeHandler {
                 searchButtonClick();
             }
         });
+        
         placeHolder();
 
         es.setupEmployeeTable(table);

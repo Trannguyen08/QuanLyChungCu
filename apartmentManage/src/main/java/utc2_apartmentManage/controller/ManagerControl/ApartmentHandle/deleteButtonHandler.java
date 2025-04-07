@@ -30,7 +30,7 @@ public class deleteButtonHandler {
             JOptionPane.showMessageDialog(null, "Không thể xóa căn hộ đã có chủ sở hữu", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        if (apartmentservice.confirmDelete()) {
+        if (apartmentservice.confirmDelete("căn hộ")) {
             boolean isDeleted = (panel instanceof ApartmentUI) && apartmentservice.deleteApartment(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());

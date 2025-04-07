@@ -2,7 +2,6 @@ package main.java.utc2_apartmentManage.view.UserUI.Pages;
 
 
 import main.java.utc2_apartmentManage.controller.UserControl.HomeController.HomeHandler;
-import main.java.utc2_apartmentManage.view.ManagerUI.Pages.ApartmentUI;
 
 
 public class HomePageUser extends javax.swing.JFrame {
@@ -290,12 +289,8 @@ public class HomePageUser extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void addPanel() {
-        this.add(new ApartmentUI());
-    }
     public static void main(String args[]) {
         HomePageUser hm = new HomePageUser();
-        hm.addPanel();
         java.awt.EventQueue.invokeLater(() -> {
             hm.setVisible(true);
         });

@@ -34,13 +34,15 @@ public class residentService {
     public boolean isStillContract(int id) {
         return residentRepository.isStillContract(id);
     }
+    
+    // Hiển thị thông báo lỗi
+    private void showErrorMessage(String message, String title) {
+        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
+    }
 
     // Xác nhận xóa cư dân
-    public boolean confirmDelete() {
-        int confirm = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa hàng này?",
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        return confirm == JOptionPane.YES_OPTION;
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
     }
     
     // check trùng
@@ -110,7 +112,9 @@ public class residentService {
 
     // Lấy ID cư dân từ bảng
     public Integer getResidentId(JTable table) {
-        if (!isRowSelected(table)) return null;
+        if (!isRowSelected(table)) {
+            return null;
+        }
 
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -142,7 +146,9 @@ public class residentService {
     // Gán dữ liệu dòng đã chọn vào các trường nhập liệu
     public boolean loadSelectedRowData(JTable table, JTextField apartmentID, JTextField fullName, JComboBox<String> gender, JDateChooser birthDate,
                                         JTextField phoneNumber, JTextField email, JTextField idCard) {
-        if (!isRowSelected(table)) return false;
+        if (!isRowSelected(table)) {
+            return false;
+        }
 
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -151,24 +157,12 @@ public class residentService {
         fullName.setText(model.getValueAt(selectedRow, 2).toString());
         gender.setSelectedItem(model.getValueAt(selectedRow, 3).toString());
         String dateStr = model.getValueAt(selectedRow, 4).toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date date = sdf.parse(dateStr);
-            birthDate.setDate(date);
-        } catch (ParseException ex) {
-            Logger.getLogger(residentService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        ScannerUtil.setDateChooserFromString(birthDate, dateStr);
         phoneNumber.setText(model.getValueAt(selectedRow, 5).toString());
         idCard.setText(model.getValueAt(selectedRow, 6).toString());
         email.setText(model.getValueAt(selectedRow, 7).toString());
 
         return true;
-    }
-
-    // Hiển thị thông báo lỗi
-    private void showErrorMessage(String message, String title) {
-        JOptionPane.showMessageDialog(null, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
     // Kiểm tra và validate dữ liệu nhập vào

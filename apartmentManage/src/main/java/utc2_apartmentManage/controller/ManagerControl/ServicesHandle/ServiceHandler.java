@@ -8,9 +8,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import java.awt.*;
+import main.java.utc2_apartmentManage.service.managerService.serviceService;
+import main.java.utc2_apartmentManage.view.ManagerUI.addWindow.addService;
 
 public class ServiceHandler {
     private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, searchButton;
@@ -29,6 +28,7 @@ public class ServiceHandler {
         this.searchButton = searchButton;
         this.table = table;
         this.panel = panel;
+        this.searchField = searchField;
         
         this.addBtn.addActionListener(new ActionListener() {
             @Override
@@ -36,56 +36,60 @@ public class ServiceHandler {
                 addBtnClick();
             }
         });
+        
         this.deleteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deleteBtnClick();
             }
         });
+        
         this.excelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 excelBtnClick();
             }
         });
+        
         this.editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editBtnClick();
             }
         });
+        
         this.searchIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchInconClick();
             }
         });
+        
+        this.searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchButtonClick();
+            }
+        });
 
+        placeHolder();
 
-        searchButtonHandler searchButtonHandler = new searchButtonHandler(searchField, searchButton, table);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 14));
-        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-        }
+        new serviceService().setupServiceTable(table);
 
     }
     
     private void addBtnClick() {
-        //new addService(table).setVisible(true);
+        new addService(table).setVisible(true);
     }
 
     private void deleteBtnClick() {
-        if (deleteHandler == null) {
-            deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
-        }
+        deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
+        deleteHandler.deleteSelectedRow();
     }
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportApartments(directoryPath);
+        Excel.exportServices(directoryPath);
         
     }
     
@@ -100,5 +104,31 @@ public class ServiceHandler {
 
     private void searchInconClick() {
         new searchService(table).setVisible(true);
+    }
+    
+    private void searchButtonClick() {
+        searchButtonHandler sbh = new searchButtonHandler(searchField, searchButton, table);
+        sbh.filterWithSearchField();
+    }
+    private void placeHolder() {
+        searchField.setForeground(java.awt.Color.GRAY);
+        searchField.setText("Nhập id, tên dịch vụ...");
+        searchField.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().equals("Nhập id, tên dịch vụ...")) {
+                    searchField.setText("");
+                    searchField.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchField.getText().isEmpty()) {
+                    searchField.setForeground(java.awt.Color.GRAY);
+                    searchField.setText("Nhập id, tên dịch vụ...");
+                }
+            }
+        });
     }
 }

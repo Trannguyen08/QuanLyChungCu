@@ -36,6 +36,7 @@ public class editButtonHandler {
         this.edit = edit;
         this.editImg = editImg;
 
+        
         this.editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,15 +54,12 @@ public class editButtonHandler {
     }
     
     public void loadSelectedRowData() {
-        boolean check = apartmentservice.loadSelectedRowData(table, apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice);
+        boolean check = apartmentservice.loadSelectedRowData(table, apartmentIndex, floor, building, roomNum, 
+                                                            status, area, rentPrice, buyPrice);
     }
 
-    public void updateSelectedRow() {
+    public void updateSelectedRow() {  
         int selectedRow = table.getSelectedRow();
-
-        if (!apartmentservice.notification(table)) {
-            return;
-        }
 
         if (!apartmentservice.validateData(apartmentIndex, floor, building, roomNum, status, area, rentPrice, buyPrice)) {
             return;
@@ -88,9 +86,9 @@ public class editButtonHandler {
             building.getSelectedItem().toString(),
             Integer.parseInt(roomNum.getSelectedItem().toString()),
             status.getSelectedItem().toString(),
-            ScannerUtil.parseToDouble(area.getText().trim()),
-            ScannerUtil.parseToDouble(rentPrice.getText().trim()),
-            ScannerUtil.parseToDouble(buyPrice.getText().trim())
+            ScannerUtil.replaceDouble(area),
+            ScannerUtil.replaceDouble(rentPrice),
+            ScannerUtil.replaceDouble(buyPrice)
         );
     }
 

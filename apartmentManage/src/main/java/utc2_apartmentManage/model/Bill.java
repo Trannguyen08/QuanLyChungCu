@@ -3,15 +3,13 @@ package main.java.utc2_apartmentManage.model;
 
 public class Bill {
     private int billId;
-    private int apartmentId;
-    private double totalAmount;
+    private Double totalAmount;
     private String billDate;
     private String dueDate;
     private String status;
 
-    public Bill(int billId, int apartmentId, double totalAmount, String billDate, String dueDate, String status) {
+    public Bill(int billId, Double totalAmount, String billDate, String dueDate, String status) {
         this.billId = billId;
-        this.apartmentId = apartmentId;
         this.totalAmount = totalAmount;
         this.billDate = billDate;
         this.dueDate = dueDate;
@@ -22,11 +20,7 @@ public class Bill {
         return billId;
     }
 
-    public int getApartmentId() {
-        return apartmentId;
-    }
-
-    public double getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
@@ -46,11 +40,7 @@ public class Bill {
         this.billId = billId;
     }
 
-    public void setApartmentId(int apartmentId) {
-        this.apartmentId = apartmentId;
-    }
-
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

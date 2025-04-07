@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2_apartmentManage.databaseConnect.ConnectDB;
 import main.java.utc2_apartmentManage.model.Employee;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class employeeRepository {
@@ -47,7 +48,7 @@ public class employeeRepository {
             pstmt.setString(4, employee.getGender());
             pstmt.setString(5, employee.getPosition());
             pstmt.setDouble(6, employee.getSalary());
-            pstmt.setString(7, employee.getHiringDate());
+            pstmt.setString(7, ScannerUtil.convertDateFormat1(employee.getHiringDate()));
             pstmt.setString(8, employee.getStatus());
             pstmt.setInt(9, employee.getId());
 
@@ -72,7 +73,7 @@ public class employeeRepository {
             pstmt.setString(5, employee.getEmail());
             pstmt.setString(6, employee.getPosition());
             pstmt.setDouble(7, employee.getSalary());
-            pstmt.setString(8, employee.getHiringDate());
+            pstmt.setString(8, ScannerUtil.convertDateFormat1(employee.getHiringDate()));
             pstmt.setString(9, employee.getStatus());
 
             int rowsInserted = pstmt.executeUpdate();
@@ -111,7 +112,7 @@ public class employeeRepository {
                     res.getString("gender"),
                     res.getString("phone_number"),
                     res.getString("email"),
-                    res.getString("hire_date"),
+                    ScannerUtil.convertDateFormat2(res.getString("hire_date")),
                     res.getString("position"),
                     res.getDouble("salary"),
                     res.getString("status")
@@ -138,7 +139,7 @@ public class employeeRepository {
                     res.getString("gender"),
                     res.getString("phone_number"),
                     res.getString("email"),
-                    res.getString("hire_date"),
+                    ScannerUtil.convertDateFormat2(res.getString("hire_date")),
                     res.getString("position"),
                     res.getDouble("salary"),
                     res.getString("status")
@@ -171,7 +172,7 @@ public class employeeRepository {
                     res.getString("gender"),
                     res.getString("phone_number"),
                     res.getString("email"),
-                    res.getString("hire_date"),
+                    ScannerUtil.convertDateFormat2(res.getString("hire_date")),
                     res.getString("position"),
                     res.getDouble("salary"),
                     res.getString("status")
@@ -197,35 +198,35 @@ public class employeeRepository {
         }
         if (emp.getName() != null && !emp.getName().isEmpty()) {
             query += " AND full_name LIKE ?";
-            parameter.add("%" + emp.getName().trim() + "%");
+            parameter.add("%" + emp.getName() + "%");
         }
         if (emp.getGender() != null && !emp.getGender().isEmpty()) {
             query += " AND gender = ?";
-            parameter.add(emp.getGender().trim());
+            parameter.add(emp.getGender());
         }
         if (emp.getPhoneNumber() != null && !emp.getPhoneNumber().isEmpty()) {
-            query += " AND phoneNum LIKE ?";
-            parameter.add("%" + emp.getPhoneNumber().trim() + "%");
+            query += " AND phone_number LIKE ?";
+            parameter.add("%" + emp.getPhoneNumber() + "%");
         }
-        if (emp.getEmail() != null && !emp.getEmail().trim().isEmpty()) {
+        if (emp.getEmail() != null && !emp.getEmail().isEmpty()) {
             query += " AND email LIKE ?";
-            parameter.add("%" + emp.getEmail().trim() + "%");
+            parameter.add("%" + emp.getEmail() + "%");
         }
         if (emp.getPosition() != null && !emp.getPosition().isEmpty()) {
             query += " AND position = ?";
-            parameter.add(emp.getPosition().trim());
+            parameter.add(emp.getPosition());
         }
         if (emp.getStatus() != null && !emp.getStatus().isEmpty()) {
             query += " AND status = ?";
-            parameter.add(emp.getStatus().trim());
+            parameter.add(emp.getStatus());
         }
 
         // Xử lý lương trong khoảng
-        if (emp.getSalary() > 0) {
+        if (emp.getSalary() != 0 ) {
             query += " AND salary >= ?";
             parameter.add(emp.getSalary());
         }    
-        if (toSalary > 0) { 
+        if (toSalary != 0 ) { 
             query += " AND salary <= ?";
             parameter.add(toSalary);
             
@@ -233,12 +234,12 @@ public class employeeRepository {
 
         // Xử lý ngày sinh trong khoảng
         if (emp.getHiringDate() != null) {
-            query += " AND hiring_date >= ?";
-            parameter.add(emp.getHiringDate());
+            query += " AND hire_date >= ?";
+            parameter.add(ScannerUtil.convertDateFormat1(emp.getHiringDate()));
         }
         if (toBirthDay != null) {
-            query += " AND hiring_date <= ?";
-            parameter.add(toBirthDay);
+            query += " AND hire_date <= ?";
+            parameter.add(ScannerUtil.convertDateFormat1(toBirthDay));
         }
 
         try (Connection conn = ConnectDB.getConnection();
@@ -254,9 +255,9 @@ public class employeeRepository {
                 rs.getInt("employee_id"),
                 rs.getString("full_name"),
                 rs.getString("gender"),
-                rs.getString("phoneNum"),
+                rs.getString("phone_number"),
                 rs.getString("email"),
-                rs.getString("hiring_date"),
+                ScannerUtil.convertDateFormat2(rs.getString("hire_date")),
                 rs.getString("position"),
                 rs.getDouble("salary"),
                 rs.getString("status"));

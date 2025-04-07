@@ -30,28 +30,7 @@ public class searchButtonHandler {
             return;
         }
 
-        es.updateTable(content, table);
+        es.filterEmployeeButton(content, table);
     }
     
-    private void placeHolder() {
-        searchField.setForeground(java.awt.Color.GRAY);
-        searchField.setText("Nhập id, tên nhân viên...");
-        searchField.addFocusListener(new java.awt.event.FocusListener() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Nhập id, tên nhân viên...")) {
-                    searchField.setText("");
-                    searchField.setForeground(java.awt.Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().isEmpty()) {
-                    searchField.setForeground(java.awt.Color.GRAY);
-                    searchField.setText("Nhập id, tên nhân viên...");
-                }
-            }
-        });
-    }
 }

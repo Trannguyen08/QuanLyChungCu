@@ -4,22 +4,31 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.Locale;
+import main.java.utc2_apartmentManage.model.Service;
+import main.java.utc2_apartmentManage.service.managerService.serviceService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class editButtonHandler {
     private JButton editBtn;
-    private JTextField ServiceID, ServiceName, ServicePrice, ServiceUnit;
+    private JTextField ServiceName, ServicePrice, ServiceUnit;
+    private JTextArea note;
     private JComboBox<String> ServiceType;
     private JTable table;
     private JFrame edit;
+    private serviceService ss = new serviceService();
+        private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     
-    public editButtonHandler(JButton editBtn, JComboBox<String> ServiceType, JTextField ServiceID, JTextField ServiceName, JTextField ServicePrice, JTextField ServiceUnit, JTable table, JFrame edit){
-        this.editBtn =editBtn;
-        this.ServiceID = ServiceID;
+    public editButtonHandler(JButton editBtn, JComboBox<String> ServiceType, JTextField ServiceName, 
+                            JTextField ServicePrice, JTextField ServiceUnit, JTextArea note, JTable table, JFrame edit){
+        this.editBtn = editBtn;
         this.ServiceName = ServiceName;
         this.ServicePrice = ServicePrice;
         this.ServiceUnit = ServiceUnit;
         this.ServiceType = ServiceType;
+        this.note = note;
         this.table = table;
         this.edit = edit;
         
@@ -31,48 +40,40 @@ public class editButtonHandler {
         });
     }
     public void loadSelectedRowData() {
-        int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        if( model == null ) {
-            JOptionPane.showMessageDialog(null, "Lỗi: Dữ liệu bảng chưa được khởi tạo.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        for( int col = 0 ; col < model.getColumnCount() ; col++ ) {
-            if( model.getValueAt(selectedRow, col ) == null) {
-                model.setValueAt("", selectedRow, col);
-            }
-        }
-        ServiceID.setText(model.getValueAt(selectedRow, 1).toString());
-        ServiceName.setText(model.getValueAt(selectedRow, 2).toString());
-        ServiceType.setSelectedItem(model.getValueAt(selectedRow, 3).toString());
-        ServicePrice.setText(model.getValueAt(selectedRow, 4).toString());
-        ServiceUnit.setText(model.getValueAt(selectedRow, 5).toString());
-  
+        ss.loadSelectedRowData(table, ServiceName, ServiceType, ServicePrice, ServiceUnit, note);
     }
+    
     public void updateSelectedRow() {
         int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để cập nhật.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        if( !ss.validateData(ServiceName, ServicePrice, ServiceUnit, ServiceType) ) {
             return;
         }
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        if( model == null ) {
-            JOptionPane.showMessageDialog(null, "Lỗi: Dữ liệu bảng chưa được khởi tạo.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+
+        int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+        Service service = new Service(id, ServiceName.getText().trim(),
+                                       ServiceType.getSelectedItem().toString(),
+                                       ScannerUtil.replaceDouble(ServicePrice),
+                                       ServiceUnit.getText().trim(),
+                                       note.getText().trim());
+
+        if( !ss.updateService(service) ) {
+            JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu không thành công.", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        model.setValueAt(ServiceID.getText(), selectedRow, 1);
-        model.setValueAt(ServiceName.getText(), selectedRow, 2);
-        model.setValueAt(ServiceType.getSelectedItem(), selectedRow, 3);
-        model.setValueAt(ServicePrice.getText(), selectedRow, 4);
-        model.setValueAt(ServiceUnit.getText(), selectedRow, 5);
-        
+
+        updateTableRow(selectedRow, service);
         edit.setVisible(false);
         JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void updateTableRow(int rowIndex, Service service) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setValueAt(service.getServiceName(), rowIndex, 1);
+        model.setValueAt(service.getServiceType(), rowIndex, 2);
+        model.setValueAt(df.format(service.getPrice()), rowIndex, 3);
+        model.setValueAt(service.getUnit(), rowIndex, 4);
+        model.setValueAt(service.getDescription(), rowIndex, 5);
+        
     }
 }

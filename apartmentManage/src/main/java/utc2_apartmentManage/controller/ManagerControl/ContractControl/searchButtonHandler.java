@@ -18,7 +18,7 @@ public class searchButtonHandler {
 
     public void searchBtnClick() {
         String content = searchField.getText().trim();
-        if( content.equals("Nhập id, tên cư dân...") || searchField.getText() == null ) {
+        if( content.equals("Nhập id hợp đồng, tên chủ sở hữu ...") || searchField.getText() == null ) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị cho ô tìm kiếm",
                                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;

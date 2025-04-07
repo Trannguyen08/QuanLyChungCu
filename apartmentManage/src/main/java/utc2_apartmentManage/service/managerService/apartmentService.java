@@ -54,9 +54,20 @@ public class apartmentService {
     public List<String> getAllImageByID(int id) {
         return apartmentDAO.getImageByID(id);
     }
-    
+
+    // Xóa ảnh
     public boolean deleteImage(int id, String path) {
         return new apartmentImageRepository().deleteImage(id, path);
+    }
+
+    // Xác nhận xóa
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
+    }
+
+    // Lưu ảnh vào database
+    public boolean saveApartmentImages(int apartmentID, List<String> imagePaths) {
+        return new apartmentImageRepository().saveApartmentImages(apartmentID, imagePaths);
     }
     
     
@@ -75,7 +86,7 @@ public class apartmentService {
 
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         JTableHeader header = table.getTableHeader();
-        header.setFont(new Font("Arial", Font.BOLD, 15));
+        header.setFont(new Font("Arial", Font.BOLD, 14));
         
         for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
@@ -132,14 +143,6 @@ public class apartmentService {
         }
     }
 
-    // Xác nhận xóa
-    public boolean confirmDelete() {
-        int confirm = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa hàng này?",
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        return confirm == JOptionPane.YES_OPTION;
-    }
-
     // gán dữ liệu từ dòng đã chọn vào form
     public boolean loadSelectedRowData(JTable table, JComboBox<String> apartmentIndex, JComboBox<String> floor,
                                        JComboBox<String> building, JComboBox<String> roomNum, JComboBox<String> status,
@@ -158,8 +161,9 @@ public class apartmentService {
         status.setSelectedItem(model.getValueAt(selectedRow, 5).toString());
         area.setText(model.getValueAt(selectedRow, 6).toString());
         String rentPriceText = model.getValueAt(selectedRow, 7).toString().replace(".", "");
-        String buyPriceText = model.getValueAt(selectedRow, 8).toString().replace(",", ".");
-
+        rentPriceText = rentPriceText.replace(",", ".");
+        String buyPriceText = model.getValueAt(selectedRow, 8).toString().replace(".", "");
+        buyPriceText = buyPriceText.replace(",", ".");
         rentPrice.setText(rentPriceText);
         buyPrice.setText(buyPriceText);
 
@@ -272,11 +276,17 @@ public class apartmentService {
                 !ScannerUtil.validateRange(fromBuyPrice.getText().trim(), toBuyPrice.getText().trim(), "Giá mua"));
     }
 
-    public void loadFilterApartment(List<Apartment> apartments, JTable table) {
+    public void loadFilterApartment(Apartment apts,Integer toFloor, Integer toRoom, Double toArea, 
+                                                Double toRentPrice, Double toBuyPrice, JTable table) {
+        List<Apartment> apartments = apartmentDAO.getApartmentsByFilter(apts, toFloor, toRoom, toArea, toRentPrice, toBuyPrice);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);
         model.setRowCount(0);
 
+        if( apartments.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp" , 
+                                            "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+        }
         for (Apartment apt : apartments) {
             model.addRow(new Object[]{
                 apt.getId(),  
@@ -285,15 +295,11 @@ public class apartmentService {
                 apt.getBuilding(),   
                 apt.getNumRooms(),     
                 apt.getStatus(),     
-                apt.getArea(),        
-                apt.getRentPrice(),  
-                apt.getPurchasePrice()    
+                df.format(apt.getArea()),        
+                df.format(apt.getRentPrice()),  
+                df.format(apt.getPurchasePrice())    
             });
         }
-    }
-    
-    public boolean saveApartmentImages(int apartmentID, List<String> imagePaths) {
-        return new apartmentImageRepository().saveApartmentImages(apartmentID, imagePaths);
     }
     
     public boolean selectImages(List<String> selectedImageNames, int maxImgAccept) {

@@ -7,11 +7,11 @@ public class Contract {
     private String contractType;
     private String startDate;
     private String endDate;
-    private long contractValue;
+    private double contractValue;
     private String contractStatus;
 
     public Contract(int id, String ownerName, String apartmentIndex, String contractType, String startDate,
-                    String endDate, long contractValue, String contractStatus) {
+                    String endDate, double contractValue, String contractStatus) {
         this.id = id;
         this.ownerName = ownerName;
         this.apartmentIndex = apartmentIndex;
@@ -34,7 +34,7 @@ public class Contract {
         return contractType;
     }
 
-    public long getContractValue() {
+    public double getContractValue() {
         return contractValue;
     }
 
@@ -66,7 +66,7 @@ public class Contract {
         this.contractType = contractType;
     }
 
-    public void setContractValue(long contractValue) {
+    public void setContractValue(double contractValue) {
         this.contractValue = contractValue;
     }
 
