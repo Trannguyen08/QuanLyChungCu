@@ -7,7 +7,9 @@ public class Bill extends javax.swing.JPanel {
 
     public Bill() {
         initComponents();
-        BillHandler bh = new BillHandler(pdfBtn, searchButton, searchIcon, searchField, jTable1, jPanel1);
+        this.setVisible(true);
+        BillHandler bh = new BillHandler(pdfBtn, searchButton, searchIcon, searchField, table, this);
+        
     }
 
 
@@ -22,9 +24,9 @@ public class Bill extends javax.swing.JPanel {
         searchIcon = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         pdfBtn = new javax.swing.JButton();
-        addBtn = new javax.swing.JButton();
+        pay = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -61,8 +63,8 @@ public class Bill extends javax.swing.JPanel {
         searchButton.setText("Tìm kiếm");
         searchButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -70,15 +72,15 @@ public class Bill extends javax.swing.JPanel {
                 "ID_Hóa đơn", "ID_Căn hộ", "Ngày lập", "Ngày đến hạn", "Tổng tiền", "Trạng thái", "Chi tiết"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(90);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(80);
+        jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setPreferredWidth(50);
+            table.getColumnModel().getColumn(1).setPreferredWidth(50);
+            table.getColumnModel().getColumn(2).setPreferredWidth(60);
+            table.getColumnModel().getColumn(3).setPreferredWidth(80);
+            table.getColumnModel().getColumn(4).setPreferredWidth(60);
+            table.getColumnModel().getColumn(5).setPreferredWidth(90);
+            table.getColumnModel().getColumn(6).setPreferredWidth(80);
         }
 
         pdfBtn.setBackground(new java.awt.Color(245, 52, 58));
@@ -93,15 +95,15 @@ public class Bill extends javax.swing.JPanel {
             }
         });
 
-        addBtn.setBackground(new java.awt.Color(0, 255, 102));
-        addBtn.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        addBtn.setForeground(new java.awt.Color(255, 255, 255));
-        addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/pay.png"))); // NOI18N
-        addBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addBtn.setLabel("Thanh toán");
-        addBtn.addActionListener(new java.awt.event.ActionListener() {
+        pay.setBackground(new java.awt.Color(0, 255, 102));
+        pay.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        pay.setForeground(new java.awt.Color(255, 255, 255));
+        pay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/pay.png"))); // NOI18N
+        pay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pay.setLabel("Thanh toán");
+        pay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtnActionPerformed(evt);
+                payActionPerformed(evt);
             }
         });
 
@@ -121,7 +123,7 @@ public class Bill extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pay, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pdfBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
@@ -136,7 +138,7 @@ public class Bill extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(98, 98, 98)
-                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pay, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(60, 60, 60)
                         .addComponent(pdfBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -162,21 +164,21 @@ public class Bill extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_pdfBtnActionPerformed
 
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+    private void payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addBtnActionPerformed
+    }//GEN-LAST:event_payActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton pay;
     private javax.swing.JButton pdfBtn;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JButton searchIcon;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.*;
 import main.java.utc2_apartmentManage.service.userService.billService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class searchIconHandler {
@@ -74,15 +75,13 @@ public class searchIconHandler {
             System.out.println(apartmentIdInt);
         }
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if (billDate.getDate() == null && dueDate.getDate() != null) {
-                billDate.setDate(dateFormat.parse("2000-01-01"));
-            } else if (billDate.getDate() != null && dueDate.getDate() == null) {
-                dueDate.setDate(dateFormat.parse("2100-01-01"));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+        String billDateValue = ScannerUtil.convertJDateChooserToString(billDate);
+        String dueDateValue = ScannerUtil.convertJDateChooserToString(dueDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        if (billDate.getDate() == null && dueDate.getDate() != null) {
+            billDateValue = "01/01/2015";
+        } else if (billDate.getDate() != null && dueDate.getDate() == null) {
+            dueDateValue = "01/01/2190";
         }
 
        // Xử lý giá trị tiền
@@ -112,8 +111,7 @@ public class searchIconHandler {
         Bill bill = new Bill(id, apartmentIdInt, minTotalAmount, 
                              "", "", status.getSelectedItem().toString().trim());
 
-        boolean checkRun = billService.filterBills(bill, minTotalAmount, maxTotalAmount, 
-                                         billDate, dueDate, table);
+        boolean checkRun = billService.filterBills(bill, minTotalAmount, maxTotalAmount, billDateValue, dueDateValue, table);
         
         frame.setVisible(false);
         JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", 

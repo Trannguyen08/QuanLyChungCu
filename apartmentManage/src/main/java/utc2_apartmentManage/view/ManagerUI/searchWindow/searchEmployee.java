@@ -13,7 +13,7 @@ public class searchEmployee extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Tìm kiếm nhân viên");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(700, 700);  // Đặt kích thước (600px rộng, 450px cao)
+        setSize(540, 610);  // Đặt kích thước (600px rộng, 450px cao)
         setResizable(true);  // Cho phép thay đổi kích thước cửa sổ
         setLocationRelativeTo(null);  // Căn giữa màn hình
     }
