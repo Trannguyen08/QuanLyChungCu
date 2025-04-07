@@ -129,7 +129,9 @@ public class ResidentHandler {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        new editResident(table).setVisible(true);
+        editResident er = new editResident(table);
+        er.managerEditResident();
+        er.setVisible(true);
     }
 
     private void searchInconClick() {

@@ -23,15 +23,15 @@ public class HomeHandler {
     public HomeHandler(JPanel mainPan, JPanel logoutPanel, JPanel billPanel,JPanel infoPanel, JPanel mainPanel, HomePageUser homePage) {
         this.homePage = homePage;
         this.logoutPanel = logoutPanel;
-        this.mainPanel = mainPan;
-        this.previousPanel = mainPanel;
+        this.mainPanel = mainPanel;
+        this.previousPanel = mainPan;
         this.billPanel = billPanel;
         this.infoPanel = infoPanel;
         this.mainPan = mainPan;
 
         addClickEvent(infoPanel);
         addClickEvent(billPanel);
-        addClickEvent(mainPanel);
+        addClickEvent(mainPan);
         
 
         logoutPanel.addMouseListener(new MouseAdapter() {
@@ -66,7 +66,6 @@ public class HomeHandler {
         } 
         if (newPanel.equals(infoPanel)) {
             Infomation report = new Infomation();
-            report.setVisible(true);
             mainPanel.add(report, BorderLayout.CENTER);
         }
 

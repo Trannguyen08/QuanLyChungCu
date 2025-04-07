@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import main.java.utc2_apartmentManage.model.Apartment;
 import main.java.utc2_apartmentManage.service.managerService.apartmentService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 public class searchIconHandler {
     private JTextField apartmentID, fromArea, fromBuyPrice, fromRentPrice, toArea, toBuyPrice, toRentPrice1;
@@ -67,55 +68,44 @@ public class searchIconHandler {
 
         String stat = (String) status.getSelectedItem();
 
-        Integer floorFrom = (fromFloor.getSelectedItem() == null || fromFloor.getSelectedItem().toString().trim().isEmpty())
-                            ? null : Integer.valueOf(fromFloor.getSelectedItem().toString().trim());
+        int floorFrom = (fromFloor.getSelectedItem() == null || fromFloor.getSelectedItem().toString().trim().isEmpty())
+                            ? 0 : Integer.valueOf(fromFloor.getSelectedItem().toString().trim());
 
         Integer floorTo = (toFloor.getSelectedItem() == null || toFloor.getSelectedItem().toString().trim().isEmpty())
                             ? null : Integer.valueOf(toFloor.getSelectedItem().toString().trim());
 
-        Integer roomFrom = (fromRoomNum.getSelectedItem() == null || fromRoomNum.getSelectedItem().toString().trim().isEmpty())
-                ? null : Integer.valueOf(fromRoomNum.getSelectedItem().toString().trim());
+        int roomFrom = (fromRoomNum.getSelectedItem() == null || fromRoomNum.getSelectedItem().toString().trim().isEmpty())
+                ? 0 : Integer.valueOf(fromRoomNum.getSelectedItem().toString().trim());
 
         Integer roomTo = (toRoomNum.getSelectedItem() == null || toRoomNum.getSelectedItem().toString().trim().isEmpty())
                 ? null : Integer.valueOf(toRoomNum.getSelectedItem().toString().trim());
 
 
-        Double areaFrom = (fromArea.getText() == null || fromArea.getText().trim().isEmpty())
-                ? null : Double.valueOf(fromArea.getText().trim());
+        double areaFrom = (fromArea.getText() == null || fromArea.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(fromArea);
 
         Double areaTo = (toArea.getText() == null || toArea.getText().trim().isEmpty())
-                ? null : Double.valueOf(toArea.getText().trim());
+                ? null : ScannerUtil.replaceDouble(toArea);
 
-        Double rentFrom = (fromRentPrice.getText() == null || fromRentPrice.getText().trim().isEmpty())
-                ? null : Double.valueOf(fromRentPrice.getText().trim());
+        double rentFrom = (fromRentPrice.getText() == null || fromRentPrice.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(fromRentPrice);
 
         Double rentTo = (toRentPrice1.getText() == null || toRentPrice1.getText().trim().isEmpty())
-                ? null : Double.valueOf(toRentPrice1.getText().trim());
+                ? null : ScannerUtil.replaceDouble(toRentPrice1);
 
-        Double buyFrom = (fromBuyPrice.getText() == null || fromBuyPrice.getText().trim().isEmpty())
-                ? null : Double.valueOf(fromBuyPrice.getText().trim());
+        double buyFrom = (fromBuyPrice.getText() == null || fromBuyPrice.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(fromBuyPrice);
 
         Double buyTo = (toBuyPrice.getText() == null || toBuyPrice.getText().trim().isEmpty())
-                ? null : Double.valueOf(toBuyPrice.getText().trim());
+                ? null : ScannerUtil.replaceDouble(toBuyPrice);
 
 
         // Lấy danh sách căn hộ từ database
-        apartmentRepository adao = new apartmentRepository();
-        List<Apartment> apartments = adao.getApartmentsByFilter(
-                aptId, aptIndex, build,
-                areaFrom, areaTo,
-                rentFrom, rentTo,
-                buyFrom, buyTo,
-                floorFrom, floorTo,
-                roomFrom, roomTo,
-                stat
-        );
+        Apartment apt = new Apartment(aptId, aptIndex, floorFrom, build, roomFrom, stat, areaFrom, rentFrom, buyFrom);
 
-        apartmentService.loadFilterApartment(apartments, table);
+        apartmentService.loadFilterApartment(apt, floorTo, roomTo, areaTo, rentTo, buyTo, table);
         frame.setVisible(false);
-        if (apartments.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+        
     }
 
 

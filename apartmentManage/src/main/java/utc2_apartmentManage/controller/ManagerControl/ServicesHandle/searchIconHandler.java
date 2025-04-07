@@ -2,30 +2,32 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.ServicesHandle;
 
 import main.java.utc2_apartmentManage.util.ScannerUtil;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import main.java.utc2_apartmentManage.model.Service;
+import main.java.utc2_apartmentManage.service.managerService.serviceService;
 
 public class searchIconHandler {
-    private javax.swing.JTextField ServiceID;
-    private javax.swing.JTextField ServiceName;
-    private javax.swing.JComboBox<String> ServiceType;
-    private javax.swing.JTextField ServicePrice;
-    private javax.swing.JTextField ServiceUnit;
+    private JTextField ServiceID, ServiceName, fromServicePrice, toServicePrice, ServiceUnit;
+    private JComboBox<String> ServiceType;
+    private JTextArea note;
     private JTable table;
     private JFrame frame;
-    private javax.swing.JButton searchBtn;
+    private JButton searchBtn;
+    private serviceService ss = new serviceService();
     
-    public searchIconHandler(JTextField ServiceID, JTextField ServiceName,JTextField ServicePrice, JTextField  ServiceUnit, JComboBox<String> ServiceType, JTable table, JFrame frame, JButton searchBtn){
+    public searchIconHandler(JTextField ServiceID, JTextField ServiceName,JTextField fromServicePrice, 
+                            JTextField toServicePrice,JTextField  ServiceUnit, JComboBox<String> ServiceType, 
+                            JTextArea note, JTable table, JFrame frame, JButton searchBtn){
+        
         this.ServiceID = ServiceID;
         this.ServiceName = ServiceName;
         this.ServiceType = ServiceType;
-        this.ServicePrice = ServicePrice;
+        this.fromServicePrice = fromServicePrice;
+        this.toServicePrice = toServicePrice;
         this.ServiceUnit = ServiceUnit;
         this.table = table;
+        this.note = note;
         this.frame = frame;
         this.searchBtn = searchBtn;
         
@@ -37,50 +39,27 @@ public class searchIconHandler {
         });
     }
     public void filterTableData() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-
-        List<RowFilter<DefaultTableModel, Integer>> filters = new ArrayList<>();
-
-        // validate dữ liệu nhập đúng kiểu
-        if ((ServiceID.getText() != null && !ServiceID.getText().trim().isEmpty() &&
-                ScannerUtil.validateInteger(ServiceID.getText().trim(), "ID Dịch vụ")) ||
-                (ServiceName.getText() != null && !ServiceName.getText().trim().isEmpty() &&
-                        ScannerUtil.validateInteger(ServiceName.getText().trim(), "Tên dịch vụ")) ||
-                (ServicePrice.getText() != null && !ServicePrice.getText().trim().isEmpty() &&
-                        ScannerUtil.validateDouble(ServicePrice.getText().trim(), "Giá dịch vụ")) ||
-                (ServiceUnit.getText() != null && !ServiceUnit.getText().trim().isEmpty() &&
-                        ScannerUtil.validateDouble(ServiceUnit.getText().trim(), "Đề tài"))
-        ) {
+        boolean check = ss.validateSearchInput(ServiceID, ServiceName, fromServicePrice, ServiceUnit, ServiceType, toServicePrice);
+        if( !check ) {
             return;
-        }
-
-        if (ServiceType.getSelectedItem().toString().trim().isEmpty() ||
-                ServiceType.getSelectedItem().toString().trim().equals("Chọn kiểu dịch vụ")) {
-            return;
-        }
-
-        // nếu không null thì xét với table
-        if (!ServiceID.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + ServiceID.getText().trim(), 0));
-        }
-        if (!ServiceName.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + ServiceName.getText().trim(), 1));
-        }
-        if (ServiceType.getSelectedItem() != null && !ServiceType.getSelectedItem().toString().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + ServiceType.getSelectedItem().toString().trim(), 2));
-        }
-        if (!ServicePrice.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + ServicePrice.getText().trim(), 3));
-        }
-        if (!ServiceUnit.getText().trim().isEmpty()) {
-            filters.add(RowFilter.regexFilter("(?i)" + ServiceUnit.getText().trim(), 4));
         }
         
-        sorter.setRowFilter(RowFilter.andFilter(filters));
+        int id = (ServiceID.getText().trim().isEmpty()) ? 0 : Integer.parseInt(ServiceID.getText().trim());
+        
+        double fp = (fromServicePrice.getText() == null || fromServicePrice.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(fromServicePrice);
+
+        double tp = (toServicePrice.getText() == null || toServicePrice.getText().trim().isEmpty())
+                ? 0 : ScannerUtil.replaceDouble(toServicePrice);
+        
+        Service service = new Service(id, ServiceName.getText().trim(), 
+                                       ServiceType.getSelectedItem().toString().trim(),
+                                       fp, ServiceUnit.getText().trim(),
+                                       note.getText().trim());
+        
+        boolean checkRun = ss.getFilterServiceByIcon(service, tp, table);
         frame.setVisible(false);
-        if (table.getRowCount() == 0) {
+        if( !checkRun ) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }

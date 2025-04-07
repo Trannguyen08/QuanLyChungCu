@@ -57,45 +57,7 @@ public class BillHandler {
     }
 
     private void pdfBtnClick() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hợp đồng!");
-            return;
-        }
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-
-        String filePath = System.getProperty("user.dir") + File.separator + "Data";
-
-        // Kiểm tra và tạo thư mục nếu chưa tồn tại
-        File directory = new File(filePath);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        // Kiểm tra và in ra đường dẫn đầy đủ
-        String fullFilePath = filePath + File.separator + "contract_" + id + ".pdf";
-        File file = new File(fullFilePath);
-        try {
-            if (file.createNewFile()) {
-                System.out.println("File đã được tạo: " + fullFilePath);
-            } else {
-                System.out.println("File đã tồn tại hoặc không thể tạo file.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Xuất hóa đơn
-        PDF.exportContractToPDF(fullFilePath, id);
-
-        // Kiểm tra xem file có tồn tại sau khi xuất
-        File generatedFile = new File(fullFilePath);
-        if (generatedFile.exists()) {
-            PDF.openPDF(fullFilePath);
-        } else {
-            JOptionPane.showMessageDialog(null, "Không thể tạo hoặc tìm thấy file: " + fullFilePath);
-        }
+        
     }
 
     private void searchInconClick() {

@@ -24,6 +24,16 @@ public class contractService {
     private final contractRepository contractDAO = new contractRepository();
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
+    // Xác nhận xóa
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
+    }
+
+    // Xóa hợp đồng
+    public boolean deleteContract(int id) {
+        return contractDAO.deleteContract(id);
+    }
+
     public boolean checkSelectRow(JTable table) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
@@ -55,17 +65,6 @@ public class contractService {
 
     }
 
-    public boolean confirmDelete() {
-        int confirm = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa hàng này?",
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        return confirm == JOptionPane.YES_OPTION;
-    }
-
-    public boolean deleteContract(int id) {
-        return contractDAO.deleteContract(id);
-    }
-
     // load dữ liệu vào bảng
     public void setupContractTable(JTable table) {
         List<Contract> contractList = contractDAO.getAllContract();
@@ -86,17 +85,6 @@ public class contractService {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    public String refactorName(String name) {
-        String[] nameArr = name.trim().split("\\s+"); 
-        StringBuilder newName = new StringBuilder();
-        for (String s : nameArr) {
-            if (!s.isEmpty()) {
-                newName.append(s.substring(0, 1).toUpperCase()).append(s.substring(1).toLowerCase()).append(" ");
-            }
-        }
-        return newName.toString().trim();
     }
 
     public boolean validateSeachInput(JTextField contractID, JTextField ownerName, JTextField fromValue,
@@ -167,7 +155,7 @@ public class contractService {
                 c.getContractType(),
                 c.getStartDate(),
                 c.getEndDate(),
-                c.getContractValue(),
+                df.format(c.getContractValue()),
                 c.getContractStatus()
             });
         }
@@ -193,7 +181,7 @@ public class contractService {
                 c.getContractType(),
                 c.getStartDate(),
                 c.getEndDate(),
-                c.getContractValue(),
+                df.format(c.getContractValue()),
                 c.getContractStatus()
             });
         }
@@ -203,19 +191,11 @@ public class contractService {
                                        JDateChooser startDate, JDateChooser endDate, 
                                         JComboBox<String> contractStatus, JComboBox<String> contractType ) {
 
-        if (ownerName.getText().isEmpty() || fromValue.getText().isEmpty() || toValue.getText().isEmpty() 
-                || contractStatus.getSelectedItem().toString().trim().isEmpty()
-                || contractType.getSelectedItem().toString().trim().isEmpty() ) {
-            return true;
-        }
-
-        if( id.getText().trim().isEmpty() ) {
-            return true;
-        }
-
-        Date start = startDate.getDate();
-        Date end = endDate.getDate();
-        if (start == null || end == null) {
+        if (ownerName.getText().isEmpty() && fromValue.getText().isEmpty() && toValue.getText().isEmpty() 
+                && contractStatus.getSelectedItem().toString().trim().isEmpty()
+                && contractType.getSelectedItem().toString().trim().isEmpty()
+                && id.getText().trim().isEmpty() 
+                && startDate.getDate() == null && endDate.getDate() == null) {
             return true;
         }
 

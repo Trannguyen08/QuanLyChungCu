@@ -2,7 +2,6 @@ package main.java.utc2_apartmentManage.controller.ManagerControl.ApartmentHandle
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +85,7 @@ public class addButtonHandler {
         int id = apartmentService.getIDMin();
         Apartment apartment = new Apartment(id, Integer.parseInt(aIndex.toString()), Integer.parseInt(floorNum.toString()),
                                 buildingNum.toString(), Integer.parseInt(roomNumber.toString()), statusVal.toString(),
-                                ScannerUtil.parseToDouble(areaVal), ScannerUtil.parseToDouble(rent), ScannerUtil.parseToDouble(buy));
+                                ScannerUtil.replaceDouble(area), ScannerUtil.replaceDouble(rentPrice), ScannerUtil.replaceDouble(buyPrice));
 
         if (apartmentService.isDuplicate(apartment, table)) {
             JOptionPane.showMessageDialog(null, "Căn hộ này đã tồn tại trong cùng tầng và tòa nhà!", "Lỗi trùng lặp", JOptionPane.ERROR_MESSAGE);

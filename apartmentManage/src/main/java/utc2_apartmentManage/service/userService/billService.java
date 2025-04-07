@@ -7,15 +7,14 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import main.java.utc2_apartmentManage.model.Bill;
+import main.java.utc2_apartmentManage.model.Service;
 import main.java.utc2_apartmentManage.util.ScannerUtil;
 import main.java.utc2_apartmentManage.repository.UserRepository.billRepository;
 
@@ -26,21 +25,10 @@ public class billService {
   
     // load dữ liệu vào bảng
     public void setupBilltTable(JTable table) {
-        List<Bill> billList = billDAO.getAllBills();
+        List<Bill> billList = billDAO.getAllBills(101);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        for (Bill bill : billList) {
-            model.addRow(new Object[]{
-                bill.getBillId(),
-                bill.getApartmentId(),
-                df.format(bill.getTotalAmount()),
-                bill.getBillDate(),
-                bill.getDueDate(),
-                bill.getStatus()
-            });
-        }
+        addToTable(billList, table);
 
         JTableHeader header = table.getTableHeader();
         header.setFont(new Font("Arial", Font.BOLD, 14));
@@ -91,16 +79,12 @@ public class billService {
         return true;
     }
 
-    public boolean validateSeachInput(JTextField billId, JTextField apartmentId, JTextField totalAmount,
+    public boolean validateSeachInput(JTextField billId, JTextField totalAmount,
                                     JDateChooser billDate, JDateChooser dueDate, JComboBox<String> status,
                                     JTextField to_totalAmount) {
 
         if (billId.getText() != null && !billId.getText().trim().isEmpty() &&
             !ScannerUtil.validateInteger(billId.getText().trim(), "ID hóa đơn")) {
-            return false;
-        }
-        if (apartmentId.getText() != null && !apartmentId.getText().trim().isEmpty() &&
-            !ScannerUtil.validateInteger(apartmentId.getText().trim(), "ID căn hộ")) {
             return false;
         }
         if (totalAmount.getText() != null && !totalAmount.getText().trim().isEmpty() &&
@@ -133,57 +117,42 @@ public class billService {
         return true;
     }
     
-    public boolean filterBills(Bill bill, double totalAmoun, double to_totalAmount, String billDate, String dueDate, JTable table) {
-
-        List<Bill> billList = billDAO.getFilteredBills(bill, totalAmoun, to_totalAmount, billDate, dueDate);
-
+    public void addToTable( List<Bill> billList, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);  
-        model.setRowCount(0);  
-
-        for (Bill b : billList) {
-            model.addRow(new Object[]{
-                b.getBillId(),
-                b.getApartmentId(),
-                b.getTotalAmount(),
-                b.getStatus(),
-                b.getBillDate(),
-                b.getDueDate()
-            });
-        }
-
-        return true;
-    }
-    
-        public void updateTableWithBills(String keyword, JTable table) {
-        List<Bill> billList = billDAO.getFilteredBillsByKeyword(keyword);
-
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        table.setRowSorter(null);
         model.setRowCount(0);
-        if (billList.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy hóa đơn nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-
+        
         for (Bill b : billList) {
             model.addRow(new Object[]{
                 b.getBillId(),
-                b.getApartmentId(),
                 b.getBillDate(),
                 b.getDueDate(),
-                b.getTotalAmount(),
+                df.format(b.getTotalAmount()),
                 b.getStatus()
-
             });
         }
-    }
         
-   public boolean checkAllNull(JTextField billId, JTextField apartmentId, JTextField totalAmount,
+    }
+    
+    public boolean filterBillByIcon(Bill bill,  Double to_totalAmount, JTable table) {
+        List<Bill> billList = billDAO.getFilteredBills(bill, to_totalAmount);
+        addToTable(billList, table);
+        return !billList.isEmpty();
+    }
+    
+    public boolean filterBillByKeyword(int id, JTable table) {
+        List<Bill> bills = billDAO.getFilteredBillsByID(id);
+        addToTable(bills, table);
+        return !bills.isEmpty(); 
+    }
+    
+        
+        
+    public boolean checkAllNull(JTextField billId, JTextField totalAmount,
                              JDateChooser billDate, JDateChooser dueDate,JComboBox<String> status,
                              JTextField to_totalAmount ) {
     
-    if (billId.getText().trim().isEmpty() || apartmentId.getText().trim().isEmpty() 
+    if (billId.getText().trim().isEmpty()  
         || totalAmount.getText().trim().isEmpty() || to_totalAmount.getText().trim().isEmpty()
         || status.getSelectedItem().toString().trim().isEmpty()) {
         return true;

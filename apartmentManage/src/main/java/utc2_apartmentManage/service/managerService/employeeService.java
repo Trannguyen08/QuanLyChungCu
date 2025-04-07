@@ -18,6 +18,32 @@ import main.java.utc2_apartmentManage.model.Employee;
 public class employeeService {
     private final employeeRepository employeeDAO = new employeeRepository();
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
+    
+    
+    public int getNewID() {
+        return employeeDAO.getIDMinNotExist();
+    }
+    
+     // thêm vào database
+    public boolean addEmployee(Employee employee) {
+        return employeeDAO.addEmployee(employee);
+    }
+
+    // Xóa căn hộ khỏi database
+    public boolean deleteEmployee(int id) {
+        return employeeDAO.deleteEmployee(id);
+    }
+    
+    // update
+    public boolean updateEmployee(Employee employee) {
+        return employeeDAO.updateEmployee(employee);
+    }
+
+    // Xác nhận xóa
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
+    }
+    
     // validate trùng số điện thoại và email
     public boolean isDuplicate(Employee employee, JTable table) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -31,10 +57,6 @@ public class employeeService {
             }
         }
         return false;
-    }
-    
-    public int getNewID() {
-        return employeeDAO.getIDMinNotExist();
     }
     
     public void setupEmployeeTable(JTable table) {
@@ -58,50 +80,20 @@ public class employeeService {
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
     }
     
-    // thêm vào database
-    public boolean addEmployee(Employee employee) {
-        return employeeDAO.addEmployee(employee);
-    }
-
-    // lấy dòng cuối để update table
-    public Object[] getLastRow() {
-        return employeeDAO.getLastRow();
-    }
-
     // lấy id
     public Integer getEmployeeId(JTable table) {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để xóa!", "Lỗi", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
+        errorNotifiaction(table);
 
+        int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         Object value = model.getValueAt(selectedRow, 0);
-        if (value == null) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy ID của hàng đã chọn!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
 
         try {
-            return Integer.parseInt(value.toString());
+            return Integer.valueOf(value.toString());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ID không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return null;
         }
-    }
-
-    // Xóa căn hộ khỏi database
-    public boolean deleteEmployee(int id) {
-        return employeeDAO.deleteEmployee(id);
-    }
-
-    // Xác nhận xóa
-    public boolean confirmDelete() {
-        int confirm = JOptionPane.showConfirmDialog(null,
-                "Bạn có chắc muốn xóa hàng này?",
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-        return confirm == JOptionPane.YES_OPTION;
     }
 
     // check select từ table
@@ -204,10 +196,7 @@ public class employeeService {
         
         return true;
     }
-
-    public boolean updateEmployee(Employee employee) {
-        return employeeDAO.updateEmployee(employee);
-    }
+    
     public boolean validateSearchInput(JTextField employeeID, JTextField fullName, JComboBox<String> gender,
                                        JTextField phoneNumber, JTextField email, JComboBox<String> position,
                                        JTextField salary, JDateChooser hiringDate, JComboBox<String> status,
@@ -234,8 +223,7 @@ public class employeeService {
         return true;
     }
     
-    public void updateTable(String keyword, JTable table) {
-        List<Employee> emps = employeeDAO.getFilteredEmployeeByKeyword(keyword);
+    public void updateTable(JTable table, List<Employee> emps) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         table.setRowSorter(null);
         model.setRowCount(0); 
@@ -252,6 +240,24 @@ public class employeeService {
                 df.format(emp.getSalary()), emp.getStatus()
             });
         }
+    }
+    
+    public void filterEmployeeButton(String keyword, JTable table) {
+        List<Employee> emps = employeeDAO.getFilteredEmployeeByKeyword(keyword);
+        updateTable(table, emps);
+    }
+    
+    public boolean filterEmployeeIcon(JTable table, Employee emp, String toBirthDay, double toValue) {
+        List<Employee> emps = employeeDAO.getAllEmployeeBySearchIcon(emp, toBirthDay, toValue);
+        if( emps.isEmpty() ){
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            table.setRowSorter(null);
+            model.setRowCount(0); 
+            
+            return false;
+        }
+        updateTable(table, emps);
+        return true;
     }
 
     

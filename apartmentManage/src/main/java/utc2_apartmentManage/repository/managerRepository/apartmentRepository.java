@@ -165,69 +165,68 @@ public class apartmentRepository {
         return apartmentList;
     }
 
-    public List<Apartment> getApartmentsByFilter(int apartmentID, int apartmentIndex, String building, Double fromArea, Double toArea,
-                                             Double fromRentPrice, Double toRentPrice, Double fromBuyPrice, Double toBuyPrice,
-                                             Integer fromFloor, Integer toFloor, Integer fromRoomNum, Integer toRoomNum, String status) {
+    public List<Apartment> getApartmentsByFilter(Apartment apt,Integer toFloor, Integer toRoom, Double toArea, 
+                                                Double toRentPrice, Double toBuyPrice) {
         List<Apartment> apartments = new ArrayList<>();
         String query = "SELECT * FROM apartments WHERE 1=1"; 
 
         List<Object> params = new ArrayList<>();
 
-        if( apartmentID != 0 ) {
+        if( apt.getId() != 0 ) {
             query += " AND apartment_id = ?";
-            params.add(apartmentID);
+            params.add(apt.getId());
         }
-        if( apartmentIndex != 0 ) {
+        if( apt.getIndex() != 0 ) {
             query += " AND apartmentIndex = ?";
-            params.add(apartmentIndex);
+            params.add(apt.getIndex());
         }
-        if( building != null && !building.isEmpty() ) {
+        if( apt.getBuilding() != null && !apt.getBuilding().isEmpty() ) {
             query += " AND building LIKE ?";
-            params.add("%" + building + "%");
+            params.add("%" + apt.getBuilding() + "%");
         }
-        if( fromArea != null ) {
+        if( apt.getArea() != 0 ) {
             query += " AND area >= ?";
-            params.add(fromArea);
+            params.add(apt.getArea());
         }
         if( toArea != null ) {
             query += " AND area <= ?";
             params.add(toArea);
         }
-        if( fromRentPrice != null ) {
+        if( apt.getRentPrice() != 0 ) {
             query += " AND rent_price >= ?";
-            params.add(fromRentPrice);
+            params.add(apt.getRentPrice());
         }
         if( toRentPrice != null ) {
             query += " AND rent_price <= ?";
             params.add(toRentPrice);
         }
-        if( fromBuyPrice != null ) {
+        if( apt.getPurchasePrice() != 0 ) {
             query += " AND purchase_price >= ?";
-            params.add(fromBuyPrice);
+            params.add(apt.getPurchasePrice());
         }
         if( toBuyPrice != null ) {
             query += " AND purchase_price <= ?";
             params.add(toBuyPrice);
         }
-        if( fromFloor != null ) {
+        if( apt.getFloor() != 0 ) {
             query += " AND floor >= ?";
-            params.add(fromFloor);
+            params.add(apt.getFloor());
         }
         if( toFloor != null ) {
             query += " AND floor <= ?";
             params.add(toFloor);
         }
-        if( fromRoomNum != null ) {
+        if( apt.getNumRooms() != 0 ) {
             query += " AND num_rooms >= ?";
-            params.add(fromRoomNum);
+            params.add(apt.getNumRooms());
         }
-        if( toRoomNum != null ) {
+        if( toRoom != null ) {
             query += " AND num_rooms <= ?";
-            params.add(toRoomNum);
+            params.add(toRoom);
         }
-        if( status != null && !status.isEmpty() ) {
+        if( apt.getStatus() != null && !apt.getStatus().isEmpty() ) {
             query += " AND status = ?";
-            params.add(status);
+            params.add(apt.getStatus());
         }
 
         try (Connection conn = ConnectDB.getConnection();

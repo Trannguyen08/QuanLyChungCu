@@ -15,7 +15,7 @@ import main.java.utc2_apartmentManage.model.Notification;
 
 public class notifiRepository {
     private int getRowCount(){
-        String query = "SELECT COUNT(*) FROM notification";
+        String query = "SELECT COUNT(*) FROM notifications";
         int count = 0;
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query);
@@ -31,7 +31,7 @@ public class notifiRepository {
     }
     
     public boolean updateNotification(Notification notification){
-        String sql = "UPDATE notification SET notification_id = ?,  message = ?, " +
+        String sql = "UPDATE notifications SET notification_id = ?,  message = ?, " +
                      "notification_type = ?, title = ?, WHERE recipient_id = ?";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class notifiRepository {
     }
     
     public boolean addNotification(Notification notification) {
-        String sql = "UPDATE notification SET notification_id = ?,  message = ?, " +
+        String sql = "UPDATE notifications SET notification_id = ?,  message = ?, " +
                      "notification_type = ?, title = ?, WHERE recipient_id = ?";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -71,7 +71,7 @@ public class notifiRepository {
     }
     
     public boolean deleteNotification(int id) {
-        String sql = "DELETE FROM notification WHERE notification_id = ?";
+        String sql = "DELETE FROM notifications WHERE notification_id = ?";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -86,7 +86,7 @@ public class notifiRepository {
     }
     
     public Object[] getLastRow() {
-        String query = "SELECT * FROM notification ORDER BY notification_id DESC LIMIT 1";
+        String query = "SELECT * FROM notifications ORDER BY notification_id DESC LIMIT 1";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query);
              ResultSet res = pstmt.executeQuery()) {
@@ -108,7 +108,7 @@ public class notifiRepository {
         return null;
     }
     public void addDataToTable(JTable table) {
-        String query = "SELECT * FROM notification";
+        String query = "SELECT * FROM notifications";
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
         try (Connection con = ConnectDB.getConnection();
@@ -130,7 +130,7 @@ public class notifiRepository {
     }
 
     public List<Notification> getAllNotification() {
-        String query = "SELECT * FROM notification";
+        String query = "SELECT * FROM notifications";
 
         List<Notification> notificationList = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class notifiRepository {
 
     public List<Notification> getNotificationsByFilter(Integer notificationID, Integer ownerID, String title, String mess, String type) {
         List<Notification> notifications = new ArrayList<>();
-        String query = "SELECT * FROM notification WHERE 1=1";
+        String query = "SELECT * FROM notifications WHERE 1=1";
 
         List<Object> params = new ArrayList<>();
 

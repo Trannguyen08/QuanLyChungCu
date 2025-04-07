@@ -24,7 +24,7 @@ public class deleteButtonHandler {
         if( id == null ) {
             return;
         }
-        if (employeeService.confirmDelete()) {
+        if (employeeService.confirmDelete("nhân viên")) {
             boolean isDeleted = (panel instanceof Employee) && employeeService.deleteEmployee(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());

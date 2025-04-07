@@ -3,6 +3,7 @@ package main.java.utc2_apartmentManage.controller.UserControl;
 
 import javax.swing.*;
 import main.java.utc2_apartmentManage.service.userService.billService;
+import main.java.utc2_apartmentManage.util.ScannerUtil;
 
 
 public class searchButtonHandler {
@@ -30,7 +31,11 @@ public class searchButtonHandler {
                                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
+        
+        if( !ScannerUtil.validateInteger(content, "ô tìm kiếm") ) {
+            return;
+        }
 
-        billService.updateTableWithBills(content, table);
+        billService.filterBillByKeyword(Integer.parseInt(content), table);
     }
 }

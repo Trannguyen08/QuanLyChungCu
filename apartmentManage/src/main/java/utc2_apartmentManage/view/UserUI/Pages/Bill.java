@@ -69,18 +69,24 @@ public class Bill extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID_Hóa đơn", "ID_Căn hộ", "Ngày lập", "Ngày đến hạn", "Tổng tiền", "Trạng thái", "Chi tiết"
+                "ID_Hóa đơn", "Ngày lập", "Ngày đến hạn", "Tổng tiền", "Trạng thái"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(50);
-            table.getColumnModel().getColumn(1).setPreferredWidth(50);
-            table.getColumnModel().getColumn(2).setPreferredWidth(60);
-            table.getColumnModel().getColumn(3).setPreferredWidth(80);
-            table.getColumnModel().getColumn(4).setPreferredWidth(60);
-            table.getColumnModel().getColumn(5).setPreferredWidth(90);
-            table.getColumnModel().getColumn(6).setPreferredWidth(80);
+            table.getColumnModel().getColumn(1).setPreferredWidth(60);
+            table.getColumnModel().getColumn(2).setPreferredWidth(80);
+            table.getColumnModel().getColumn(3).setPreferredWidth(60);
+            table.getColumnModel().getColumn(4).setPreferredWidth(90);
         }
 
         pdfBtn.setBackground(new java.awt.Color(245, 52, 58));

@@ -25,7 +25,7 @@ public class deleteButtonHandler {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
 
-        if (contract_service.confirmDelete()) {
+        if (contract_service.confirmDelete("hợp đồng")) {
             boolean isDeleted = (panel instanceof ContractUI) && contract_service.deleteContract(id);
             if( isDeleted ) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());

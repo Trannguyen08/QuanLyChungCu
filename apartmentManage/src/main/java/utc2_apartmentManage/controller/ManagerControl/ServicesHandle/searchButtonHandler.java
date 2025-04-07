@@ -1,42 +1,37 @@
 package main.java.utc2_apartmentManage.controller.ManagerControl.ServicesHandle;
 
-import main.java.utc2_apartmentManage.util.ScannerUtil;
-
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import main.java.utc2_apartmentManage.service.managerService.serviceService;
 
 public class searchButtonHandler {
     private JTable table;
     private JTextField searchField;
     private JButton searchButton;
+    private serviceService ss = new serviceService();
     
     public searchButtonHandler(JTextField searchField, JButton searchButton, JTable table) {
         this.searchField = searchField;
         this.searchButton = searchButton;
         this.table = table;
-
-        this.searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                findIDInTable();
-            }
-        });
     }
-    private void findIDInTable() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        table.setRowSorter(sorter);
-
-        String id = searchField.getText().trim();
-        if( !ScannerUtil.validateInteger(id, "Ô tìm kiếm") ) {
+    
+    public void filterWithSearchField() {
+        String content = searchField.getText().trim();
+        if( content.equals("Nhập id, tên dịch vụ...") || searchField.getText() == null ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị cho ô tìm kiếm",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        sorter.setRowFilter(RowFilter.regexFilter("(?i)" + id, 0));
-        if (table.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!",
+        
+        if( content.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng không nhập chuỗi chỉ chứa khoảng trắng",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        boolean checkRun = ss.loadServicesIntoTable(content, table);
+        if( !checkRun ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phú hợp",
                                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
