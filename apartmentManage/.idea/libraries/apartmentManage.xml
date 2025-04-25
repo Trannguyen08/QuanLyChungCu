@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="apartmentManage">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/apartmentManage.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
