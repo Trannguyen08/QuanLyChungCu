@@ -11,5 +11,13 @@
                 <root id="mmmm.src.dir"/>
             </test-roots>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>characterEncoding</word>
+            <word>jdbc</word>
+            <word>localhost</word>
+            <word>mysql</word>
+            <word>useUnicode</word>
+            <word>UTF</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>
