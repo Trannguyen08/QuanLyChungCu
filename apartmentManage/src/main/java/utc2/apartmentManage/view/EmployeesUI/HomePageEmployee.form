@@ -70,11 +70,11 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="logoutPanel" alignment="0" max="32767" attributes="0"/>
-              <Component id="mainPan" alignment="0" max="32767" attributes="0"/>
+              <Component id="thongtin" alignment="0" max="32767" attributes="0"/>
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-              <Component id="infoPanel" alignment="0" pref="202" max="32767" attributes="0"/>
+              <Component id="thongbao" alignment="0" pref="202" max="32767" attributes="0"/>
               <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
-              <Component id="billPanel" alignment="0" pref="202" max="32767" attributes="0"/>
+              <Component id="chamcong" alignment="0" pref="202" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -84,11 +84,11 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
-                  <Component id="mainPan" min="-2" max="-2" attributes="0"/>
+                  <Component id="thongtin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="billPanel" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="chamcong" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="infoPanel" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="thongbao" min="-2" pref="44" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="logoutPanel" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -147,7 +147,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="mainPan">
+        <Container class="javax.swing.JPanel" name="thongtin">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="5b" green="33" red="d" type="rgb"/>
@@ -209,7 +209,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="infoPanel">
+        <Container class="javax.swing.JPanel" name="thongbao">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="8e" green="65" red="29" type="rgb"/>
@@ -345,7 +345,7 @@
             </Property>
           </Properties>
         </Component>
-        <Container class="javax.swing.JPanel" name="billPanel">
+        <Container class="javax.swing.JPanel" name="chamcong">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="8e" green="65" red="29" type="rgb"/>

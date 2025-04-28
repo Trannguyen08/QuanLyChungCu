@@ -1,7 +1,9 @@
 package main.java.utc2.apartmentManage.view.EmployeesUI;
 
+import main.java.utc2.apartmentManage.controller.employeesControl.HomeHandler;
 
-import main.java.utc2.apartmentManage.controller.UserControl.HomeController.HomeHandler;
+
+
 
 public class HomePageEmployee extends javax.swing.JFrame {
 
@@ -9,7 +11,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Home Page");
-       // HomeHandler hh = new HomeHandler(mainPan, logoutPanel, billPanel, infoPanel, mainPanel, this);
+        HomeHandler hh = new HomeHandler(thongtin, logoutPanel, chamcong, thongbao, mainPanel, this);
         
     }
 
@@ -22,17 +24,17 @@ public class HomePageEmployee extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        mainPan = new javax.swing.JPanel();
+        thongtin = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         apartment = new javax.swing.JLabel();
-        infoPanel = new javax.swing.JPanel();
+        thongbao = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         residents = new javax.swing.JLabel();
         logoutPanel = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         logout = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        billPanel = new javax.swing.JPanel();
+        chamcong = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         residents1 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
@@ -72,8 +74,8 @@ public class HomePageEmployee extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        mainPan.setBackground(new java.awt.Color(13, 51, 91));
-        mainPan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        thongtin.setBackground(new java.awt.Color(13, 51, 91));
+        thongtin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/apartment.png"))); // NOI18N
 
@@ -83,30 +85,30 @@ public class HomePageEmployee extends javax.swing.JFrame {
         apartment.setText("Thông tin");
         apartment.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        javax.swing.GroupLayout mainPanLayout = new javax.swing.GroupLayout(mainPan);
-        mainPan.setLayout(mainPanLayout);
-        mainPanLayout.setHorizontalGroup(
-            mainPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanLayout.createSequentialGroup()
+        javax.swing.GroupLayout thongtinLayout = new javax.swing.GroupLayout(thongtin);
+        thongtin.setLayout(thongtinLayout);
+        thongtinLayout.setHorizontalGroup(
+            thongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thongtinLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(apartment)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        mainPanLayout.setVerticalGroup(
-            mainPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanLayout.createSequentialGroup()
+        thongtinLayout.setVerticalGroup(
+            thongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, thongtinLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(thongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(apartment, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        infoPanel.setBackground(new java.awt.Color(41, 101, 142));
-        infoPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        infoPanel.setPreferredSize(new java.awt.Dimension(146, 36));
+        thongbao.setBackground(new java.awt.Color(41, 101, 142));
+        thongbao.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        thongbao.setPreferredSize(new java.awt.Dimension(146, 36));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/resident.png"))); // NOI18N
@@ -117,19 +119,19 @@ public class HomePageEmployee extends javax.swing.JFrame {
         residents.setText("Thông báo");
         residents.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
-        infoPanel.setLayout(infoPanelLayout);
-        infoPanelLayout.setHorizontalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(infoPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout thongbaoLayout = new javax.swing.GroupLayout(thongbao);
+        thongbao.setLayout(thongbaoLayout);
+        thongbaoLayout.setHorizontalGroup(
+            thongbaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(thongbaoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(residents)
                 .addContainerGap(117, Short.MAX_VALUE))
         );
-        infoPanelLayout.setVerticalGroup(
-            infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        thongbaoLayout.setVerticalGroup(
+            thongbaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(residents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
@@ -169,9 +171,9 @@ public class HomePageEmployee extends javax.swing.JFrame {
         jLabel2.setAlignmentY(0.0F);
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
-        billPanel.setBackground(new java.awt.Color(41, 101, 142));
-        billPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        billPanel.setPreferredSize(new java.awt.Dimension(146, 36));
+        chamcong.setBackground(new java.awt.Color(41, 101, 142));
+        chamcong.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chamcong.setPreferredSize(new java.awt.Dimension(146, 36));
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/resident.png"))); // NOI18N
@@ -182,19 +184,19 @@ public class HomePageEmployee extends javax.swing.JFrame {
         residents1.setText("Chấm công");
         residents1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        javax.swing.GroupLayout billPanelLayout = new javax.swing.GroupLayout(billPanel);
-        billPanel.setLayout(billPanelLayout);
-        billPanelLayout.setHorizontalGroup(
-            billPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(billPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout chamcongLayout = new javax.swing.GroupLayout(chamcong);
+        chamcong.setLayout(chamcongLayout);
+        chamcongLayout.setHorizontalGroup(
+            chamcongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(chamcongLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(residents1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        billPanelLayout.setVerticalGroup(
-            billPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        chamcongLayout.setVerticalGroup(
+            chamcongLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(residents1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
@@ -204,11 +206,11 @@ public class HomePageEmployee extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(logoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(thongtin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+            .addComponent(thongbao, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(billPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+            .addComponent(chamcong, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,11 +219,11 @@ public class HomePageEmployee extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(76, 76, 76)
-                .addComponent(mainPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(thongtin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(billPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chamcong, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(thongbao, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -297,8 +299,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apartment;
-    private javax.swing.JPanel billPanel;
-    private javax.swing.JPanel infoPanel;
+    private javax.swing.JPanel chamcong;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -313,9 +314,10 @@ public class HomePageEmployee extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel logout;
     private javax.swing.JPanel logoutPanel;
-    private javax.swing.JPanel mainPan;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel residents;
     private javax.swing.JLabel residents1;
+    private javax.swing.JPanel thongbao;
+    private javax.swing.JPanel thongtin;
     // End of variables declaration//GEN-END:variables
 }

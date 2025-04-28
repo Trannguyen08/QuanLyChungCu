@@ -6,13 +6,15 @@ public class Notification {
     private String title;
     private String mess;
     private String sentDate;
+    private int seen;
     
-    public Notification(int ID, String type, String title, String mess, String sentDate){
+    public Notification(int ID, String type, String title, String mess, String sentDate, int seen){
         this.ID = ID;
         this.mess = mess;
         this.sentDate = sentDate;
         this.title = title;
         this.type= type;
+        this.seen = seen;
     }
     public int getID() {
         return ID;
@@ -33,6 +35,12 @@ public class Notification {
     public String getTitle() {
         return title;
     }
+
+    public int getSeen() {
+        return seen;
+    }
+    
+    
 
     public void setTitle(String title) {
         this.title = title;

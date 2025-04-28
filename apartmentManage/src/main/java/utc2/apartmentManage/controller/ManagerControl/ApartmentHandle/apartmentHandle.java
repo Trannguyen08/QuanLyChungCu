@@ -1,66 +1,60 @@
-package main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle;
+package main.java.utc2.apartmentManage.controller.ManagerControl.ApartmentHandle;
 
 
-import main.java.utc2.apartmentManage.service.export.Excel;
-import main.java.utc2.apartmentManage.view.ManagerUI.editWindow.editService;
-import main.java.utc2.apartmentManage.view.ManagerUI.searchWindow.searchService;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import main.java.utc2.apartmentManage.service.managerService.serviceIMP;
-import main.java.utc2.apartmentManage.view.ManagerUI.addWindow.addService;
+import main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle.deleteButtonHandler;
+import main.java.utc2.apartmentManage.service.export.Excel;
+import main.java.utc2.apartmentManage.service.managerService.apartmentIMP;
+import main.java.utc2.apartmentManage.view.ManagerUI.addWindow.addApartment;
+import main.java.utc2.apartmentManage.view.ManagerUI.editWindow.editApartment;
+import main.java.utc2.apartmentManage.view.ManagerUI.searchWindow.searchApartment;
+import main.java.utc2.apartmentManage.util.ScannerUtil;
+import main.java.utc2.apartmentManage.view.ManagerUI.detailWindow.apartmentDetail;
 
-public class ServiceHandler {
-    private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, reloadBtn;
+
+public class apartmentHandle {
+    private JButton addBtn, editBtn, reloadBtn, excelBtn, searchIcon, detailBtn;
     private JTable table;
     private JPanel panel;
     private JTextField searchField;
-    private deleteButtonHandler deleteHandler;
-    private serviceIMP ss = new serviceIMP();
+    private final apartmentIMP apartmentService = new apartmentIMP();
     
-    public ServiceHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
-                            JButton searchIcon, JButton reloadBtn, JTable table, JPanel panel){
+    public apartmentHandle(JTextField searchField, JButton addBtn, JButton editBtn, JButton reloadBtn, JButton excelBtn,
+                            JButton searchIcon, JButton detailBtn, JTable table, JPanel panel) {
         this.addBtn = addBtn;
-        this.deleteBtn = deleteBtn;
+        this.reloadBtn = reloadBtn;
         this.editBtn = editBtn;
         this.excelBtn = excelBtn;
         this.searchIcon = searchIcon;
-        this.reloadBtn = reloadBtn;
+        this.detailBtn = detailBtn;
         this.table = table;
         this.panel = panel;
         this.searchField = searchField;
         
+
         this.addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addBtnClick();
             }
         });
-        
-        this.deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteBtnClick();
-            }
-        });
-        
         this.excelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 excelBtnClick();
             }
         });
-        
         this.editBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editBtnClick();
             }
         });
-        
         this.searchIcon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,11 +66,20 @@ public class ServiceHandler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchField.setForeground(java.awt.Color.GRAY);
-                searchField.setText("Nhập id, tên dịch vụ...");
-                ss.setUpTable(table);
+                searchField.setText("Nhập id căn hộ...");
+                apartmentService.setUpTable(table);
             }
         });
         
+        this.detailBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                detailBtnClick();
+            }
+        });
+        
+        
+
         searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -94,26 +97,22 @@ public class ServiceHandler {
             }
         });
         
-        
-        
         placeHolder();
-        ss.setUpTable(table);
+        apartmentService.setUpTable(table);
         
+    }
 
+    private void addBtnClick() {
+        new addApartment(table).setVisible(true);
     }
     
-    private void addBtnClick() {
-        new addService(table).setVisible(true);
-    }
-
-    private void deleteBtnClick() {
-        deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
-        deleteHandler.deleteSelectedRow();
+    private void detailBtnClick() {
+        new apartmentDetail(table).setVisible(true);
     }
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportServices(directoryPath);
+        Excel.exportApartments(directoryPath);
         
     }
     
@@ -123,11 +122,11 @@ public class ServiceHandler {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        new editService(table).setVisible(true);
+        new editApartment(table).setVisible(true);
     }
 
     private void searchInconClick() {
-        new searchService(table).setVisible(true);
+        new searchApartment(table).setVisible(true);
     }
     
     private void searchTable() {
@@ -137,26 +136,22 @@ public class ServiceHandler {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
-        if (text.isEmpty() || text.equals("Nhập id, tên dịch vụ...")) {
+        if (text.isEmpty() || text.equals("Nhập id căn hộ...")) {
             sorter.setRowFilter(null); // không lọc gì
         } else {
-            RowFilter<DefaultTableModel, Object> idFilter = RowFilter.regexFilter("(?i)" + text, 0); // lọc cột id
-            RowFilter<DefaultTableModel, Object> ownerFilter = RowFilter.regexFilter("(?i)" + text, 1); // lọc cột tên chủ
-
-            // Kết hợp 2 bộ lọc bằng OR (chỉ cần khớp 1 trong 2 cột)
-            RowFilter<DefaultTableModel, Object> combinedFilter = RowFilter.orFilter(java.util.Arrays.asList(idFilter, ownerFilter));
+            RowFilter<DefaultTableModel, Object> idFilter = RowFilter.regexFilter("(?i)" + text, 0); 
+            RowFilter<DefaultTableModel, Object> combinedFilter = RowFilter.orFilter(java.util.Arrays.asList(idFilter));
             sorter.setRowFilter(combinedFilter);
         }
     }
     
-    
     private void placeHolder() {
         searchField.setForeground(java.awt.Color.GRAY);
-        searchField.setText("Nhập id, tên dịch vụ...");
+        searchField.setText("Nhập id căn hộ...");
         searchField.addFocusListener(new java.awt.event.FocusListener() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
-                if (searchField.getText().equals("Nhập id, tên dịch vụ...")) {
+                if (searchField.getText().equals("Nhập id căn hộ...")) {
                     searchField.setText("");
                     searchField.setForeground(java.awt.Color.BLACK);
                 }
@@ -166,9 +161,10 @@ public class ServiceHandler {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().isEmpty()) {
                     searchField.setForeground(java.awt.Color.GRAY);
-                    searchField.setText("Nhập id, tên dịch vụ...");
+                    searchField.setText("Nhập id căn hộ...");
                 }
             }
         });
     }
+
 }

@@ -16,7 +16,7 @@ public class registerIMP {
         int id = registerRepo.getIDMinNotExist();
         Account acc = new Account(id, username, password, email, phone, "customer");
 
-        int checkExist = registerRepo.isUserExists(acc);
+        int checkExist = registerRepository.isUserExists(acc);
 
         switch (checkExist) {
             case 1 -> {

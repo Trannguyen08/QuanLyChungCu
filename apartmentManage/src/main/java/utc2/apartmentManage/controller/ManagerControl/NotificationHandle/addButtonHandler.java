@@ -1,12 +1,12 @@
 package main.java.utc2.apartmentManage.controller.ManagerControl.NotificationHandle;
 
 import main.java.utc2.apartmentManage.model.Notification;
-import main.java.utc2.apartmentManage.service.managerService.notificationService;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import main.java.utc2.apartmentManage.service.managerService.notificationIMP;
 
 
 public class addButtonHandler {
@@ -16,7 +16,7 @@ public class addButtonHandler {
     private JTextArea content;
     private JTable table;
     private JFrame add;
-    private final notificationService notificationService = new notificationService();
+    private final notificationIMP notificationService = new notificationIMP();
 
     public addButtonHandler(JComboBox<String> type, JTextField title, 
                              JTextArea content, JButton addBtn, JTable table, JFrame add) {
@@ -41,24 +41,27 @@ public class addButtonHandler {
         }
         
         int id = notificationService.getNewID();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String todayDate = sdf.format(new Date());
 
         Notification noti = new Notification(id, type.getSelectedItem().toString().trim(),
                                              title.getText().trim(), content.getText().trim(),
-                                              notificationService.getTodayDate());
+                                              todayDate, 0);
 
 
         // Thêm vào cơ sở dữ liệu
-        boolean isAddedComplete = notificationService.addNotification(noti);
+        boolean isAddedComplete = notificationService.add(noti);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        model.addRow(new Object[]{noti.getID(), noti.getTitle(), noti.getMess(), noti.getType(), noti.getSentDate()});
+        model.addRow(new Object[]{noti.getID(), noti.getType(), noti.getTitle(), 
+                                noti.getMess(), noti.getSentDate(), noti.getSeen()});
 
+        add.setVisible(false);
         if (isAddedComplete) {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        add.setVisible(false);
     }
 }

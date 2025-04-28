@@ -25,7 +25,7 @@ CREATE TABLE apartments (
 );
 
 CREATE TABLE apartment_images (
-    img_id INT PRIMARY KEY,
+    img_id INT PRIMARY KEY AUTO_INCREMENT,
     apartment_id INT NOT NULL,
     image_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE
@@ -108,7 +108,8 @@ CREATE TABLE notifications (
     title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,  
     notification_type ENUM('Chung', 'Khẩn cấp') NOT NULL DEFAULT 'Chung',  
-    sentDate DATE NOT NULL
+    sentDate DATE NOT NULL, 
+    seen INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE attendances (
@@ -120,67 +121,72 @@ CREATE TABLE attendances (
     FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
 );
 
--- Insert vào accounts
 INSERT INTO accounts (id, username, password, email, phoneNum, role) VALUES
-(1, 'admin1', 'adminpass', 'admin1@example.com', '0909123456', 'manager'),
-(2, 'user1', 'userpass1', 'user1@example.com', '0911222333', 'customer'),
-(3, 'user2', 'userpass2', 'user2@example.com', '0911333444', 'user');
+(1, 'manager01', 'pass123', 'manager01@example.com', '0909123456', 'manager'),
+(2, 'user01', 'pass456', 'user01@example.com', '0911123456', 'customer'),
+(3, 'user02', 'pass789', 'user02@example.com', '0922123456', 'customer');
 
--- Insert vào apartments
+-- Insert dữ liệu mẫu vào apartments
 INSERT INTO apartments (apartment_id, apartmentIndex, floor, building, num_rooms, num_wcs, interior, status, area, rent_price, purchase_price) VALUES
-(1, 101, 1, 'A', 2, 1, 'Cơ bản', 'Trống', 75.00, 8500000, 3500000000),
-(2, 102, 1, 'A', 3, 2, 'Đầy đủ', 'Đã thuê', 95.50, 7000000, 2500000000),
-(3, 201, 2, 'B', 2, 1, 'Trống', 'Đã bán', 80.00, 8000000, 3000000000);
+(1, 101, 1, 'A1', 2, 2, 'Đầy đủ', 'Trống', 70.50, 10000000.00, 1500000000.00),
+(2, 102, 1, 'A1', 3, 2, 'Cơ bản', 'Đã thuê', 85.00, 12000000.00, 1800000000.00),
+(3, 201, 2, 'B1', 1, 1, 'Trống', 'Bảo trì', 50.00, 8000000.00, 1200000000.00);
 
--- Insert vào apartment_images
-INSERT INTO apartment_images (img_id, apartment_id, image_url) VALUES
-(1, 1, 'https://example.com/images/apt1_img1.jpg'),
-(2, 2, 'https://example.com/images/apt2_img1.jpg'),
-(3, 3, 'https://example.com/images/apt3_img1.jpg');
+-- Insert dữ liệu mẫu vào apartment_images
+INSERT INTO apartment_images (apartment_id, image_url) VALUES
+(1, 'https://example.com/images/apt1_img1.jpg'),
+(1, 'https://example.com/images/apt1_img2.jpg'),
+(2, 'https://example.com/images/apt2_img1.jpg');
 
--- Insert vào personal_info
+-- Insert dữ liệu mẫu vào personal_info
 INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email, id_card) VALUES
-(1, 'Nguyen Van A', 'Nam', '1990-01-01', '0909000001', 'vana@example.com', '123456789'),
-(2, 'Tran Thi B', 'Nữ', '1992-02-02', '0909000002', 'thib@example.com', '987654321'),
-(3, 'Le Van C', 'Nam', '1988-03-03', '0909000003', 'vanc@example.com', '456789123');
+(1, 'Nguyễn Văn A', 'Nam', '1990-01-01', '0939123456', 'vana@example.com', '123456789'),
+(2, 'Trần Thị B', 'Nữ', '1995-05-15', '0949123456', 'thib@example.com', '987654321'),
+(3, 'Phạm Văn C', 'Nam', '1988-08-08', '0959123456', 'vanc@example.com', '192837465');
 
--- Insert vào residents
+-- Insert dữ liệu mẫu vào residents
 INSERT INTO residents (resident_id, apartment_id, user_id, person_id) VALUES
 (1, 2, 2, 1),
 (2, 3, 3, 2);
 
--- Insert vào contracts
+-- Insert dữ liệu mẫu vào contracts
 INSERT INTO contracts (contract_id, apartment_id, resident_id, contract_type, start_date, end_date, contract_value, contract_status) VALUES
-(1, 2, 1, 'Cho thuê', '2024-01-01', '2025-01-01', 15000000.00, 'Hiệu lực'),
-(2, 3, 2, 'Mua bán', '2024-03-01', NULL, 2500000000.00, 'Hiệu lực');
+(1, 2, 1, 'Cho thuê', '2025-01-01', '2025-12-31', 12000000.00, 'Hiệu lực'),
+(2, 3, 2, 'Mua bán', '2025-02-01', NULL, 1800000000.00, 'Hiệu lực');
 
--- Insert vào services
+-- Insert dữ liệu mẫu vào services
 INSERT INTO services (service_id, service_name, service_type, relevant, price, unit, description) VALUES
-(1, 'Phí quản lý', 'Cố định', 'Căn hộ', 500000.00, 'tháng', 'Phí quản lý chung cư'),
-(2, 'Điện', 'Tính theo sử dụng', 'Căn hộ', 3500.00, 'kWh', 'Tính theo số điện sử dụng'),
-(3, 'Nước', 'Tính theo sử dụng', 'Căn hộ', 15000.00, 'm3', 'Tính theo lượng nước sử dụng');
+(1, 'Phí quản lý', 'Cố định', 'Căn hộ', 500000.00, 'Tháng', 'Phí quản lý căn hộ hàng tháng'),
+(2, 'Điện sinh hoạt', 'Tính theo sử dụng', 'Căn hộ', 3500.00, 'kWh', 'Tiền điện theo đồng hồ đo'),
+(3, 'Nước sinh hoạt', 'Tính theo sử dụng', 'Căn hộ', 15000.00, 'm3', 'Tiền nước theo sử dụng');
 
--- Insert vào bills
+-- Insert dữ liệu mẫu vào bills
 INSERT INTO bills (bill_id, apartment_id, bill_date, due_date, total_amount, status) VALUES
-(1, 2, '2024-04-01', '2024-04-10', 2000000.00, 'Chưa thanh toán'),
-(2, 3, '2024-04-01', '2024-04-10', 3000000.00, 'Đã thanh toán');
+(1, 2, '2025-04-01', '2025-04-10', 1500000.00, 'Chưa thanh toán'),
+(2, 3, '2025-04-01', '2025-04-10', 1800000.00, 'Đã thanh toán');
 
--- Insert vào bill_Details
+-- Insert dữ liệu mẫu vào bill_Details
 INSERT INTO bill_Details (id, bill_id, service_id, quantity, total_price) VALUES
 (1, 1, 1, 1, 500000.00),
-(2, 1, 2, 400, 1400000.00),
-(3, 2, 1, 1, 500000.00),
-(4, 2, 2, 600, 2100000.00);
+(2, 1, 2, 200, 700000.00),
+(3, 1, 3, 20, 300000.00),
+(4, 2, 1, 1, 500000.00),
+(5, 2, 2, 250, 875000.00),
+(6, 2, 3, 25, 375000.00);
 
--- Insert vào employees
+-- Insert dữ liệu mẫu vào employees
 INSERT INTO employees (employee_id, person_id, position, salary, status) VALUES
-(1, 3, 'Bảo vệ', 8000000.00, 'Làm việc');
+(1, 3, 'Bảo vệ', 7000000.00, 'Làm việc');
 
--- Insert vào notifications
-INSERT INTO notifications (notification_id, title, message, notification_type, sentDate) VALUES
-(1, 'Thông báo phí quản lý', 'Nhắc nhở thanh toán phí quản lý tháng 4.', 'Chung', '2024-04-01'),
-(2, 'Thông báo khẩn cấp', 'Cảnh báo cháy tại tòa nhà A.', 'Khẩn cấp', '2024-04-05');
+-- Insert dữ liệu mẫu vào notifications
+INSERT INTO notifications (notification_id, title, message, notification_type, sentDate, seen) VALUES
+(1, 'Thông báo họp cư dân', 'Mời quý cư dân tham dự cuộc họp chung vào ngày 10/05.', 'Chung', '2025-04-25', 0),
+(2, 'Khẩn cấp: Cắt điện', 'Cảnh báo: sẽ có cắt điện toàn bộ tòa nhà A1 từ 8h-12h ngày 29/04.', 'Khẩn cấp', '2025-04-26', 0);
 
+-- Insert dữ liệu mẫu vào attendances
+INSERT INTO attendances (attendance_id, employee_id, attendance_date, check_in_time, check_out_time) VALUES
+(1, 1, '2025-04-27', '08:00:00', '17:00:00'),
+(2, 1, '2025-04-28', '08:10:00', '17:05:00');
 
 
 

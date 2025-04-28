@@ -1,25 +1,19 @@
 package main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle;
 
-import main.java.utc2.apartmentManage.service.managerService.serviceService;
 import main.java.utc2.apartmentManage.view.ManagerUI.Pages.ServicesUI;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.Arrays;
-import java.util.List;
+import main.java.utc2.apartmentManage.model.Service;
+import main.java.utc2.apartmentManage.service.managerService.serviceIMP;
+
 
 
 public class deleteButtonHandler {
     private JButton deleteBtn;
     private JTable table;
     private JPanel panel;
-    private final serviceService serviceService = new serviceService();
-    private List<String> serviceImportant = Arrays.asList(
-        "Điện",
-        "Nước",
-        "Phí quản lý",
-        "Vệ sinh"
-    );
+    private final serviceIMP serviceService = new serviceIMP();
+    
 
     public deleteButtonHandler(JButton deleteBtn, JTable table, JPanel panel) {
         this.deleteBtn = deleteBtn;
@@ -30,18 +24,21 @@ public class deleteButtonHandler {
     
     
     public void deleteSelectedRow() {
-        Integer id = serviceService.getServiceId(table);
-        if (id == null) {
+        if( !serviceService.isSelectedRow(table) ) {
             return;
         }
-        if( true ) {
-            JOptionPane.showMessageDialog(null, "Đây là 1 dịch vụ quan trọng. Không thể xóa", 
+        int selectedRow = table.getSelectedRow();
+        int id = (Integer) table.getValueAt(selectedRow, 0);
+        Service s = serviceService.getObject(id);
+        
+        if( s.getRelevant().equals("Căn hộ") ) {
+            JOptionPane.showMessageDialog(null, "Đây là dịch vụ liên quan đến căn hộ. Không thể xóa", 
                                         "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
         if (serviceService.confirmDelete("dịch vụ")) {
-            boolean isDeleted = (panel instanceof ServicesUI) && serviceService.deleteService(id);
+            boolean isDeleted = (panel instanceof ServicesUI) && serviceService.delete(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Xóa dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

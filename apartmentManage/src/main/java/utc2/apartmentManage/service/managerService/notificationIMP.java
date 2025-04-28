@@ -1,0 +1,183 @@
+package main.java.utc2.apartmentManage.service.managerService;
+
+import com.toedter.calendar.JDateChooser;
+import java.awt.Font;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import main.java.utc2.apartmentManage.model.Employee;
+import main.java.utc2.apartmentManage.model.Notification;
+import main.java.utc2.apartmentManage.repository.ManagerRepository.notificationRepository;
+import main.java.utc2.apartmentManage.service.Interface.*;
+import main.java.utc2.apartmentManage.util.ScannerUtil;
+
+public class notificationIMP implements ISQL<Notification>, ITable<Notification>, IValidate {
+    private final notificationRepository noticationRepo = new notificationRepository();
+    
+    @Override
+    public boolean add(Notification object) {
+        return noticationRepo.addNoti(object);
+    }
+
+    @Override
+    public boolean update(Notification object) {
+        return noticationRepo.updateNoti(object);
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return noticationRepo.deleteNoti(id);
+    }
+
+    @Override
+    public int getNewID() {
+        return noticationRepo.getIDMinNotExist();
+    }
+
+    @Override
+    public boolean isExist(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public boolean isDuplicate(Notification object) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public Notification getObject(int id) {
+        return noticationRepo.getNotiByID(id);
+    }
+
+    @Override
+    public void setUpTable(JTable table) {
+        List<Notification> list = noticationRepo.getAllNotifications();
+        addData(table, list);
+        setFont(table);
+    }
+
+    @Override
+    public void addData(JTable table, List<Notification> list) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); 
+
+        for (Notification notification : list) {
+            model.addRow(new Object[]{
+                    notification.getID(),
+                    notification.getType(),
+                    notification.getTitle(),
+                    notification.getMess(),
+                    notification.getSentDate(),
+                    notification.getSeen()
+            });
+        } 
+    }
+
+    @Override
+    public void setFont(JTable table) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            if (i == 3) {
+                table.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
+            } else {
+                centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader()
+                                    .getDefaultRenderer()).
+                                    setHorizontalAlignment(SwingConstants.CENTER);
+    }
+
+    @Override
+    public boolean isSelectedRow(JTable table) {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
+    }
+    
+    public boolean loadSelectedRowData(JTable table, JTextField title, JTextArea mess, 
+                                    JComboBox<String> type) {
+        
+        boolean error = isSelectedRow(table);
+        if( !error ) {
+            return false;
+        }
+        int selectedRow = table.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        title.setText(model.getValueAt(selectedRow, 2).toString());
+        type.setSelectedItem(model.getValueAt(selectedRow, 1).toString());
+        mess.setText(model.getValueAt(selectedRow, 3).toString());
+        
+        return true;
+    }
+    
+    @Override
+    public boolean filterEmployeeIcon(JTable table, Employee emp) {
+        List<Notification> emps = employeeRepo.getAllEmployeeBySearchIcon(emp, toValue);
+        if( emps.isEmpty() ){
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            table.setRowSorter(null);
+            model.setRowCount(0); 
+            
+            return false;
+        }
+        addData(table, emps);
+        return true;
+    }
+
+    @Override
+    public boolean addValidate(Object... obj) {
+        JTextField notiTitle = (JTextField) obj[0];
+        JTextArea mess = (JTextArea) obj[1];
+
+        if (notiTitle.getText().trim().isEmpty() || mess.getText().trim().isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean editValidate(Object... obj) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public boolean searchValidate(Object... obj) {
+        JDateChooser sendDateChooser = (JDateChooser) obj[0];
+        try {
+            Date selectedDate = sendDateChooser.getDate();
+            if (selectedDate == null) {
+                JOptionPane.showMessageDialog(null, "Ngày gửi không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ngày gửi không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+    
+}

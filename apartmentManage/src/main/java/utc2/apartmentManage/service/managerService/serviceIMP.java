@@ -1,30 +1,18 @@
 package main.java.utc2.apartmentManage.service.managerService;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.*;
+import javax.swing.table.*;
 import main.java.utc2.apartmentManage.model.Service;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.serviceRepository;
-import main.java.utc2.apartmentManage.service.Interface.ISQL;
-import main.java.utc2.apartmentManage.service.Interface.ITable;
-import main.java.utc2.apartmentManage.service.Interface.IValidate;
+import main.java.utc2.apartmentManage.service.Interface.*;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 
-public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
+public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate, IService {
     private final serviceRepository serviceRepository = new serviceRepository();
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
@@ -60,8 +48,14 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
 
     @Override
     public Service getObject(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        return serviceRepository.getServiceByID(id); 
     }
+    
+    @Override
+    public boolean confirmDelete(String s) {
+        return ScannerUtil.comfirmWindow(s);
+    }
+    
 
     @Override
     public void setUpTable(JTable table) {
@@ -96,7 +90,7 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
         
         for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
             if (i == 6) {
-                table.getColumnModel().getColumn(i).setCellRenderer(new serviceIMP.MultiLineCellRenderer());
+                table.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
             } else {
                 centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
                 table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
@@ -122,6 +116,7 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
         JTextField serviceName = (JTextField) obj[0];
         JTextField servicePrice = (JTextField) obj[1];
         JTextField serviceUnit = (JTextField) obj[2];
+        
         if (serviceName.getText().trim().isEmpty() ||
                 servicePrice.getText().trim().isEmpty() ||
                 serviceUnit.getText().trim().isEmpty() ) {
@@ -158,7 +153,7 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
         return ScannerUtil.validateRange(fromServicePrice.getText().trim(), toServicePrice.getText().trim(), "Đơn giá"); 
     }
     
-    
+    @Override
     public boolean getFilterServiceByIcon(Service service, double toPrice, JTable table) {
         List<Service> emps = serviceRepository.getFilteredServiceByIcon(service, toPrice);
         if( emps.isEmpty() ){
@@ -172,6 +167,7 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
         return true;
     }
     
+    @Override
     public boolean loadSelectedRowData(JTable table, JTextField serviceName, JComboBox<String> serviceType,
                                        JComboBox<String> relevant, JTextField price, JTextField unit, JTextArea description) {
         boolean check = isSelectedRow(table);
@@ -194,41 +190,5 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate {
 
         return true;
     }
-    
-    
-    class MultiLineCellRenderer extends JTextArea implements javax.swing.table.TableCellRenderer {
-        public MultiLineCellRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-            setFont(new Font("Arial", Font.PLAIN, 14)); // Tùy chỉnh font nếu muốn
-        }
 
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus,
-                                                       int row, int column) {
-            setText(value == null ? "" : value.toString());
-
-            if (isSelected) {
-                setBackground(table.getSelectionBackground());
-            } else {
-                setBackground(table.getBackground());
-            }
-
-            setSize(table.getColumnModel().getColumn(column).getWidth(), Short.MAX_VALUE);
-            int preferredHeight = getPreferredSize().height;
-
-            // 👉 Reset chiều cao về mặc định trước, rồi set lại nếu cần
-            int defaultHeight = table.getRowHeight(); // lấy chiều cao dòng mặc định
-            table.setRowHeight(row, defaultHeight); // reset về mặc định
-
-            if (preferredHeight > defaultHeight) {
-                table.setRowHeight(row, preferredHeight); // set lại nếu cao hơn
-            }
-            setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-
-            return this;
-        }
-    }
-    
 }

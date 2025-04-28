@@ -2,12 +2,11 @@ package main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle;
 
 
 import main.java.utc2.apartmentManage.model.Service;
-import main.java.utc2.apartmentManage.service.managerService.serviceService;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import main.java.utc2.apartmentManage.service.managerService.serviceIMP;
 
 
 public class searchIconHandler {
@@ -16,7 +15,7 @@ public class searchIconHandler {
     private JTable table;
     private JFrame frame;
     private JButton searchBtn;
-    private serviceService ss = new serviceService();
+    private serviceIMP ss = new serviceIMP();
     
     public searchIconHandler(JTextField ServiceName, JComboBox<String> ServiceType, 
                             JComboBox<String> relevant, JTextField fromServicePrice, JTextField toServicePrice, 
@@ -39,7 +38,7 @@ public class searchIconHandler {
         });
     }
     public void filterTableData() {
-        boolean check = ss.validateSearchInput(fromServicePrice, toServicePrice);
+        boolean check = ss.searchValidate(fromServicePrice, toServicePrice);
         if( !check ) {
             return;
         }

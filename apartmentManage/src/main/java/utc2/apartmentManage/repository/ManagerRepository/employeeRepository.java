@@ -140,6 +140,7 @@ public class employeeRepository {
              PreparedStatement deleteEmployeeStmt = con.prepareStatement(deleteEmployeeSql);
              PreparedStatement deletePersonStmt = con.prepareStatement(deletePersonSql)) {
 
+
             selectStmt.setInt(1, id);
             ResultSet rs = selectStmt.executeQuery();
 
@@ -207,10 +208,10 @@ public class employeeRepository {
     public List<Employee> getAllEmployee() {
         List<Employee> employeeList = new ArrayList<>();
         String sql = """
-                SELECT e.employee_id, p.full_name, p.gender, p.phone_number, 
+                SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, 
                        p.email, p.dob, e.position, e.salary, e.status, e.person_id
                 FROM employees e
-                JOIN person_info p ON e.person_id = p.person_id
+                JOIN personal_info p ON e.person_id = p.person_id
                 """;
 
         try (Connection con = ConnectDB.getConnection();
@@ -222,9 +223,9 @@ public class employeeRepository {
                     res.getInt("employee_id"),
                     res.getString("full_name"),
                     res.getString("gender"),
-                    res.getString("phone_number"),
-                    res.getString("email"),
                     ScannerUtil.convertDateFormat2(res.getString("dob")),
+                    res.getString("phoneNum"),
+                    res.getString("email"),
                     res.getString("position"),
                     res.getDouble("salary"),
                     res.getString("status"),

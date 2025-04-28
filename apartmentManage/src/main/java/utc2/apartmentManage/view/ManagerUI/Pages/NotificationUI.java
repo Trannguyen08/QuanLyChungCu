@@ -45,19 +45,20 @@ public class NotificationUI extends javax.swing.JPanel {
         addBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         table.setBackground(new java.awt.Color(250, 250, 250));
+        table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID_ThôngBáo", "Kiểu thông báo", "Tiêu đề", "Nội dung", "Ngày gửi"
+                "ID_ThôngBáo", "Kiểu thông báo", "Tiêu đề", "Nội dung", "Ngày gửi", "Lượt đọc"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

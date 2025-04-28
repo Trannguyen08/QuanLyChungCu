@@ -1,15 +1,13 @@
 package main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle;
 
 import main.java.utc2.apartmentManage.model.Service;
-import main.java.utc2.apartmentManage.service.managerService.serviceService;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.NumberFormat;
 import java.util.Locale;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import main.java.utc2.apartmentManage.service.managerService.serviceIMP;
 
 
 public class addButtonHandler {
@@ -19,7 +17,7 @@ public class addButtonHandler {
     private JTextArea ServiceNote;
     private JTable table;
     private JFrame add;
-    private serviceService ss = new serviceService();
+    private serviceIMP ss = new serviceIMP();
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     
     public addButtonHandler(JButton addBtn, JTextArea ServiceNote ,JTextField ServiceName, JComboBox<String> relevant,
@@ -43,7 +41,7 @@ public class addButtonHandler {
     }
     private void addNewRow() {
         // Kiểm tra dữ liệu hợp lệ trước khi tiếp tục
-        boolean check = ss.validateData(ServiceName, ServicePrice, ServiceUnit);
+        boolean check = ss.addValidate(ServiceName, ServicePrice, ServiceUnit);
         if (!check) {
             return;
         }
@@ -63,20 +61,19 @@ public class addButtonHandler {
         }
 
         // thêm vào database và table
-        boolean isAddedComplete = ss.addService(service);
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.addRow(new Object[] {         service.getServiceId(), service.getServiceName(),
+        if( ss.add(service) ) {
+            add.setVisible(false);
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.addRow(new Object[] { service.getServiceId(), service.getServiceName(),
                                             service.getServiceType(), service.getRelevant(),
                                             df.format(service.getPrice()),
                                             service.getUnit(), service.getDescription()});
-
-        add.setVisible(false);
-        if( isAddedComplete ) {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu không thành công.",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+
     }
 }

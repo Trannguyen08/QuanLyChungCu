@@ -42,11 +42,12 @@ public class editButtonHandler {
     }
 
     public void updateSelectedRow() {
-        int selectedRow = table.getSelectedRow();
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
         if (!employeeService.isSelectedRow(table)) {
             return;
         }
+        
+        int selectedRow = table.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
         String sal = salary.getText().trim();
         if( sal.isEmpty() ){
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ dữ liệu.",

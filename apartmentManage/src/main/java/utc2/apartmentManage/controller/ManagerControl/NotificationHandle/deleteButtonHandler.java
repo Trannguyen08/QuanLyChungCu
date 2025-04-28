@@ -2,39 +2,27 @@ package main.java.utc2.apartmentManage.controller.ManagerControl.NotificationHan
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import main.java.utc2.apartmentManage.service.managerService.notificationService;
+import main.java.utc2.apartmentManage.service.managerService.notificationIMP;
 import main.java.utc2.apartmentManage.view.ManagerUI.Pages.NotificationUI;
 
 
 public class deleteButtonHandler {
-    private JButton deleteBtn;
     private JTable table;
     private JPanel panel;
-    private final notificationService notificationService = new notificationService();
+    private final notificationIMP notificationService = new notificationIMP();
     
     
-    public deleteButtonHandler(JButton deleteBtn, JTable table,JPanel panel) {
-        this.deleteBtn = deleteBtn;
+    public deleteButtonHandler(JTable table,JPanel panel) {
         this.table = table;
         this.panel = panel;
-
-        this.deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteSelectedRow();
-            }
-        });
     }
     
     public void deleteSelectedRow() {
-        Integer id = notificationService.getNotificationID(table);
-        if(id == null){
-            return;
-        }
+        int selectedRow = table.getSelectedRow();
+        int id = (Integer) table.getValueAt(selectedRow, 0);
+        
         if(notificationService.confirmDelete("thông báo")){
-            boolean isDeleted = (panel instanceof NotificationUI) && notificationService.deleteNotification(id);
+            boolean isDeleted = (panel instanceof NotificationUI) && notificationService.delete(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Xóa dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

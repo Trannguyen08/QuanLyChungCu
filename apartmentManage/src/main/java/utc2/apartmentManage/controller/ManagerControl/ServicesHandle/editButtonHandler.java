@@ -1,9 +1,7 @@
 package main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle;
 
 import main.java.utc2.apartmentManage.model.Service;
-import main.java.utc2.apartmentManage.service.managerService.serviceService;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
