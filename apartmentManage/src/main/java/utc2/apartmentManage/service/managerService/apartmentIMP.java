@@ -27,7 +27,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
     public boolean update(Apartment apartment) { return apartmentDAO.updateApartment(apartment); }
 
     @Override
-    public boolean delete(int id) { return apartmentDAO.deleteApartment(id); }
+    public boolean delete(int id) { return false; }
 
     @Override
     public int getNewID() { return apartmentDAO.getIDMinNotExist(); }
@@ -39,18 +39,18 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
     public boolean isDuplicate(Apartment apartment) { return apartmentDAO.isDuplicate(apartment);}
 
     @Override
-    public Apartment getObject(int id) { return apartmentDAO.getApartmentByID(id);}
+    public Apartment getObject(int id) { return apartmentDAO.getApartmentById(id);}
 
     @Override
     public List<String> getAllImageByID(int id) { return apartmentDAO.getImageByID(id); }
+    
+    @Override
+    public boolean confirmDelete(String s) { return ScannerUtil.comfirmWindow(s); }
 
     @Override
     public void deleteImage(int id, String path) {
         new apartmentImageRepository().deleteImage(id, path);
     }
-
-    @Override
-    public boolean confirmDelete(String s) { return ScannerUtil.comfirmWindow(s); }
 
     @Override
     public boolean saveApartmentImages(int apartmentID, List<String> imagePaths) {
