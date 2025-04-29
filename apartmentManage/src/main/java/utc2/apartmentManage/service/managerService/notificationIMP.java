@@ -19,7 +19,7 @@ import main.java.utc2.apartmentManage.repository.ManagerRepository.notificationR
 import main.java.utc2.apartmentManage.service.Interface.*;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
-public class notificationIMP implements ISQL<Notification>, ITable<Notification>, IValidate {
+public class notificationIMP implements ISQL<Notification>, ITable<Notification>, IValidate, INotification {
     private final notificationRepository noticationRepo = new notificationRepository();
     
     @Override
@@ -111,10 +111,12 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
         return true;
     }
     
+    @Override
     public boolean confirmDelete(String s) {
         return ScannerUtil.comfirmWindow(s);
     }
     
+    @Override
     public boolean loadSelectedRowData(JTable table, JTextField title, JTextArea mess, 
                                     JComboBox<String> type) {
         
@@ -133,16 +135,16 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
     }
     
     @Override
-    public boolean filterEmployeeIcon(JTable table, Employee emp) {
-        List<Notification> emps = employeeRepo.getAllEmployeeBySearchIcon(emp, toValue);
-        if( emps.isEmpty() ){
+    public boolean filterNotification(JTable table, Notification noti) {
+        List<Notification> list = noticationRepo.filterNotifications(noti);
+        if( list.isEmpty() ){
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             table.setRowSorter(null);
             model.setRowCount(0); 
             
             return false;
         }
-        addData(table, emps);
+        addData(table, list);
         return true;
     }
 
@@ -166,11 +168,20 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
     @Override
     public boolean searchValidate(Object... obj) {
         JDateChooser sendDateChooser = (JDateChooser) obj[0];
+
+        if (sendDateChooser == null) {
+            return true;
+        }
+
         try {
             Date selectedDate = sendDateChooser.getDate();
-            if (selectedDate == null) {
-                JOptionPane.showMessageDialog(null, "Ngày gửi không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
-                return false;
+
+            if (sendDateChooser.getDateEditor().getUiComponent() instanceof JTextField) {
+                String text = ((JTextField) sendDateChooser.getDateEditor().getUiComponent()).getText();
+                if (!text.trim().isEmpty() && selectedDate == null) {
+                    JOptionPane.showMessageDialog(null, "Ngày gửi không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ngày gửi không hợp lệ!", "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
@@ -179,5 +190,6 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
 
         return true;
     }
+
     
 }

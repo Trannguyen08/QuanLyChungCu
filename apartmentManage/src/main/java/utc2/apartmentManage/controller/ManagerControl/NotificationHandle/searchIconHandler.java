@@ -45,6 +45,11 @@ public class searchIconHandler {
         Notification noti = new Notification(0, type.getSelectedItem().toString().trim(),
                                              title.getText().trim(), "", 
                                              ScannerUtil.convertJDateChooserToString(date), 0);
-        
+        frame.setVisible(false);
+        boolean checkFilter = notificationService.filterNotification(table, noti);
+        if( !checkFilter ) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
         
 }

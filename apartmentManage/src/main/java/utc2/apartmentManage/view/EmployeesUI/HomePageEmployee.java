@@ -48,7 +48,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(41, 101, 142));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/icons8-user-circle-48.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-admin-30.png"))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -60,24 +60,24 @@ public class HomePageEmployee extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         thongtin.setBackground(new java.awt.Color(13, 51, 91));
         thongtin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/apartment.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-info-30.png"))); // NOI18N
 
         apartment.setBackground(new java.awt.Color(16, 120, 192));
         apartment.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -101,7 +101,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, thongtinLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(thongtinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(apartment, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(apartment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -111,7 +111,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         thongbao.setPreferredSize(new java.awt.Dimension(146, 36));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/resident.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/notification.png"))); // NOI18N
 
         residents.setBackground(new java.awt.Color(16, 120, 192));
         residents.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -128,7 +128,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(residents)
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         thongbaoLayout.setVerticalGroup(
             thongbaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +139,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         logoutPanel.setBackground(new java.awt.Color(41, 101, 142));
         logoutPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/logout.png"))); // NOI18N
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-logout-30.png"))); // NOI18N
 
         logout.setBackground(new java.awt.Color(16, 120, 192));
         logout.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -176,7 +176,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         chamcong.setPreferredSize(new java.awt.Dimension(146, 36));
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resouces/images/resident.png"))); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-job-24.png"))); // NOI18N
 
         residents1.setBackground(new java.awt.Color(16, 120, 192));
         residents1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -208,9 +208,9 @@ public class HomePageEmployee extends javax.swing.JFrame {
             .addComponent(logoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(thongtin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(thongbao, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+            .addComponent(thongbao, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(chamcong, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+            .addComponent(chamcong, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,7 +239,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
-                .addContainerGap(499, Short.MAX_VALUE)
+                .addContainerGap(488, Short.MAX_VALUE)
                 .addComponent(jLabel6)
                 .addGap(405, 405, 405))
         );

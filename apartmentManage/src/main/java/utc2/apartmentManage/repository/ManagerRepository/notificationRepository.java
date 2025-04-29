@@ -139,25 +139,25 @@ public class notificationRepository {
         return notificationList;
     }
     
-    public List<Notification> searchNotifications(String titleKeyword, String type, String sentDate) {
+    public List<Notification> filterNotifications(Notification noti) {
         List<Notification> notifications = new ArrayList<>();
 
         StringBuilder query = new StringBuilder("SELECT * FROM notifications WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
-        if (titleKeyword != null && !titleKeyword.trim().isEmpty()) {
+        if (noti.getTitle() != null && !noti.getTitle().trim().isEmpty()) {
             query.append(" AND title LIKE ?");
-            params.add("%" + titleKeyword.trim() + "%");
+            params.add("%" + noti.getTitle().trim() + "%");
         }
 
-        if (type != null && !type.trim().isEmpty()) {
+        if (noti.getType() != null && !noti.getType().trim().isEmpty()) {
             query.append(" AND notification_type = ?");
-            params.add(type.trim());
+            params.add(noti.getType().trim());
         }
 
-        if (sentDate != null && !sentDate.trim().isEmpty()) {
+        if (noti.getSentDate() != null && !noti.getSentDate().trim().isEmpty()) {
             query.append(" AND sentDate = ?");
-            params.add(ScannerUtil.convertDateFormat1(sentDate.trim())); 
+            params.add(ScannerUtil.convertDateFormat1(noti.getSentDate().trim())); 
         }
 
         try (Connection con = ConnectDB.getConnection();
@@ -171,15 +171,15 @@ public class notificationRepository {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Notification noti = new Notification(
+                notifications.add( new Notification(
                     rs.getInt("notification_id"),
                     rs.getString("notification_type"),
                     rs.getString("title"),
                     rs.getString("message"),
                     ScannerUtil.convertDateFormat2(rs.getString("sentDate")),
                     rs.getInt("seen")
-                );
-                notifications.add(noti);
+                ));
+                
             }
 
         } catch (SQLException e) {
