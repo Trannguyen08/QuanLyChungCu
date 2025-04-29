@@ -87,20 +87,30 @@ CREATE TABLE bills (
 CREATE TABLE bill_Details (
     id INT PRIMARY KEY,
     bill_id INT NOT NULL, 
-    service_id INT NOT NULL,  
-    quantity DECIMAL(15,2) NOT NULL DEFAULT 1, 
-    total_price DECIMAL(15,2) NOT NULL,  
+    service_id INT,  
+    service_name VARCHAR(50),
+    quantity DECIMAL(15,2) NOT NULL DEFAULT 1,   
     FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES services(service_id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE employees (
 	employee_id INT PRIMARY KEY,
     person_id INT NOT NULL, -- mới
-    position ENUM('Bảo vệ', 'Lễ tân', 'Kỹ thuật', 'Dọn dẹp') NOT NULL,
+    position ENUM('Bảo vệ', 'Lễ tân', 'Dọn dẹp') NOT NULL,
+    shift ENUM('Ca sáng', 'Ca tối') NOT NULL,
     salary DECIMAL(15,2) NOT NULL,
     status ENUM('Làm việc', 'Nghỉ việc') NOT NULL DEFAULT 'Làm việc',
     FOREIGN KEY (person_id) REFERENCES personal_info(person_id) ON DELETE CASCADE
+);
+CREATE TABLE attendances (
+    attendance_id INT PRIMARY KEY,
+    employee_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+    check_in_time TIME NULL,
+    check_out_time TIME NULL,
+    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
 );
 
 CREATE TABLE notifications (
@@ -112,14 +122,40 @@ CREATE TABLE notifications (
     seen INT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE attendances (
-    attendance_id INT PRIMARY KEY,
-    employee_id INT NOT NULL,
-    attendance_date DATE NOT NULL,
-    check_in_time TIME NULL,
-    check_out_time TIME NULL,
-    FOREIGN KEY (employee_id) REFERENCES employees(employee_id) ON DELETE CASCADE
-);
+INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email, id_card)
+VALUES (1, 'Nguyễn Văn A', 'Nam', '1995-03-15', '0912345678', 'nguyenvana@gmail.com', '012345678');
+INSERT INTO employees (employee_id, person_id, position, shift, salary, status)
+VALUES (1001, 1, 'Bảo vệ', 'Ca sáng', 7000000, 'Làm việc');
+INSERT INTO attendances (attendance_id, employee_id, attendance_date, check_in_time, check_out_time) VALUES
+(1, 1001, '2025-04-01', '08:00:00', '17:00:00'),
+(2, 1001, '2025-04-02', '08:05:00', '17:10:00'),
+(3, 1001, '2025-04-03', '07:55:00', '17:05:00'),
+(4, 1001, '2025-04-04', '08:10:00', '17:00:00'),
+(5, 1001, '2025-04-05', '08:03:00', '17:08:00'),
+(6, 1001, '2025-04-06', '08:00:00', '17:00:00'),
+(7, 1001, '2025-04-07', '07:58:00', '17:12:00'),
+(8, 1001, '2025-04-08', '08:07:00', '17:05:00'),
+(9, 1001, '2025-04-09', '08:01:00', '17:00:00'),
+(10, 1001, '2025-04-10', '08:04:00', '17:06:00'),
+(11, 1001, '2025-04-11', '08:00:00', '17:00:00'),
+(12, 1001, '2025-04-12', '07:59:00', '17:01:00'),
+(13, 1001, '2025-04-13', '08:02:00', '17:10:00'),
+(14, 1001, '2025-04-14', '08:08:00', '17:00:00'),
+(15, 1001, '2025-04-15', '08:00:00', '17:04:00'),
+(16, 1001, '2025-04-16', '08:06:00', '17:03:00'),
+(17, 1001, '2025-04-17', '08:00:00', '17:00:00'),
+(18, 1001, '2025-04-18', '08:09:00', '17:15:00'),
+(19, 1001, '2025-04-19', '07:57:00', '17:00:00'),
+(20, 1001, '2025-04-20', '08:00:00', '17:05:00'),
+(21, 1001, '2025-04-21', '08:03:00', '17:07:00'),
+(22, 1001, '2025-04-22', '08:00:00', '17:00:00'),
+(23, 1001, '2025-04-23', '08:01:00', '17:02:00'),
+(24, 1001, '2025-04-24', '07:56:00', '17:05:00'),
+(25, 1001, '2025-04-25', '08:10:00', '17:00:00'),
+(26, 1001, '2025-04-26', '08:00:00', '17:00:00');
+
+
+
 
 INSERT INTO accounts (id, username, password, email, phoneNum, role) VALUES
 (1, 'manager01', 'pass123', 'manager01@example.com', '0909123456', 'manager'),
