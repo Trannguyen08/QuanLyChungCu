@@ -5,11 +5,10 @@ import main.java.utc2.apartmentManage.controller.ManagerControl.NotificationHand
 
 public class searchNotification extends JFrame {
 
-    /**
-     * Creates new form searchNotification
-     */
+    
     public searchNotification(JTable table) {
         initComponents();
+        pack();
         searchIconHandler search = new searchIconHandler(title,  type, date, searchBtn, table, this);
     
         this.setLocationRelativeTo(null);
