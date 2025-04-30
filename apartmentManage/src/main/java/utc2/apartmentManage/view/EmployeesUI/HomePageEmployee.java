@@ -6,12 +6,13 @@ import main.java.utc2.apartmentManage.controller.employeesControl.HomeHandler;
 
 
 public class HomePageEmployee extends javax.swing.JFrame {
-
-    public HomePageEmployee() {
+    private int employeeId;
+    public HomePageEmployee(int employeeId) {
+        this.employeeId = employeeId;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Home Page");
-        HomeHandler hh = new HomeHandler(thongtin, logoutPanel, chamcong, thongbao, mainPanel, this);
+        HomeHandler hh = new HomeHandler(employeeId, thongtin, logoutPanel, chamcong, thongbao, mainPanel, this);
         
     }
 
@@ -291,9 +292,8 @@ public class HomePageEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-        HomePageEmployee hm = new HomePageEmployee();
-        java.awt.EventQueue.invokeLater(() -> {
-            hm.setVisible(true);
+        java.awt.EventQueue.invokeLater(()->{
+            new HomePageEmployee(1).setVisible(true);
         });
     }
 

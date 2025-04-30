@@ -14,12 +14,14 @@ import main.java.utc2.apartmentManage.view.EmployeesUI.chamcongUI;
 public class HomeHandler {
     private JPanel logoutPanel, chamcong, thongbao, mainPanel, thongtin;
     private HomePageEmployee homePage;
+    private int employeeId;
 
     private JPanel previousPanel; // Lưu panel trước đó
     private final Color DEFAULT_COLOR = new Color(41,101,142);
     private final Color ACTIVE_COLOR = new Color(13,51,91);
 
-    public HomeHandler(JPanel mainPan, JPanel logoutPanel, JPanel billPanel,JPanel infoPanel, JPanel mainPanel, HomePageEmployee homePage) {
+    public HomeHandler(int employeeId, JPanel mainPan, JPanel logoutPanel, JPanel billPanel,JPanel infoPanel, JPanel mainPanel, HomePageEmployee homePage) {
+        this.employeeId = employeeId;
         this.homePage = homePage;
         this.logoutPanel = logoutPanel;
         this.mainPanel = mainPanel;
@@ -60,7 +62,7 @@ public class HomeHandler {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
         if( newPanel.equals(chamcong) ) {
-            chamcongUI report = new chamcongUI();
+            chamcongUI report = new chamcongUI(employeeId);
             mainPanel.add(report, BorderLayout.CENTER);
         } 
         if (newPanel.equals(thongbao)) {

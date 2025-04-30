@@ -1,20 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package main.java.utc2.apartmentManage.view.EmployeesUI;
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import main.java.utc2.apartmentManage.controller.employeesControl.chamcongHandle;
 
-/**
- *
- * @author Nguyen
- */
 public class chamcongUI extends javax.swing.JPanel {
-
-    /**
-     * Creates new form chamcongUI
-     */
-    public chamcongUI() {
+    
+    private boolean isCheckedIn = false;
+    private LocalDateTime checkInTime;
+    private DefaultTableModel tableModel;
+    private chamcongHandle chamcongHandle;
+    private int employeeId;
+    
+    public chamcongUI(int employeeId) {
+        this.employeeId = employeeId;
+        this.chamcongHandle = new chamcongHandle();
         initComponents();
+        setupTable();
+        loadRecentDays();
     }
 
     /**
@@ -48,6 +61,11 @@ public class chamcongUI extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         monthComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
+        monthComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                monthComboBoxActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Tháng");
 
@@ -61,7 +79,7 @@ public class chamcongUI extends javax.swing.JPanel {
         });
 
         checkInOutButton.setBackground(new java.awt.Color(51, 51, 255));
-        checkInOutButton.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        checkInOutButton.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         checkInOutButton.setForeground(new java.awt.Color(255, 255, 255));
         checkInOutButton.setText("Chấm công");
         checkInOutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -77,9 +95,7 @@ public class chamcongUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -88,35 +104,117 @@ public class chamcongUI extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(yearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addComponent(checkInOutButton)
-                        .addGap(28, 28, 28))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(checkInOutButton)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(monthComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
                         .addComponent(jLabel2)
                         .addComponent(yearComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(checkInOutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(checkInOutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void yearComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearComboBoxActionPerformed
-        // TODO add your handling code here:
+        filterTable();
     }//GEN-LAST:event_yearComboBoxActionPerformed
-
+    
+    
+ 
     private void checkInOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInOutButtonActionPerformed
-        // TODO add your handling code here:
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDate date = now.toLocalDate();
+        LocalTime time = now.toLocalTime();
+
+        if (!isCheckedIn) {
+            // Lần 1: Chấm vào ca
+            isCheckedIn = true;
+            checkInTime = now;
+            chamcongHandle.checkIn(employeeId, date, time);
+            JOptionPane.showMessageDialog(null, "Đã chấm vào ca lúc " + checkInTime.format(formatter));
+            updateTable(date, time.toString(), "");
+        } else {
+            // Lần 2: Chấm ra ca
+            isCheckedIn = false;
+            String checkOutTime = time.toString();
+            chamcongHandle.checkOut(employeeId, date, checkInTime.toLocalTime(), time);
+            JOptionPane.showMessageDialog(null, "Đã chấm kết ca lúc " + checkOutTime);
+            updateTable(date, checkInTime.toLocalTime().toString(), checkOutTime);
+        }
     }//GEN-LAST:event_checkInOutButtonActionPerformed
 
+    private void monthComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthComboBoxActionPerformed
+        filterTable();
+    }//GEN-LAST:event_monthComboBoxActionPerformed
+    
+    private void setupTable() {
+        tableModel = (DefaultTableModel) jTable1.getModel();
+        tableModel.setRowCount(0);
+        jTable1.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
+        jTable1.getTableHeader().setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        jTable1.setRowHeight(25);
+        jTable1.setDefaultRenderer(Object.class, new javax.swing.table.DefaultTableCellRenderer() {
+            @Override
+            public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                java.awt.Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 0 ? java.awt.Color.WHITE : new java.awt.Color(240, 240, 240));
+                return c;
+            }
+        });
+    }
+
+    private void loadRecentDays() {
+        LocalDate today = LocalDate.now();
+        for (int i = 6; i >= 0; i--) {
+            LocalDate date = today.minusDays(i);
+            java.util.List<String[]> records = chamcongHandle.getAttendanceRecords(employeeId, date.getMonthValue(), date.getYear());
+            boolean found = false;
+            for (String[] record : records) {
+                if (record[0].equals(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))) {
+                    tableModel.addRow(new Object[]{record[0], record[1], record[2]});
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                tableModel.addRow(new Object[]{date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), "", ""});
+            }
+        }
+    }
+
+    private void updateTable(LocalDate date, String checkIn, String checkOut) {
+        String dateStr = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if (tableModel.getValueAt(i, 0).equals(dateStr)) {
+                tableModel.setValueAt(checkIn, i, 1);
+                tableModel.setValueAt(checkOut, i, 2);
+                return;
+            }
+        }
+        tableModel.addRow(new Object[]{dateStr, checkIn, checkOut});
+    }
+
+    private void filterTable() {
+        tableModel.setRowCount(0);
+        int selectedMonth = monthComboBox.getSelectedIndex() + 1;
+        int selectedYear = Integer.parseInt((String) yearComboBox.getSelectedItem());
+
+        java.util.List<String[]> records = chamcongHandle.getAttendanceRecords(employeeId, selectedMonth, selectedYear);
+        for (String[] record : records) {
+            tableModel.addRow(new Object[]{record[0], record[1], record[2]});
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton checkInOutButton;
