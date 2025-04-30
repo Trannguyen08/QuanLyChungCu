@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import main.java.com.utc2.apartmentManage.databaseConnect.ConnectDB;
 import main.java.utc2.apartmentManage.model.Utilities;
+import main.java.utc2.apartmentManage.util.ConnectDB;
 
 
 public class utilitiesRepository {
