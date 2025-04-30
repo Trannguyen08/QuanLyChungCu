@@ -270,5 +270,11 @@ public class ScannerUtil {
         return sdf.format(date);
     }
 
-
+    public static boolean isValidServiceName(String serviceName) {
+        if (serviceName.length() < 3 || serviceName.length() > 30) {
+            JOptionPane.showMessageDialog(null, "Tên dịch vụ phải từ 3 đến 30 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 }

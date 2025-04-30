@@ -1,0 +1,41 @@
+
+package main.java.utc2_apartmentManage.controller.UserControl;
+
+import javax.swing.*;
+import main.java.utc2.apartmentManage.util.ScannerUtil;
+import main.java.utc2_apartmentManage.service.userService.utilitiesService;
+
+
+public class searchButtonUtilitiesHandler {
+    private JTextField searchField;
+    private JButton searchBtn;
+    private JTable table;
+    private final utilitiesService utilitiesService = new utilitiesService();
+    
+   public searchButtonUtilitiesHandler(JTextField searchField, JButton searchBtn, JTable table) {
+        this.searchField = searchField;
+        this.searchBtn = searchBtn;
+        this.table = table;
+    }
+
+    public void searchBtnClick() {
+        String content = searchField.getText().trim();
+        if( content.equals("Nhập tên dịch vụ...") || searchField.getText() == null ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập giá trị cho ô tìm kiếm",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        if( content.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Vui lòng không nhập chuỗi chỉ chứa khoảng trắng",
+                                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        if( !ScannerUtil.isValidServiceName(content) ) {
+            return;
+        }
+
+        utilitiesService.filterUtilitiesByKeyword(content, table);
+    }
+}
