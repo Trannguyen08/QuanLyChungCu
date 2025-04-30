@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
-import main.java.utc2_apartmentManage.service.userService.utilitiesService;
+import main.java.utc2.apartmentManage.service.userService.utilitiesService;
 
 public class UtilitiesHandler {
     private JButton searchButton, registerButton;
