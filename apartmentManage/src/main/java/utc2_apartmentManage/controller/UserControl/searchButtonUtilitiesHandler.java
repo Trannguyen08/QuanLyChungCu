@@ -3,7 +3,7 @@ package main.java.utc2_apartmentManage.controller.UserControl;
 
 import javax.swing.*;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
-import main.java.utc2_apartmentManage.service.userService.utilitiesService;
+import main.java.utc2.apartmentManage.service.userService.utilitiesService;
 
 
 public class searchButtonUtilitiesHandler {
