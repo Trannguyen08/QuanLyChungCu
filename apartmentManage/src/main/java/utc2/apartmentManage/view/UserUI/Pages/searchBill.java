@@ -9,7 +9,7 @@ public class searchBill extends JFrame {
     public searchBill(JTable table) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Tìm kiếm hợp đồng");
+        this.setTitle("Tìm kiếm hóa đơn");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         searchIconHandler search = new searchIconHandler(billId, totalAmount, searchBtn,
                                                     billDate, dueDate, status, table, this, to_totalAmount);
