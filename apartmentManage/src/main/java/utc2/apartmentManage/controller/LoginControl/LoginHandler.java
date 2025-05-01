@@ -6,7 +6,10 @@ import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 import javax.swing.*;
+import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.service.loginService.loginIMP;
+import main.java.utc2.apartmentManage.view.ManagerUI.Pages.HomePage;
+import main.java.utc2.apartmentManage.view.UserUI.Pages.HomePageUser;
 
 
 public class LoginHandler {
@@ -63,6 +66,13 @@ public class LoginHandler {
         if (loginService.validateLogin(thisUser, thisPass)) {
             JOptionPane.showMessageDialog(loginFrame, "Đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             loginFrame.setVisible(false);
+            Account acc = loginService.getAccountByUserName(thisUser);
+            if( acc.getRole().equals("manager") ) {
+                new HomePage().setVisible(true);
+            } else if( acc.getRole().equals("user") ) {
+                new HomePageUser(acc).setVisible(true);
+            }
+            
         } else {
             JOptionPane.showMessageDialog(loginFrame, "Sai tài khoản hoặc mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }

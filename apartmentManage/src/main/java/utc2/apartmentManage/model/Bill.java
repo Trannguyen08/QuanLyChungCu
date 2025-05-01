@@ -8,7 +8,7 @@ public class Bill {
     private String dueDate;
     private String status;
 
-    public Bill(int billId, Double totalAmount, String billDate, String dueDate, String status) {
+    public Bill(int billId, String billDate, String dueDate, Double totalAmount, String status) {
         this.billId = billId;
         this.totalAmount = totalAmount;
         this.billDate = billDate;

@@ -30,7 +30,7 @@ public class registerRepository {
     }
     
     public static int isUserExists(Account acc) {
-        String checkQuery = "SELECT username, email, phone_number FROM accounts WHERE username = ? OR email = ? OR phoneNum = ?";
+        String checkQuery = "SELECT username, email, phoneNum FROM accounts WHERE username = ? OR email = ? OR phoneNum = ?";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement stmt = con.prepareStatement(checkQuery)) {

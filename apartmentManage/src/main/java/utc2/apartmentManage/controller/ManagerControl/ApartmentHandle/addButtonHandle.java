@@ -71,6 +71,12 @@ public class addButtonHandle {
 
 
     private void addNewApartment() {
+        if (imglabel.getIcon() == null) {
+            JOptionPane.showMessageDialog(null,
+                    "Vui lòng chọn một ảnh cho căn hộ!",
+                    "Thiếu ảnh", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int aIndex = Integer.parseInt(apartmentIndex.getSelectedItem().toString());
         int floorNum = Integer.parseInt(floor.getSelectedItem().toString());
         String buildingNum = building.getSelectedItem().toString();

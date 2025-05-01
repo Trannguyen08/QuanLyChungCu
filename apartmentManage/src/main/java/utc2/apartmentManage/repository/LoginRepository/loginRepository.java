@@ -8,7 +8,7 @@ import main.java.utc2.apartmentManage.util.ConnectDB;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class loginRepository {
-    public static Account getAccountByUsername(String username) {
+    public Account getAccountByUsername(String username) {
         String query = "SELECT * FROM accounts WHERE username = ?";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -31,7 +31,7 @@ public class loginRepository {
         return null;
     }
 
-    public static boolean validateLogin(String username, String password) {
+    public boolean validateLogin(String username, String password) {
         Account account = getAccountByUsername(username);
         if( account != null ) {
             return BCrypt.checkpw(password, account.getPassword());
@@ -39,7 +39,7 @@ public class loginRepository {
         return false;
     }
     
-    public static List<Account> getAllAccount() {
+    public List<Account> getAllAccount() {
         String query = "SELECT * FROM accounts";
         List<Account> list = new ArrayList<>();
         

@@ -4,34 +4,38 @@ package main.java.utc2.apartmentManage.controller.UserControl.HomeController;
 import main.java.utc2.apartmentManage.view.Login.Login;
 import main.java.utc2.apartmentManage.view.UserUI.Pages.Bill;
 import main.java.utc2.apartmentManage.view.UserUI.Pages.HomePageUser;
-import main.java.utc2.apartmentManage.view.UserUI.Pages.Infomation;
+import main.java.utc2.apartmentManage.view.UserUI.Pages.InfomationUserUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import main.java.utc2.apartmentManage.model.Account;
+import main.java.utc2.apartmentManage.view.UserUI.Pages.NotificationUserUI;
 
 
 public class HomeHandler {
-    private JPanel logoutPanel, billPanel, infoPanel, mainPanel, mainPan;
+    private JPanel logoutPanel, billPanel, infoPanel, mainPanel, notiPanel;
     private HomePageUser homePage;
-
+    private Account acc;
     private JPanel previousPanel; // Lưu panel trước đó
     private final Color DEFAULT_COLOR = new Color(41,101,142);
     private final Color ACTIVE_COLOR = new Color(13,51,91);
 
-    public HomeHandler(JPanel mainPan, JPanel logoutPanel, JPanel billPanel,JPanel infoPanel, JPanel mainPanel, HomePageUser homePage) {
+    public HomeHandler(JPanel infoPanel, JPanel billPanel, JPanel notiPanel, JPanel logoutPanel, 
+                        JPanel mainPanel, HomePageUser homePage, Account acc) {
         this.homePage = homePage;
         this.logoutPanel = logoutPanel;
         this.mainPanel = mainPanel;
-        this.previousPanel = mainPan;
+        this.previousPanel = infoPanel;
         this.billPanel = billPanel;
         this.infoPanel = infoPanel;
-        this.mainPan = mainPan;
+        this.notiPanel = notiPanel;
+        this.acc = acc;
 
         addClickEvent(infoPanel);
         addClickEvent(billPanel);
-        addClickEvent(mainPan);
+        addClickEvent(notiPanel);
         
 
         logoutPanel.addMouseListener(new MouseAdapter() {
@@ -61,11 +65,15 @@ public class HomeHandler {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
         if( newPanel.equals(billPanel) ) {
-            Bill report = new Bill();
+            Bill report = new Bill(acc);
             mainPanel.add(report, BorderLayout.CENTER);
         } 
         if (newPanel.equals(infoPanel)) {
-            Infomation report = new Infomation();
+            InfomationUserUI report = new InfomationUserUI(acc);
+            mainPanel.add(report, BorderLayout.CENTER);
+        }
+        if (newPanel.equals(notiPanel)) {
+            NotificationUserUI report = new NotificationUserUI();
             mainPanel.add(report, BorderLayout.CENTER);
         }
 

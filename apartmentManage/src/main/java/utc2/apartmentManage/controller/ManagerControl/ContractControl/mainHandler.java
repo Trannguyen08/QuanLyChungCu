@@ -102,45 +102,34 @@ public class mainHandler {
     }
 
     private void detailBtnClick() {
-        if( !contract_ervice.isSelectedRow(table) ) {
+        if (!contract_ervice.isSelectedRow(table)) {
             return;
-        } 
+        }
+
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+        int contractId = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
 
-        String filePath = System.getProperty("user.dir") + File.separator + "Data";
-
-        // Kiểm tra và tạo thư mục nếu chưa tồn tại
-        File directory = new File(filePath);
-        if (!directory.exists()) {
-            directory.mkdirs();
+        String dirPath = System.getProperty("user.dir") + File.separator + "Data";
+        File dir = new File(dirPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
         }
 
-        // Kiểm tra và in ra đường dẫn đầy đủ
-        String fullFilePath = filePath + File.separator + "contract_" + id + ".pdf";
-        File file = new File(fullFilePath);
-        try {
-            if (file.createNewFile()) {
-                System.out.println("File đã được tạo: " + fullFilePath);
-            } else {
-                System.out.println("File đã tồn tại hoặc không thể tạo file.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String fullFilePath = dirPath + File.separator + "contract_" + contractId + ".pdf";
 
-        // Xuất hợp đồng
-        PDF.exportContractToPDF(fullFilePath, id);
+        // Xuất file PDF
+        PDF.exportContractToPDF(fullFilePath, contractId);
 
-        // Kiểm tra xem file có tồn tại sau khi xuất
-        File generatedFile = new File(fullFilePath);
-        if (generatedFile.exists()) {
+        // Mở file nếu đã tạo thành công
+        File pdfFile = new File(fullFilePath);
+        if (pdfFile.exists()) {
             PDF.openPDF(fullFilePath);
         } else {
             JOptionPane.showMessageDialog(null, "Không thể tạo hoặc tìm thấy file: " + fullFilePath);
         }
     }
+
 
 
     private void searchIconClick() {

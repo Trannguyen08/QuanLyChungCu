@@ -200,7 +200,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
 
         if (areaVal.isEmpty() || rent.isEmpty() || buy.isEmpty()) {
             JOptionPane.showMessageDialog(null,
-                    "Vui lòng điền đầy đủ thông tin trước khi cập nhật!",
+                    "Vui lòng điền đầy đủ thông tin!",
                     "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }

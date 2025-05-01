@@ -101,33 +101,6 @@ public class apartmentRepository {
         return true;
     }
 
-    public Apartment getLastRow() {
-        String query = "SELECT * FROM apartments ORDER BY apartment_id DESC LIMIT 1";
-        try (Connection con = ConnectDB.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(query);
-             ResultSet res = pstmt.executeQuery()) {
-
-            if (res.next()) {
-                return new Apartment(
-                        res.getInt("apartment_id"),
-                        res.getInt("apartmentIndex"),
-                        res.getInt("floor"),
-                        res.getString("building"),
-                        res.getInt("num_rooms"),
-                        res.getInt("num_wcs"),
-                        res.getString("interior"),
-                        res.getString("status"),
-                        res.getDouble("area"),
-                        res.getDouble("rent_price"),
-                        res.getLong("purchase_price")
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public List<Apartment> getAllApartment() {
         String query = "SELECT * FROM apartments";
         List<Apartment> apartmentList = new ArrayList<>();

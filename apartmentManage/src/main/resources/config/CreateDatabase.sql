@@ -76,24 +76,39 @@ CREATE TABLE services (
 
 CREATE TABLE bills (
     bill_id INT PRIMARY KEY,  
-    apartment_id INT NOT NULL,  
+    resident_id INT NOT NULL,  
     bill_date DATE NOT NULL,  
     due_date DATE NOT NULL,  
     total_amount DECIMAL(15,2) NOT NULL,  
-    status ENUM('Chưa thanh toán', 'Đã thanh toán', 'Quá hạn') NOT NULL DEFAULT 'Chưa thanh toán',  
-    FOREIGN KEY (apartment_id) REFERENCES apartments(apartment_id) ON DELETE CASCADE
+    status ENUM('Chưa thanh toán', 'Đã thanh toán') NOT NULL DEFAULT 'Chưa thanh toán',  
+    FOREIGN KEY (resident_id) REFERENCES residents(resident_id) ON DELETE CASCADE
 );
 
-CREATE TABLE bill_Details (
+CREATE TABLE bill_Detail_Users (
     id INT PRIMARY KEY,
     bill_id INT NOT NULL, 
-    service_id INT,  
-    service_name VARCHAR(50),
+    service_id INT NOT NULL,  
     quantity DECIMAL(15,2) NOT NULL DEFAULT 1,   
     FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES services(service_id) ON DELETE CASCADE
 );
 
+CREATE TABLE bill_Detail_Managers (
+    id INT PRIMARY KEY,
+    bill_id INT NOT NULL, 
+    service_name VARCHAR(50) NOT NULL,
+    price DECIMAL(15,2) NOT NULL,
+    quantity DECIMAL(15,2) NOT NULL DEFAULT 1,   
+    FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE
+);
+
+CREATE TABLE invoice_history (
+    history_id INT PRIMARY KEY ,
+    bill_id INT NOT NULL,
+    paid_date DATE NOT NULL,
+    note ENUM('Đúng hạn', 'Quá hạn') NOT NULL, 
+    FOREIGN KEY (bill_id) REFERENCES bills(bill_id)
+);
 
 CREATE TABLE employees (
 	employee_id INT PRIMARY KEY,
@@ -114,13 +129,54 @@ CREATE TABLE attendances (
 );
 
 CREATE TABLE notifications (
-    notification_id INT PRIMARY KEY, 
+    notification_id INT PRIMARY KEY,
+    recipant ENUM('Cư dân', 'Nhân viên') NOT NULL,
     title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,  
     notification_type ENUM('Chung', 'Khẩn cấp') NOT NULL DEFAULT 'Chung',  
     sentDate DATE NOT NULL, 
     seen INT NOT NULL DEFAULT 0
 );
+
+INSERT INTO notifications (notification_id, recipant, title, message, notification_type, sentDate, seen) VALUES
+(1, 'Cư dân', 'Cắt điện định kỳ', 'Thông báo cắt điện từ 8h đến 12h ngày 5/5 do bảo trì hệ thống điện.', 'Chung', '2025-05-01', 0),
+(2, 'Cư dân', 'Diễn tập phòng cháy chữa cháy', 'Cư dân vui lòng tham gia diễn tập PCCC lúc 15h ngày 7/5 tại sảnh A.', 'Chung', '2025-05-01', 0),
+(3, 'Cư dân', 'Sự cố mất nước khẩn cấp', 'Do sự cố ống nước vỡ, khu B sẽ mất nước từ 1h đến 6h sáng ngày 2/5.', 'Khẩn cấp', '2025-05-01', 0),
+(4, 'Cư dân', 'Phun thuốc diệt muỗi', 'Ban quản lý sẽ phun thuốc diệt muỗi toàn khu lúc 6h sáng ngày 3/5, đề nghị đóng cửa sổ.', 'Chung', '2025-05-01', 0);
+
+
+-- 1. Tạo tài khoản
+INSERT INTO accounts (id, username, password, email, phoneNum, role)
+VALUES (1, 'hoang123', 'hashed_password_here', 'hoang@gmail.com', '0901234567', 'user');
+
+-- 2. Thêm thông tin cá nhân
+INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email, id_card)
+VALUES (1, 'Nguyen Van Hoang', 'Nam', '1995-08-10', '0901234567', 'hoang@gmail.com', '123456789012');
+
+-- 3. Tạo căn hộ
+INSERT INTO apartments (
+    apartment_id, apartmentIndex, floor, building, 
+    num_rooms, num_wcs, interior, status, area, 
+    rent_price, purchase_price
+) VALUES (
+    101, 5, 2, 'A', 
+    2, 1, 'Đầy đủ', 'Đã thuê', 75.50, 
+    12000000.00, 1500000000.00
+);
+
+-- 4. Gán người dùng vào căn hộ
+INSERT INTO residents (resident_id, apartment_id, user_id, person_id)
+VALUES (1, 101, 1, 1);
+
+-- 5. Tạo hợp đồng thuê căn hộ
+INSERT INTO contracts (
+    contract_id, apartment_id, resident_id, contract_type, 
+    start_date, end_date, contract_value, contract_status
+) VALUES (
+    1, 101, 1, 'Cho thuê', 
+    '2024-01-01', '2025-01-01', 12000000.00, 'Hiệu lực'
+);
+
 
 INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email, id_card)
 VALUES (1, 'Nguyễn Văn A', 'Nam', '1995-03-15', '0912345678', 'nguyenvana@gmail.com', '012345678');
@@ -153,6 +209,76 @@ INSERT INTO attendances (attendance_id, employee_id, attendance_date, check_in_t
 (24, 1001, '2025-04-24', '07:56:00', '17:05:00'),
 (25, 1001, '2025-04-25', '08:10:00', '17:00:00'),
 (26, 1001, '2025-04-26', '08:00:00', '17:00:00');
+
+-- Thêm các hóa đơn mới
+INSERT INTO bills (bill_id, apartment_id, bill_date, due_date, total_amount, status) VALUES
+(21, 1, '2025-04-01', '2025-04-30', 800000.00, 'Chưa thanh toán'),
+(22, 2, '2025-04-01', '2025-04-30', 1200000.00, 'Chưa thanh toán'),
+(23, 3, '2025-04-01', '2025-04-30', 1000000.00, 'Chưa thanh toán'),
+(24, 4, '2025-04-01', '2025-04-30', 950000.00, 'Chưa thanh toán'),
+(25, 5, '2025-04-01', '2025-04-30', 850000.00, 'Chưa thanh toán'),
+(26, 6, '2025-04-01', '2025-04-30', 1100000.00, 'Chưa thanh toán'),
+(27, 7, '2025-04-01', '2025-04-30', 1300000.00, 'Chưa thanh toán'),
+(28, 8, '2025-04-01', '2025-04-30', 1000000.00, 'Chưa thanh toán'),
+(29, 9, '2025-04-01', '2025-04-30', 900000.00, 'Chưa thanh toán'),
+(30, 10, '2025-04-01', '2025-04-30', 950000.00, 'Chưa thanh toán'),
+(31, 11, '2025-04-01', '2025-04-30', 880000.00, 'Chưa thanh toán'),
+(32, 12, '2025-04-01', '2025-04-30', 1050000.00, 'Chưa thanh toán'),
+(33, 13, '2025-04-01', '2025-04-30', 1150000.00, 'Chưa thanh toán'),
+(34, 14, '2025-04-01', '2025-04-30', 1050000.00, 'Chưa thanh toán'),
+(35, 15, '2025-04-01', '2025-04-30', 980000.00, 'Chưa thanh toán'),
+(36, 16, '2025-04-01', '2025-04-30', 1200000.00, 'Chưa thanh toán'),
+(37, 17, '2025-04-01', '2025-04-30', 1070000.00, 'Chưa thanh toán'),
+(38, 18, '2025-04-01', '2025-04-30', 980000.00, 'Chưa thanh toán'),
+(39, 19, '2025-04-01', '2025-04-30', 1100000.00, 'Chưa thanh toán'),
+(40, 20, '2025-04-01', '2025-04-30', 950000.00, 'Chưa thanh toán');
+
+-- Thêm các chi tiết hóa đơn của người dùng
+INSERT INTO bill_Detail_Users (id, bill_id, service_id, quantity) VALUES
+(79, 21, 1, 5.5),
+(80, 21, 2, 10.2),
+(81, 21, 3, 8.1),
+(82, 21, 4, 2.4),
+(83, 22, 1, 6.3),
+(84, 22, 2, 9.6),
+(85, 22, 3, 7.9),
+(86, 22, 4, 4.2),
+(87, 23, 1, 4.8),
+(88, 23, 2, 6.5),
+(89, 23, 3, 9.3),
+(90, 23, 5, 2.3),
+(91, 24, 1, 7.2),
+(92, 24, 2, 3.1),
+(93, 24, 3, 8.4),
+(94, 24, 5, 1.5),
+(95, 25, 1, 3.8),
+(96, 25, 2, 4.3),
+(97, 25, 3, 6.7),
+(98, 25, 4, 2.9);
+
+-- Thêm các chi tiết hóa đơn của người quản lý
+INSERT INTO bill_Detail_Managers (id, bill_id, service_name, price, quantity) VALUES
+(60, 21, 'Bảo trì thang máy', 100000, 1),
+(61, 21, 'Phòng cháy chữa cháy', 200000, 1),
+(62, 22, 'Bảo trì thang máy', 100000, 1),
+(63, 22, 'Phòng cháy chữa cháy', 200000, 1),
+(64, 23, 'Bảo trì thang máy', 100000, 1),
+(65, 23, 'Phòng cháy chữa cháy', 200000, 1),
+(66, 24, 'Bảo trì thang máy', 100000, 1),
+(67, 24, 'Phòng cháy chữa cháy', 200000, 1),
+(68, 25, 'Bảo trì thang máy', 100000, 1),
+(69, 25, 'Phòng cháy chữa cháy', 200000, 1),
+(70, 26, 'Bảo trì thang máy', 100000, 1),
+(71, 26, 'Phòng cháy chữa cháy', 200000, 1),
+(72, 27, 'Bảo trì thang máy', 100000, 1),
+(73, 27, 'Phòng cháy chữa cháy', 200000, 1),
+(74, 28, 'Bảo trì thang máy', 100000, 1),
+(75, 28, 'Phòng cháy chữa cháy', 200000, 1),
+(76, 29, 'Bảo trì thang máy', 100000, 1),
+(77, 29, 'Phòng cháy chữa cháy', 200000, 1),
+(78, 30, 'Bảo trì thang máy', 100000, 1),
+(79, 30, 'Phòng cháy chữa cháy', 200000, 1);
+
 
 
 
@@ -194,7 +320,11 @@ INSERT INTO contracts (contract_id, apartment_id, resident_id, contract_type, st
 INSERT INTO services (service_id, service_name, service_type, relevant, price, unit, description) VALUES
 (1, 'Phí quản lý', 'Cố định', 'Căn hộ', 500000.00, 'Tháng', 'Phí quản lý căn hộ hàng tháng'),
 (2, 'Điện sinh hoạt', 'Tính theo sử dụng', 'Căn hộ', 3500.00, 'kWh', 'Tiền điện theo đồng hồ đo'),
-(3, 'Nước sinh hoạt', 'Tính theo sử dụng', 'Căn hộ', 15000.00, 'm3', 'Tiền nước theo sử dụng');
+(3, 'Nước sinh hoạt', 'Tính theo sử dụng', 'Căn hộ', 15000.00, 'm3', 'Tiền nước theo sử dụng'),
+(4, 'Internet', 'Tính theo sử dụng', 'Căn hộ', 200000.00, 'Tháng', 'Phí internet cho cư dân chung cư'),
+(5, 'Phí gửi xe', 'Tính theo sử dụng', 'Căn hộ', 150000.00, 'Tháng', 'Phí gửi xe máy hoặc ô tô');
+
+
 
 -- Insert dữ liệu mẫu vào bills
 INSERT INTO bills (bill_id, apartment_id, bill_date, due_date, total_amount, status) VALUES
