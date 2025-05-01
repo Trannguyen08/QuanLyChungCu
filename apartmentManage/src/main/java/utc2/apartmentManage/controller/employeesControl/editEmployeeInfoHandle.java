@@ -1,23 +1,27 @@
-package main.java.utc2.apartmentManage.controller.UserControl.InfomationControl;
+package main.java.utc2.apartmentManage.controller.employeesControl;
 
+import main.java.utc2.apartmentManage.controller.UserControl.InfomationControl.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import main.java.utc2.apartmentManage.model.Employee;
 import main.java.utc2.apartmentManage.model.Resident;
+import main.java.utc2.apartmentManage.service.employeesService.employeeInfoIMP;
 import main.java.utc2.apartmentManage.service.managerService.residentIMP;
 import main.java.utc2.apartmentManage.service.userService.infoIMP;
 
 
-public class editResidentInfoHandle {
-    private int infoID;
+public class editEmployeeInfoHandle {
+    private int infoID, employee_id;
     private JLabel mailLabel, phoneLabel, idcardLabel;
     private JTextField email, phone, idcard;
     private JButton editBtn;
     private JFrame frame;
     private final infoIMP infoService = new infoIMP();
     private final residentIMP residentService = new residentIMP();
+    private final employeeInfoIMP employeeInfoService = new employeeInfoIMP();
 
-    public editResidentInfoHandle(int infoID, JLabel mailLabel, JLabel phoneLabel, JLabel idcardLabel, 
+    public editEmployeeInfoHandle(int infoID, int employee_id, JLabel mailLabel, JLabel phoneLabel, JLabel idcardLabel, 
                                 JTextField email, JTextField phone, JTextField idcard, JButton editBtn, JFrame frame) {
         this.mailLabel = mailLabel;
         this.phoneLabel = phoneLabel;
@@ -28,6 +32,7 @@ public class editResidentInfoHandle {
         this.editBtn = editBtn;
         this.infoID = infoID;
         this.frame = frame;
+        this.employee_id = employee_id;
         
         this.email.setText(mailLabel.getText());
         this.phone.setText(phoneLabel.getText());
@@ -47,14 +52,13 @@ public class editResidentInfoHandle {
             return;
         }
         
-        Resident res = new Resident(
-                0, "", "", "",
-                phone.getText().trim(),
-                email.getText().trim(),
-                idcard.getText().trim(),
-                0,0,infoID
+        Employee emp = new Employee(employee_id, "", "", "", 
+                                    phone.getText().trim(),
+                                    email.getText().trim(),
+                                    idcard.getText().trim(),
+                                    "", 0, "", infoID, 0
         );
-        if( !residentService.isDuplicate(res) ) {
+        if( !employeeInfoService.isDuplicate(emp) ) {
             return;
         }
         
@@ -63,7 +67,7 @@ public class editResidentInfoHandle {
         idcardLabel.setText(idcard.getText().trim());
         
         frame.setVisible(false);
-        if( infoService.updateResident(res) ) {
+        if( employeeInfoService.update(emp) ) {
             JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu thành công.", 
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {

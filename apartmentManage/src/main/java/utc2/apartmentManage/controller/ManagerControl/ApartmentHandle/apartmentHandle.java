@@ -117,9 +117,7 @@ public class apartmentHandle {
     }
     
     private void editBtnClick() {
-        int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        if( !apartmentService.isSelectedRow(table) ) {
             return;
         }
         new editApartment(table).setVisible(true);

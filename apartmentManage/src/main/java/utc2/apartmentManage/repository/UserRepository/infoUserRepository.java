@@ -1,7 +1,7 @@
 package main.java.utc2.apartmentManage.repository.UserRepository;
 
 import main.java.utc2.apartmentManage.model.Resident;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 import java.sql.*;
 import main.java.utc2.apartmentManage.model.Contract;

@@ -8,13 +8,15 @@ public class Employee {
     private String date;
     private String phoneNumber;
     private String email;
+    private String idcard;
     private String position;
     private double salary;
     private String status;
     private int infoID;
+    private int accID;
 
-    public Employee(int id, String name, String gender, String date, String phoneNumber, 
-                    String email, String position, double salary, String status, int infoID) {
+    public Employee(int id, String name, String gender, String date, String phoneNumber, String email, 
+                    String idcard, String position, double salary, String status, int infoID, int accID) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -25,6 +27,8 @@ public class Employee {
         this.status = status;
         this.date = date;
         this.infoID = infoID;
+        this.accID = accID;
+        this.idcard = idcard;
     }
 
     public int getId() {
@@ -65,6 +69,14 @@ public class Employee {
 
     public int getInfoID() {
         return infoID;
+    }
+
+    public int getAccID() {
+        return accID;
+    }
+
+    public String getIdcard() {
+        return idcard;
     }
     
     

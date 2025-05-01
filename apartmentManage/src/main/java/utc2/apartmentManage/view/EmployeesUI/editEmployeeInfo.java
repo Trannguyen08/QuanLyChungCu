@@ -1,16 +1,18 @@
 
-package main.java.utc2.apartmentManage.view.UserUI.editWindow;
+package main.java.utc2.apartmentManage.view.EmployeesUI;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import main.java.utc2.apartmentManage.controller.UserControl.InfomationControl.editResidentInfoHandle;
+import main.java.utc2.apartmentManage.controller.employeesControl.editEmployeeInfoHandle;
 
-public class editResidentInfo extends javax.swing.JFrame {
 
-    public editResidentInfo(int infoID, JLabel mailLabel, JLabel phoneLabel, JLabel idcardLabel) {
+public class editEmployeeInfo extends javax.swing.JFrame {
+
+    public editEmployeeInfo(int infoID, int employee_id, JLabel mailLabel, JLabel phoneLabel, JLabel idcardLabel) {
         initComponents();
-        editResidentInfoHandle editResidentInfoHandle = new editResidentInfoHandle(infoID, mailLabel, phoneLabel, 
-                                                                                  idcardLabel, email, phone, idcard, editBtn, this);
+        new editEmployeeInfoHandle(infoID, employee_id, mailLabel, phoneLabel, 
+                                   idcardLabel, email, phone, idcard, editBtn, this);
         this.setLocationRelativeTo(null);
         this.setTitle("Chỉnh sửa thông tin");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -4,7 +4,7 @@ import main.java.utc2.apartmentManage.model.Notification;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 public class notificationRepository {
@@ -32,16 +32,18 @@ public class notificationRepository {
     }
 
     public boolean addNoti(Notification notification) {
-        String query = "INSERT INTO notifications (notification_id, title, message, notification_type, sentDate) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO notifications (notification_id, recipant, title, message, notification_type, sentDate) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
 
             pstmt.setInt(1, notification.getID());
-            pstmt.setString(2, notification.getTitle());
-            pstmt.setString(3, notification.getMess());
-            pstmt.setString(4, notification.getType());
-            pstmt.setString(5, ScannerUtil.convertDateFormat1(notification.getSentDate()));
+            pstmt.setString(2, notification.getRecipant());
+            pstmt.setString(3, notification.getTitle());
+            pstmt.setString(4, notification.getMess());
+            pstmt.setString(5, notification.getType());
+            pstmt.setString(6, ScannerUtil.convertDateFormat1(notification.getSentDate()));
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;
@@ -99,6 +101,7 @@ public class notificationRepository {
             if (rs.next()) {
                 notification = new Notification(
                         rs.getInt("notification_id"),
+                        rs.getString("recipant"),
                         rs.getString("notification_type"),
                         rs.getString("title"),
                         rs.getString("message"),
@@ -125,6 +128,7 @@ public class notificationRepository {
             while (rs.next()) {
                 notificationList.add( new Notification(
                         rs.getInt("notification_id"),
+                        rs.getString("recipant"),
                         rs.getString("notification_type"),
                         rs.getString("title"),
                         rs.getString("message"),
@@ -154,6 +158,11 @@ public class notificationRepository {
             query.append(" AND notification_type = ?");
             params.add(noti.getType().trim());
         }
+        
+        if (noti.getRecipant() != null && !noti.getRecipant().trim().isEmpty()) {
+            query.append(" AND recipant = ?");
+            params.add(noti.getRecipant().trim());
+        }
 
         if (noti.getSentDate() != null && !noti.getSentDate().trim().isEmpty()) {
             query.append(" AND sentDate = ?");
@@ -172,12 +181,13 @@ public class notificationRepository {
 
             while (rs.next()) {
                 notifications.add( new Notification(
-                    rs.getInt("notification_id"),
-                    rs.getString("notification_type"),
-                    rs.getString("title"),
-                    rs.getString("message"),
-                    ScannerUtil.convertDateFormat2(rs.getString("sentDate")),
-                    rs.getInt("seen")
+                        rs.getInt("notification_id"),
+                        rs.getString("recipant"),
+                        rs.getString("notification_type"),
+                        rs.getString("title"),
+                        rs.getString("message"),
+                        ScannerUtil.convertDateFormat2(rs.getString("sentDate")),
+                        rs.getInt("seen")
                 ));
                 
             }
@@ -189,19 +199,20 @@ public class notificationRepository {
         return notifications;
     }
     
-    public List<Notification> getAllNotificationForUser() {
+    public List<Notification> getAllNotificationForUser(String object) {
         String query = "SELECT * FROM notifications WHERE recipant = ?";
         List<Notification> notificationList = new ArrayList<>();
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
             
-            pstmt.setString(1, "Cư dân");
+            pstmt.setString(1, object);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 notificationList.add( new Notification(
                         rs.getInt("notification_id"),
+                        rs.getString("recipant"),
                         rs.getString("notification_type"),
                         rs.getString("title"),
                         rs.getString("message"),

@@ -1,5 +1,6 @@
 package main.java.utc2.apartmentManage.service.managerService;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import java.text.NumberFormat;
 import java.util.List;
@@ -45,8 +46,18 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
 
     @Override
     public boolean isDuplicate(Employee object) {
-        return employeeRepo.isDuplicate(object);
+        int code = employeeRepo.isDuplicate(object);
+        switch (code) {
+            case 1 -> JOptionPane.showMessageDialog(null, "Email đã được sử dụng!", "Lỗi trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            case 2 -> JOptionPane.showMessageDialog(null, "Số điện thoại đã được sử dụng!", "Lỗi trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            case 3 -> JOptionPane.showMessageDialog(null, "CMND/CCCD đã được sử dụng!", "Lỗi trùng dữ liệu", JOptionPane.ERROR_MESSAGE);
+            default -> {
+                return false; 
+            }
+        }
+        return true; 
     }
+
 
     @Override
     public Employee getObject(int id) {
@@ -93,7 +104,7 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null,
                     "Vui lòng chọn một dòng",
-                    "Thông báo", JOptionPane.WARNING_MESSAGE
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return false;
         }
@@ -107,7 +118,9 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
         JTextField fullName = (JTextField) obj[2];
         JTextField phoneNumber = (JTextField) obj[3];
         JTextField email = (JTextField) obj[4];
-        JTextField salary = (JTextField) obj[5];
+        JTextField idcard = (JTextField) obj[5];
+        JTextField salary = (JTextField) obj[6];
+        JDateChooser date = (JDateChooser) obj[7];
 
         String uName = username.getText().trim();
         String pWord = password.getText().trim();
@@ -115,12 +128,16 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
         String pNumber = phoneNumber.getText().trim();
         String eEmail = email.getText().trim();
         String sal = salary.getText().trim();
+        String cccd = idcard.getText().trim();
         sal = sal.replace(",", ".");
 
         // Kiểm tra rỗng
-        if (uName.isEmpty() || pWord.isEmpty() || fName.isEmpty() || pNumber.isEmpty() || eEmail.isEmpty() || sal.isEmpty()) {
+        if (    uName.isEmpty() || pWord.isEmpty() || 
+                fName.isEmpty() || pNumber.isEmpty() || 
+                eEmail.isEmpty() || sal.isEmpty() || cccd.isEmpty()) {
+            
             JOptionPane.showMessageDialog(null,
-                    "Vui lòng điền đầy đủ thông tin trước khi thêm!",
+                    "Vui lòng điền đầy đủ thông tin!",
                     "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE
             );
             return false;
@@ -149,6 +166,26 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
         if (!ScannerUtil.isValidFullName(fName)) {
             return false;
         }
+        
+        if( !ScannerUtil.isValidAge(date.getDate()) ) {
+            return false;
+        }
+        
+        // Kiểm tra số điện thoại
+        if (!ScannerUtil.validatePhoneNumber(pNumber)) {
+            return false;
+        }
+
+        // Kiểm tra email
+        if (!ScannerUtil.validateEmail(eEmail)) {
+            return false;
+        } 
+        
+        if( !ScannerUtil.isValidCCCD(cccd) ) {
+            return false;
+        }
+        
+        
 
         // Kiểm tra lương
         if (!ScannerUtil.validateDouble(sal, "Lương")) {
@@ -164,16 +201,8 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
             }
         }
 
-        // Kiểm tra số điện thoại
-        if (!ScannerUtil.validatePhoneNumber(pNumber)) {
-            return false;
-        }
-
-        // Kiểm tra email
-        if (!ScannerUtil.validateEmail(eEmail)) {
-            return false;
-        }
-
+        
+        
         return true;
     }
 

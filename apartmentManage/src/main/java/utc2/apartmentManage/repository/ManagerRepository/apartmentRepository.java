@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Apartment;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 
 public class apartmentRepository {
     

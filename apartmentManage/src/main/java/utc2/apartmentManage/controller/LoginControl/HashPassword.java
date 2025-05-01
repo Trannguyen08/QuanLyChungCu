@@ -7,7 +7,7 @@ public class HashPassword {
          
 
         // Mã hóa mật khẩu bằng BCrypt
-        String hashedPassword1 = BCrypt.hashpw("hashed_password_here", BCrypt.gensalt(12));
+        String hashedPassword1 = BCrypt.hashpw("123456", BCrypt.gensalt(12));
         
         System.out.println("Admin1: " + hashedPassword1);
         

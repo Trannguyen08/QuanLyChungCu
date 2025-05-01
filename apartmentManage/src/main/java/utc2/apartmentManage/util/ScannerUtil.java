@@ -186,12 +186,17 @@ public class ScannerUtil {
     public static boolean isValidAge(Date selectedDate) {
         LocalDate birthDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate currentDate = LocalDate.now(); 
-        
-        // Tính tuổi
+
         int age = Period.between(birthDate, currentDate).getYears();
-        
-        return age >= 18;
+
+        if (age < 18) {
+            JOptionPane.showMessageDialog(null, "Ngày sinh không hợp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
+
     
     public static String convertJDateChooserToString(JDateChooser dateChooser) {
         Date date = dateChooser.getDate();

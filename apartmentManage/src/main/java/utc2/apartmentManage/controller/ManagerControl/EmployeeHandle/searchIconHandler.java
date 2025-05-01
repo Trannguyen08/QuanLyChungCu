@@ -56,8 +56,8 @@ public class searchIconHandler {
                 ? 0 : ScannerUtil.replaceDouble(toSalary);
         
         Employee emp = new Employee(0, fullName.getText().trim(), gender.getSelectedItem().toString().trim(),
-                                    "", "", "",position.getSelectedItem().toString().trim(),
-                                    fsalary, status.getSelectedItem().toString().trim(), 0);
+                                    "", "", "", "",position.getSelectedItem().toString().trim(),
+                                    fsalary, status.getSelectedItem().toString().trim(), 0, 0);
         
         boolean checkRun = employeeService.filterEmployeeIcon(table, emp, tsalary);
         frame.setVisible(false);

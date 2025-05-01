@@ -54,7 +54,7 @@ public class NotificationUI extends javax.swing.JPanel {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID_ThôngBáo", "Kiểu thông báo", "Tiêu đề", "Nội dung", "Ngày gửi", "Lượt đọc"
+                "ID", "Đối tượng nhận", "Kiểu thông báo", "Tiêu đề", "Nội dung", "Ngày gửi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -67,10 +67,11 @@ public class NotificationUI extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(0).setPreferredWidth(50);
+            table.getColumnModel().getColumn(0).setPreferredWidth(20);
             table.getColumnModel().getColumn(1).setPreferredWidth(60);
-            table.getColumnModel().getColumn(2).setPreferredWidth(100);
-            table.getColumnModel().getColumn(3).setPreferredWidth(350);
+            table.getColumnModel().getColumn(2).setPreferredWidth(60);
+            table.getColumnModel().getColumn(3).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(350);
         }
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

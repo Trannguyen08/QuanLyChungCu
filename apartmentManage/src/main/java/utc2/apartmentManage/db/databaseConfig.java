@@ -1,4 +1,4 @@
-package main.java.utc2.apartmentManage.util;
+package main.java.utc2.apartmentManage.db;
 
 public class databaseConfig {
     public static String URL = "jdbc:mysql://localhost:3306/apartment?useUnicode=true&characterEncoding=UTF-8";

@@ -114,7 +114,7 @@ public class reportFinanceIMP  {
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null,
                     "Vui lòng chọn một dòng.",
-                    "Thông báo", JOptionPane.WARNING_MESSAGE
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return false;
         }

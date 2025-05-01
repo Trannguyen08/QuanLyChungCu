@@ -92,6 +92,9 @@ public class mainHandler {
     }
     
     private void deleteBtnClick() {
+        if (!contract_ervice.isSelectedRow(table)) {
+            return;
+        }
         deleteButtonHandler handler = new deleteButtonHandler(table, panel);
         handler.dltBtnClick();
     }
@@ -118,7 +121,6 @@ public class mainHandler {
 
         String fullFilePath = dirPath + File.separator + "contract_" + contractId + ".pdf";
 
-        // Xuất file PDF
         PDF.exportContractToPDF(fullFilePath, contractId);
 
         // Mở file nếu đã tạo thành công

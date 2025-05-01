@@ -18,7 +18,7 @@ import main.java.utc2.apartmentManage.service.loginService.registerIMP;
 
 public class addButtonHandler {
     private JButton addBtn;
-    private JTextField fullName, phoneNumber, email, salary, username, password;
+    private JTextField fullName, phoneNumber, email, salary, username, password, idcard;
     private JComboBox<String> gender, position;
     private JDateChooser date;
     private JTable table;
@@ -29,8 +29,9 @@ public class addButtonHandler {
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
     public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser date, JTextField phoneNumber, 
-                            JTextField email, JComboBox<String> position, JTextField salary, JTextField username,
+                            JTextField email, JTextField idcard, JComboBox<String> position, JTextField salary, JTextField username,
                             JTextField password, JTable table, JFrame add) {
+        
         this.fullName = fullName;
         this.addBtn = addBtn;
         this.gender = gender;
@@ -43,6 +44,7 @@ public class addButtonHandler {
         this.date = date;
         this.username = username;
         this.password = password;
+        this.idcard = idcard;
 
         this.addBtn.addActionListener(new ActionListener() {
             @Override
@@ -53,7 +55,7 @@ public class addButtonHandler {
     }
 
     private void addNewRow() {
-        boolean check = employeeService.addValidate(username, password, fullName, phoneNumber, email, salary);
+        boolean check = employeeService.addValidate(username, password, fullName, phoneNumber, email, idcard, salary, date);
         if (!check) {
             return;
         }
@@ -68,21 +70,19 @@ public class addButtonHandler {
         Employee employee = new Employee(id, fullName.getText().trim(), 
                             gender.getSelectedItem().toString(),
                             ScannerUtil.convertJDateChooserToString(date),
-                            phoneNumber.getText().trim(), email.getText().trim(), 
+                            phoneNumber.getText().trim(), email.getText().trim(),
+                            idcard.getText().trim(),
                             position.getSelectedItem().toString(), 
                            ScannerUtil.parseToDouble(salary.getText().trim()),
-                            "Làm việc", ir.getNewID());
+                            "Làm việc", ir.getNewID(), newAccountID);
 
         // Kiểm tra trùng lặp nhân viên
         if (employeeService.isDuplicate(employee)) {
-            JOptionPane.showMessageDialog(null,
-                    "Email hoặc số điện thoại đã tồn tại!",
-                    "Lỗi trùng lặp", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         // thêm vào database và table
-        boolean isAddedComplete = employeeService.add(employee) && registerService.addAccount(acc); ;
+        boolean isAddedComplete = employeeService.add(employee) && registerService.addAccount(acc); 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
                 model.addRow(new Object[] {employee.getId(), employee.getName(), employee.getGender(),
                 employee.getDate(), employee.getPhoneNumber(), employee.getEmail(), 

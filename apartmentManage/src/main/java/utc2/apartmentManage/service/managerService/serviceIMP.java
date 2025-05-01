@@ -104,8 +104,8 @@ public class serviceIMP implements ISQL<Service>, ITable<Service>, IValidate, IS
     @Override
     public boolean isSelectedRow(JTable table) {
         if (table.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng để chỉnh sửa.", 
-                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng", 
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;

@@ -11,7 +11,7 @@ import main.java.utc2.apartmentManage.view.UserUI.editWindow.NotificationPanel;
 
 public class notificationUserIMP {
     private final notificationRepository notiRepo = new notificationRepository();
-    private List<Notification> list = notiRepo.getAllNotificationForUser();
+    private List<Notification> list;
     
     public void sortlist() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -19,12 +19,13 @@ public class notificationUserIMP {
         list.sort((n1, n2) -> {
             LocalDate d1 = LocalDate.parse(n1.getSentDate(), formatter);
             LocalDate d2 = LocalDate.parse(n2.getSentDate(), formatter);
-            return d2.compareTo(d1); // Sắp xếp giảm dần
+            return d2.compareTo(d1); 
         });
     }
 
 
-    public void setUpPanel(JPanel wrapperPanel) {
+    public void setUpPanel(JPanel wrapperPanel, String object) {
+        list = notiRepo.getAllNotificationForUser(object);
         sortlist();
         JPanel rowPanel = null;
         int count = 0;

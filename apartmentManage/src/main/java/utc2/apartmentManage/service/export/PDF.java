@@ -9,7 +9,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;

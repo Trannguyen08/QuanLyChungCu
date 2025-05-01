@@ -1,6 +1,6 @@
 package main.java.utc2.apartmentManage.repository.ManagerRepository;
 
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,29 +52,49 @@ public class residentRepository {
     }
     
     public int isDuplicateResident(Resident resident) {
-        String sql = """
-                SELECT phoneNum, email, id_card
-                FROM personal_info
-                WHERE person_id = ?
-                """;
+        String personalInfoSql = """
+            SELECT phoneNum, email, id_card
+            FROM personal_info
+            WHERE person_id = ?
+        """;
 
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        String residentSql = """
+            SELECT COUNT(*)
+            FROM residents
+            WHERE apartment_id = ? AND resident_id <> ?
+        """;
 
-            stmt.setInt(1, resident.getInfoID()); 
+        try (Connection conn = ConnectDB.getConnection()) {
+            // Check personal info trùng
+            try (PreparedStatement stmt = conn.prepareStatement(personalInfoSql)) {
+                stmt.setInt(1, resident.getInfoID());
 
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                if (rs.getString("email").equals(resident.getEmail())) return 2;
-                if (rs.getString("phoneNum").equals(resident.getPhoneNumber())) return 3;
-                if (rs.getString("id_card").equals(resident.getIdCard())) return 4;
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    if (rs.getString("email").equals(resident.getEmail())) return 2;
+                    if (rs.getString("phoneNum").equals(resident.getPhoneNumber())) return 3;
+                    if (rs.getString("id_card").equals(resident.getIdCard())) return 4;
+                }
             }
+
+            // Check resident có trùng căn hộ không
+            try (PreparedStatement stmt2 = conn.prepareStatement(residentSql)) {
+                stmt2.setInt(1, resident.getApartmentID());
+                stmt2.setInt(2, resident.getResidentID());
+
+                ResultSet rs2 = stmt2.executeQuery();
+                if (rs2.next() && rs2.getInt(1) > 0) {
+                    return 1; 
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+
+        return 0; 
     }
-    
+
     public boolean deleteResident(int id) {
         String selectPersonIDSql = "SELECT person_id FROM residents WHERE resident_id = ?";
         String deleteResidentSql = "DELETE FROM residents WHERE resident_id = ?";

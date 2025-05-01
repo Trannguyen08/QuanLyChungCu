@@ -101,7 +101,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null,
                     "Vui lòng chọn một dòng.",
-                    "Thông báo", JOptionPane.WARNING_MESSAGE
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return false;
         }
@@ -226,7 +226,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
 
         if (rent.isEmpty() || buy.isEmpty()) {
             JOptionPane.showMessageDialog(null,
-                    "Vui lòng điền đầy đủ thông tin trước khi cập nhật!",
+                    "Vui lòng điền đầy đủ thông tin",
                     "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -288,7 +288,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
         if( apartments.isEmpty() ) {
             JOptionPane.showMessageDialog(null,
                     "Không tìm thấy kết quả phù hợp" ,
-                    "Cảnh báo", JOptionPane.WARNING_MESSAGE
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
         }
         addData(table, apartments);

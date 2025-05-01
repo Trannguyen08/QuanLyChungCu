@@ -117,17 +117,22 @@
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="4">
-                <Column editable="false" title="ID_Th&#xf4;ngB&#xe1;o" type="java.lang.Object"/>
+                <Column editable="false" title="ID" type="java.lang.Object"/>
+                <Column editable="false" title="&#x110;&#x1ed1;i t&#x1b0;&#x1ee3;ng nh&#x1ead;n" type="java.lang.Object"/>
                 <Column editable="false" title="Ki&#x1ec3;u th&#xf4;ng b&#xe1;o" type="java.lang.Object"/>
                 <Column editable="false" title="Ti&#xea;u &#x111;&#x1ec1;" type="java.lang.Object"/>
                 <Column editable="false" title="N&#x1ed9;i dung" type="java.lang.Object"/>
                 <Column editable="false" title="Ng&#xe0;y g&#x1eed;i" type="java.lang.Object"/>
-                <Column editable="false" title="L&#x1b0;&#x1ee3;t &#x111;&#x1ecd;c" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="50" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="60" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -143,11 +148,6 @@
                   <Renderer/>
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="350" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
                   <Renderer/>

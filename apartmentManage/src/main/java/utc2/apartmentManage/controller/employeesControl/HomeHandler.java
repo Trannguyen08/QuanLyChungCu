@@ -6,32 +6,37 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.view.EmployeesUI.HomePageEmployee;
+import main.java.utc2.apartmentManage.view.EmployeesUI.InfomationEmployeeUI;
 import main.java.utc2.apartmentManage.view.EmployeesUI.chamcongUI;
+import main.java.utc2.apartmentManage.view.UserUI.Pages.NotificationUserUI;
 
 
 public class HomeHandler {
     private JPanel logoutPanel, chamcong, thongbao, mainPanel, thongtin;
     private HomePageEmployee homePage;
     private int employeeId;
-
+    private Account acc;
     private JPanel previousPanel; // Lưu panel trước đó
     private final Color DEFAULT_COLOR = new Color(41,101,142);
     private final Color ACTIVE_COLOR = new Color(13,51,91);
 
-    public HomeHandler(int employeeId, JPanel mainPan, JPanel logoutPanel, JPanel billPanel,JPanel infoPanel, JPanel mainPanel, HomePageEmployee homePage) {
-        this.employeeId = employeeId;
+    public HomeHandler(JPanel thongtin, JPanel logoutPanel, JPanel chamcong, JPanel thongbao, 
+                        JPanel mainPanel, HomePageEmployee homePage, Account acc) {
+        
         this.homePage = homePage;
         this.logoutPanel = logoutPanel;
         this.mainPanel = mainPanel;
-        this.previousPanel = mainPan;
-        this.chamcong = billPanel;
-        this.thongbao = infoPanel;
-        this.thongtin = mainPan;
+        this.previousPanel = thongtin;
+        this.chamcong = chamcong;
+        this.thongbao = thongbao;
+        this.thongtin = thongtin;
+        this.acc = acc;
 
-        addClickEvent(infoPanel);
-        addClickEvent(billPanel);
-        addClickEvent(mainPan);
+        addClickEvent(this.thongtin);
+        addClickEvent(this.thongbao);
+        addClickEvent(this.chamcong);
         
 
         logoutPanel.addMouseListener(new MouseAdapter() {
@@ -61,9 +66,15 @@ public class HomeHandler {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
         if( newPanel.equals(chamcong) ) {
-            chamcongUI report = new chamcongUI(employeeId);
+            chamcongUI report = new chamcongUI(acc);
             mainPanel.add(report, BorderLayout.CENTER);
-        } 
+        } else if( newPanel.equals(thongtin) ) {
+            InfomationEmployeeUI report = new InfomationEmployeeUI(acc);
+            mainPanel.add(report, BorderLayout.CENTER);
+        } else if( newPanel.equals(thongbao) ) {
+            NotificationUserUI report = new NotificationUserUI("Nhân viên");
+            mainPanel.add(report, BorderLayout.CENTER);
+        }
         
 
         mainPanel.revalidate();

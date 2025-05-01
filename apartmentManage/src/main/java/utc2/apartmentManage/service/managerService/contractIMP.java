@@ -136,7 +136,7 @@ public class contractIMP implements ISQL<Contract>, ITable<Contract>, IValidate,
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null,
-                    "Vui lòng chọn một dòng để xóa",
+                    "Vui lòng chọn một dòng",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return false;

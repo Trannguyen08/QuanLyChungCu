@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.swing.*;
 import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.service.loginService.loginIMP;
+import main.java.utc2.apartmentManage.view.EmployeesUI.HomePageEmployee;
 import main.java.utc2.apartmentManage.view.ManagerUI.Pages.HomePage;
 import main.java.utc2.apartmentManage.view.UserUI.Pages.HomePageUser;
 
@@ -71,6 +72,8 @@ public class LoginHandler {
                 new HomePage().setVisible(true);
             } else if( acc.getRole().equals("user") ) {
                 new HomePageUser(acc).setVisible(true);
+            } else if( acc.getRole().equals("employee") ) {
+                new HomePageEmployee(acc).setVisible(true);
             }
             
         } else {
