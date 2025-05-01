@@ -2,7 +2,6 @@ package main.java.utc2.apartmentManage.controller.employeesControl;
 
 
 import main.java.utc2.apartmentManage.view.Login.Login;
-import main.java.utc2.apartmentManage.view.UserUI.Pages.Infomation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -65,10 +64,7 @@ public class HomeHandler {
             chamcongUI report = new chamcongUI(employeeId);
             mainPanel.add(report, BorderLayout.CENTER);
         } 
-        if (newPanel.equals(thongbao)) {
-            Infomation report = new Infomation();
-            mainPanel.add(report, BorderLayout.CENTER);
-        }
+        
 
         mainPanel.revalidate();
         mainPanel.repaint();

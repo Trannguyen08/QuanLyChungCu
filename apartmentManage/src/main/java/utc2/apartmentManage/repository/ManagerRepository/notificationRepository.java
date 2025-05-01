@@ -188,6 +188,34 @@ public class notificationRepository {
 
         return notifications;
     }
+    
+    public List<Notification> getAllNotificationForUser() {
+        String query = "SELECT * FROM notifications WHERE recipant = ?";
+        List<Notification> notificationList = new ArrayList<>();
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            
+            pstmt.setString(1, "Cư dân");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                notificationList.add( new Notification(
+                        rs.getInt("notification_id"),
+                        rs.getString("notification_type"),
+                        rs.getString("title"),
+                        rs.getString("message"),
+                        ScannerUtil.convertDateFormat2(rs.getString("sentDate")),
+                        rs.getInt("seen")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return notificationList;
+    }
+    
 
     
 }

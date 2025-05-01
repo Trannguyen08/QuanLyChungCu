@@ -205,49 +205,5 @@ public class contractRepository {
         }
 
         return contracts;
-    }
-    
-    
-    public List<Contract> getFilteredContractsByKeyword(String keyword) {
-        List<Contract> contracts = new ArrayList<>();
-        String sql = "SELECT c.contract_id, r.full_name AS resident_name, " +
-                     "a.apartmentIndex, a.floor, a.building, " +
-                     "c.contract_type, c.start_date, c.end_date, c.contract_value, c.contract_status " +
-                     "FROM contracts c " +
-                     "JOIN residents r ON c.resident_id = r.resident_id " +
-                     "JOIN apartments a ON c.apartment_id = a.apartment_id " +
-                     "WHERE c.contract_id LIKE ? OR r.full_name LIKE ?";
-
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, "%" + keyword + "%"); 
-            pstmt.setString(2, "%" + keyword + "%"); 
-
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String apartmentInfo = rs.getString("apartmentIndex") + " - " + 
-                                       rs.getString("floor") + " - " + 
-                                       rs.getString("building");
-
-                contracts.add(new Contract(
-                    rs.getInt("contract_id"),
-                    rs.getString("resident_name"),
-                    apartmentInfo,
-                    rs.getString("contract_type"),
-                    ScannerUtil.convertDateFormat2(rs.getString("start_date")),
-                    ScannerUtil.convertDateFormat2(rs.getString("end_date")),
-                    rs.getLong("contract_value"),  
-                    rs.getString("contract_status")
-                ));
-            }
-            rs.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return contracts;
-    }
-
-    
+    } 
 }

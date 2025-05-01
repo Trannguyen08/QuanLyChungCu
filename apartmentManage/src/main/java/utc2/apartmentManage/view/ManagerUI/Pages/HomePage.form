@@ -34,11 +34,11 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="mainPanel" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jPanel13" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -73,7 +73,7 @@
               <Component id="apartmentPanel" alignment="0" max="32767" attributes="0"/>
               <Component id="reportPanel" alignment="0" max="32767" attributes="0"/>
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
-              <Component id="residentsPanel" alignment="0" pref="214" max="32767" attributes="0"/>
+              <Component id="residentsPanel" alignment="0" pref="206" max="32767" attributes="0"/>
               <Component id="jLabel2" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
@@ -486,7 +486,7 @@
                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="employees" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="54" max="32767" attributes="0"/>
+                      <EmptySpace pref="46" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -685,7 +685,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="432" max="32767" attributes="0"/>
+                  <EmptySpace pref="424" max="32767" attributes="0"/>
                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="405" max="-2" attributes="0"/>
               </Group>

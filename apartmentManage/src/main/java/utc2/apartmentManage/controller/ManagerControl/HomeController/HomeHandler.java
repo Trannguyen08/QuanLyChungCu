@@ -69,7 +69,7 @@ public class HomeHandler {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
         if( newPanel.equals(reportPanel) ) {
-            ReportUI report = new ReportUI();
+            ReportUI report = new ReportUI(mainPanel);
             mainPanel.add(report, BorderLayout.CENTER);
         } else if( newPanel.equals(apartmentPanel) ) {
             ApartmentUI apartment = new ApartmentUI();

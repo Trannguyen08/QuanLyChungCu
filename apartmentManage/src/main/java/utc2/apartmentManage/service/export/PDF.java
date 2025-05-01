@@ -20,13 +20,35 @@ import com.itextpdf.layout.element.Paragraph;
 
 public class PDF {
     public static void exportContractToPDF(String fullFilePath, int contractId) {
-        String query = "SELECT c.contract_id, c.apartment_id, c.resident_id, c.contract_type, c.start_date, c.end_date, c.contract_value, " +
-                       "r.full_name AS buyer_name, r.phone_number AS buyer_phone, r.email AS buyer_email, r.id_card AS buyer_cccd, " +
-                       "a.building, a.area, a.purchase_price, a.floor, a.apartmentIndex " +
-                       "FROM contracts c " +
-                       "JOIN residents r ON c.resident_id = r.resident_id " +
-                       "JOIN apartments a ON c.apartment_id = a.apartment_id " +
-                       "WHERE c.contract_id = ?";
+        String query = """
+                            SELECT 
+                                c.contract_id, 
+                                c.apartment_id, 
+                                c.resident_id, 
+                                c.contract_type, 
+                                c.start_date, 
+                                c.end_date, 
+                                c.contract_value, 
+                                pi.full_name AS buyer_name,
+                                pi.phoneNum AS buyer_phone,
+                                pi.email AS buyer_email,
+                                pi.id_card AS buyer_cccd,          
+                                a.building, 
+                                a.area, 
+                                a.purchase_price, 
+                                a.floor, 
+                                a.apartmentIndex
+                            FROM 
+                                contracts c
+                            JOIN 
+                                residents r ON c.resident_id = r.resident_id
+                            JOIN 
+                                apartments a ON c.apartment_id = a.apartment_id
+                            JOIN 
+                                personal_info pi ON r.person_id = pi.person_id  
+                            WHERE 
+                                c.contract_id = ?;
+                       """;
 
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -36,9 +58,10 @@ public class PDF {
 
             if (rs.next()) {
 
-                PdfReader reader = new PdfReader(fullFilePath);
-                PdfWriter writer = new PdfWriter(fullFilePath);  // Mở file và ghi thêm
-                PdfDocument pdfDoc = new PdfDocument(reader, writer);
+                PdfWriter writer = new PdfWriter(fullFilePath);
+                PdfDocument pdfDoc = new PdfDocument(writer);
+
+
                 Document document = new Document(pdfDoc);
 
                 // Nhúng font Unicode vào tài liệu PDF

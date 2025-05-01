@@ -23,4 +23,8 @@ public class loginIMP {
     public List<Account> gettAllAccount() {
         return lr.getAllAccount();
     }
+    
+    public Account getAccountByUserName(String username) {
+        return lr.getAccountByUsername(username);
+    }
 }

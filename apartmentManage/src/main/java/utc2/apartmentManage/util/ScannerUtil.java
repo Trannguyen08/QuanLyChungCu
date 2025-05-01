@@ -1,6 +1,8 @@
 package main.java.utc2.apartmentManage.util;
 
 import com.toedter.calendar.JDateChooser;
+
+import java.sql.Time;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -269,6 +271,13 @@ public class ScannerUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(date);
     }
+
+    public static String formatSqlTimeToHHmm(Time time) {
+        if (time == null) return "";
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(time);
+    }
+
 
 
 }
