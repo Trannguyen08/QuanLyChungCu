@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Account;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class loginRepository {

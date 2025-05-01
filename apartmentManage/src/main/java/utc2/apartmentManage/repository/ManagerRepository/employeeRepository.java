@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Employee;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 public class employeeRepository {
@@ -34,27 +34,39 @@ public class employeeRepository {
         
     }
     
-    public boolean isDuplicate(Employee employee) {
-        String sql = "SELECT COUNT(*) FROM personal_info p " +
-                     "WHERE (p.email = ? OR p.phoneNum = ?) AND p.person_id != ?";
+    public int isDuplicate(Employee employee) {
+        String sql = "SELECT " +
+                     "CASE " +
+                     "  WHEN email = ? THEN 1 " +
+                     "  WHEN phoneNum = ? THEN 2 " +
+                     "  WHEN id_card = ? THEN 3 " +
+                     "  ELSE 0 " +
+                     "END AS duplicate_type " +
+                     "FROM personal_info " +
+                     "WHERE person_id != ? AND (email = ? OR phoneNum = ? OR id_card = ?) " +
+                     "LIMIT 1";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setString(1, employee.getEmail());
             pstmt.setString(2, employee.getPhoneNumber());
-            pstmt.setInt(3, employee.getInfoID()); 
+            pstmt.setString(3, employee.getIdcard());
+            pstmt.setInt(4, employee.getInfoID());
+            pstmt.setString(5, employee.getEmail());
+            pstmt.setString(6, employee.getPhoneNumber());
+            pstmt.setString(7, employee.getIdcard());
 
-            ResultSet res = pstmt.executeQuery();
-            if (res.next()) {
-                int count = res.getInt(1);
-                return count > 0;
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("duplicate_type");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return 0;
     }
+
 
     
     public boolean updateEmployee(Employee employee) {
@@ -169,8 +181,8 @@ public class employeeRepository {
     }
 
     public Employee getEmployeeById(int id) {
-        String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, " +
-                       "e.position, e.salary, e.status, e.person_id " +
+        String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card, " +
+                       "e.position, e.salary, e.status, e.person_id, e.account_id " +
                        "FROM employees e " +
                        "JOIN personal_info p ON e.person_id = p.person_id " +
                        "WHERE e.employee_id = ?";
@@ -189,10 +201,12 @@ public class employeeRepository {
                     ScannerUtil.convertDateFormat2(rs.getString("dob")),
                     rs.getString("phoneNum"),
                     rs.getString("email"),
+                    rs.getString("id_card"),
                     rs.getString("position"),
                     rs.getDouble("salary"),
                     rs.getString("status"),
-                    rs.getInt("person_id")
+                    rs.getInt("person_id"),
+                    rs.getInt("account_id")
                 );
                 return e;
             }
@@ -208,28 +222,30 @@ public class employeeRepository {
     public List<Employee> getAllEmployee() {
         List<Employee> employeeList = new ArrayList<>();
         String sql = """
-                SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, 
-                       p.email, p.dob, e.position, e.salary, e.status, e.person_id
+                SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, p.id_card, 
+                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id
                 FROM employees e
                 JOIN personal_info p ON e.person_id = p.person_id
                 """;
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql);
-             ResultSet res = pstmt.executeQuery()) {
+             ResultSet rs = pstmt.executeQuery()) {
 
-            while (res.next()) {
+            while (rs.next()) {
                 Employee employee = new Employee(
-                    res.getInt("employee_id"),
-                    res.getString("full_name"),
-                    res.getString("gender"),
-                    ScannerUtil.convertDateFormat2(res.getString("dob")),
-                    res.getString("phoneNum"),
-                    res.getString("email"),
-                    res.getString("position"),
-                    res.getDouble("salary"),
-                    res.getString("status"),
-                    res.getInt("person_id")
+                    rs.getInt("employee_id"),
+                    rs.getString("full_name"),
+                    rs.getString("gender"),
+                    ScannerUtil.convertDateFormat2(rs.getString("dob")),
+                    rs.getString("phoneNum"),
+                    rs.getString("email"),
+                    rs.getString("id_card"),
+                    rs.getString("position"),
+                    rs.getDouble("salary"),
+                    rs.getString("status"),
+                    rs.getInt("person_id"),
+                    rs.getInt("account_id")
                 );
                 employeeList.add(employee);
             }
@@ -244,8 +260,8 @@ public class employeeRepository {
     
     
     public List<Employee> getAllEmployeeBySearchIcon(Employee emp, double toSalary) {
-        String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, " +
-                       "e.position, e.salary, e.status, e.person_id " +
+        String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card, " +
+                       "e.position, e.salary, e.status, e.person_id, e.account_id " +
                        "FROM employees e " +
                        "JOIN personal_info p ON e.person_id = p.person_id " +
                        "WHERE 1=1";
@@ -293,10 +309,12 @@ public class employeeRepository {
                     ScannerUtil.convertDateFormat2(rs.getString("dob")),
                     rs.getString("phoneNum"),
                     rs.getString("email"),
+                    rs.getString("id_card"),
                     rs.getString("position"),
                     rs.getDouble("salary"),
                     rs.getString("status"),
-                    rs.getInt("person_id")
+                    rs.getInt("person_id"),
+                    rs.getInt("account_id")
                 );
                 emps.add(e);
             }
@@ -305,6 +323,45 @@ public class employeeRepository {
         }
 
         return emps;
+    }
+    
+    public Employee getEmployeeByAccID(int accID) {
+        String sql = """
+                SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, p.id_card, 
+                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id
+                FROM employees e
+                JOIN personal_info p ON e.person_id = p.person_id
+                WHERE e.account_id = ?
+                """;
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setInt(1, accID);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                return new Employee(
+                    rs.getInt("employee_id"),
+                    rs.getString("full_name"),
+                    rs.getString("gender"),
+                    ScannerUtil.convertDateFormat2(rs.getString("dob")),
+                    rs.getString("phoneNum"),
+                    rs.getString("email"),
+                    rs.getString("id_card"),
+                    rs.getString("position"),
+                    rs.getDouble("salary"),
+                    rs.getString("status"),
+                    rs.getInt("person_id"),
+                    rs.getInt("account_id")
+                );
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 
 

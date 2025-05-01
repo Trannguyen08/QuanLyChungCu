@@ -12,7 +12,7 @@ public class apartmentDetail extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Chi tiết chung cư");
-        new detailButtonHandle(index, area, buyPrice, imgLabel, interior, rentPrice, room, status, table);
+        new detailButtonHandle(index, area, buyPrice, imgLabel, interior, rentPrice, room, roomwc, status, table);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -29,14 +29,16 @@ public class apartmentDetail extends javax.swing.JFrame {
         rentPrice = new javax.swing.JLabel();
         buyPrice = new javax.swing.JLabel();
         imgLabel = new javax.swing.JLabel();
+        roomwc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 204, 255));
 
         index.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         index.setText("Vị trí: ");
 
         room.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        room.setText("Số phòng:");
+        room.setText("Số phòng ngủ:");
 
         interior.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         interior.setText("Nội thất");
@@ -55,47 +57,53 @@ public class apartmentDetail extends javax.swing.JFrame {
 
         imgLabel.setBackground(new java.awt.Color(255, 255, 255));
 
+        roomwc.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        roomwc.setText("Số phòng wc:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(room)
+                    .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(index)
-                    .addComponent(interior)
-                    .addComponent(status)
-                    .addComponent(area)
-                    .addComponent(rentPrice)
-                    .addComponent(buyPrice))
-                .addContainerGap(229, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(interior)
+                            .addComponent(status)
+                            .addComponent(area))
+                        .addGap(97, 97, 97)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rentPrice)
+                            .addComponent(roomwc)
+                            .addComponent(buyPrice))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(index)
-                        .addGap(18, 18, 18)
-                        .addComponent(room)
-                        .addGap(18, 18, 18)
-                        .addComponent(interior)
-                        .addGap(18, 18, 18)
-                        .addComponent(status)
-                        .addGap(18, 18, 18)
-                        .addComponent(area)
-                        .addGap(18, 18, 18)
-                        .addComponent(rentPrice)
-                        .addGap(18, 18, 18)
-                        .addComponent(buyPrice))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(imgLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(index)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(interior)
+                    .addComponent(roomwc))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(status)
+                    .addComponent(rentPrice))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(area)
+                    .addComponent(buyPrice))
+                .addGap(18, 18, 18)
+                .addComponent(room)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -111,6 +119,7 @@ public class apartmentDetail extends javax.swing.JFrame {
     private javax.swing.JLabel interior;
     private javax.swing.JLabel rentPrice;
     private javax.swing.JLabel room;
+    private javax.swing.JLabel roomwc;
     private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 }

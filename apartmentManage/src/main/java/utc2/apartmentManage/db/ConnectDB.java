@@ -1,4 +1,4 @@
-package main.java.utc2.apartmentManage.util;
+package main.java.utc2.apartmentManage.db;
 
 import java.sql.*;
 

@@ -73,7 +73,7 @@ public class HomeHandler {
             mainPanel.add(report, BorderLayout.CENTER);
         }
         if (newPanel.equals(notiPanel)) {
-            NotificationUserUI report = new NotificationUserUI();
+            NotificationUserUI report = new NotificationUserUI("Cư dân");
             mainPanel.add(report, BorderLayout.CENTER);
         }
 

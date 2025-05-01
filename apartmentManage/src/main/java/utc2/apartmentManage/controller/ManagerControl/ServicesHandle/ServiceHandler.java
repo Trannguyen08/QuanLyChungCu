@@ -118,9 +118,7 @@ public class ServiceHandler {
     }
     
     private void editBtnClick() {
-        int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        if( !ss.isSelectedRow(table) ) {
             return;
         }
         new editService(table).setVisible(true);

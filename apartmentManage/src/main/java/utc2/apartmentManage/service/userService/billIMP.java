@@ -81,7 +81,7 @@ public class billIMP implements ITable<Bill> {
     public boolean isSelectedRow(JTable table) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;

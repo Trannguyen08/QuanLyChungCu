@@ -11,14 +11,14 @@ import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 public class searchIconHandler {
     private JTextField title;
-    private JComboBox<String> type;
+    private JComboBox<String> type, recipant;
     private JDateChooser date;
     private JTable table;
     private JFrame frame;
     private JButton searchBtn;
     private final notificationIMP notificationService = new notificationIMP();
 
-    public searchIconHandler(JTextField title, JComboBox<String> type, JDateChooser date, 
+    public searchIconHandler(JComboBox<String> recipant, JTextField title, JComboBox<String> type, JDateChooser date, 
                             JButton searchBtn, JTable table, JFrame frame) {
       
         this.title = title;
@@ -27,6 +27,7 @@ public class searchIconHandler {
         this.frame = frame;
         this.table = table;
         this.searchBtn = searchBtn;
+        this.recipant = recipant;
 
         this.searchBtn.addActionListener(new ActionListener() {
             @Override
@@ -42,7 +43,8 @@ public class searchIconHandler {
             return;
         }
         
-        Notification noti = new Notification(0, type.getSelectedItem().toString().trim(),
+        Notification noti = new Notification(0, recipant.getSelectedItem().toString().trim(),
+                                             type.getSelectedItem().toString().trim(),
                                              title.getText().trim(), "", 
                                              ScannerUtil.convertJDateChooserToString(date), 0);
         frame.setVisible(false);

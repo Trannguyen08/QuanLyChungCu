@@ -8,7 +8,7 @@ import kotlin.collections.ArrayDeque;
 import main.java.utc2.apartmentManage.model.Amount;
 import main.java.utc2.apartmentManage.model.EmployeeReport;
 import main.java.utc2.apartmentManage.model.WorkDate;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 

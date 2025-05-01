@@ -9,7 +9,7 @@ import main.java.utc2.apartmentManage.model.Apartment;
 import main.java.utc2.apartmentManage.service.managerService.apartmentIMP;
 
 public class detailButtonHandle {
-    private JLabel index, area, buyPrice, imgLabel, interior, rentPrice, room, status;
+    private JLabel index, area, buyPrice, imgLabel, interior, rentPrice, room, status, wc;
     private JTable table;
     private apartmentIMP ap = new apartmentIMP();
     private List<String> list;
@@ -17,7 +17,7 @@ public class detailButtonHandle {
     
 
     public detailButtonHandle(JLabel index, JLabel area, JLabel buyPrice, JLabel imgLabel, JLabel interior, 
-                            JLabel rentPrice, JLabel room, JLabel status, JTable table) {
+                            JLabel rentPrice, JLabel room, JLabel wc, JLabel status, JTable table) {
         this.index = index;
         this.area = area;
         this.buyPrice = buyPrice;
@@ -27,6 +27,7 @@ public class detailButtonHandle {
         this.room = room;
         this.status = status;
         this.table = table;
+        this.wc = wc;
         
         int id = ap.getApartmentId(table);
         Apartment apartment = ap.getObject(id);
@@ -38,11 +39,11 @@ public class detailButtonHandle {
     }
     
     public void displayContent(Apartment apartment) {
-        index.setText("Số căn hộ:  " + apartment.getIndex() + 
-                        "     Tầng:  " + apartment.getFloor() + 
+        index.setText("Căn hộ số:  " + apartment.getIndex() + 
+                        "    Tầng:  " + apartment.getFloor() + 
                         "    Tòa:  " + apartment.getBuilding());
-        room.setText("Số phòng ngủ:  " + apartment.getNumRooms() + 
-                        "    Số phòng vệ sinh:  " + apartment.getNumWc());
+        room.setText("Số phòng ngủ:  " + apartment.getNumRooms()); 
+        wc.setText("Số phòng vệ sinh:  " + apartment.getNumWc());
         interior.setText("Nội thất:  " + apartment.getInterior());
         status.setText("Tình trạng:  " + apartment.getStatus());
         area.setText("Diện tích:  " + df.format(apartment.getArea()));

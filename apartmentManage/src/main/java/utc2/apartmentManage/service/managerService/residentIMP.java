@@ -58,6 +58,11 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
     public boolean add(Resident object) {
         return residentRepository.addResident(object);
     }
+    
+    @Override
+    public int getNewID() {
+        return residentRepository.getIDMinNotExist(); 
+    }
 
     @Override
     public boolean delete(int id) {
@@ -136,7 +141,7 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(null,
-                    "Vui lòng chọn một dòng để xóa",
+                    "Vui lòng chọn một dòng",
                     "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return false;
@@ -158,7 +163,7 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
         if( list.isEmpty() ) {
             JOptionPane.showMessageDialog(null,
                     "Không tìm thấy kết quả phù hợp" ,
-                    "Cảnh báo", JOptionPane.WARNING_MESSAGE
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE
             );
             return;
         }
@@ -337,11 +342,6 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
     @Override
     public boolean update(Resident object) {
         throw new UnsupportedOperationException("Not supported yet."); 
-    }
-    
-     @Override
-    public int getNewID() {
-        return residentRepository.getIDMinNotExist(); 
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Service;
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 
 
 public class serviceRepository {
@@ -35,16 +35,18 @@ public class serviceRepository {
     }
     
     public boolean addService(Service service) {
-        String sql = "INSERT INTO services (service_id, service_name, service_type, price, unit, description) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO services (service_id, service_name, relevant, service_type, price, unit, description) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
 
             pstmt.setInt(1, service.getServiceId());
             pstmt.setString(2, service.getServiceName());
-            pstmt.setString(3, service.getServiceType());
-            pstmt.setDouble(4, service.getPrice());
-            pstmt.setString(5, service.getUnit());
-            pstmt.setString(6, service.getDescription());
+            pstmt.setString(3, service.getRelevant());
+            pstmt.setString(4, service.getServiceType());
+            pstmt.setDouble(5, service.getPrice());
+            pstmt.setString(6, service.getUnit());
+            pstmt.setString(7, service.getDescription());
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;

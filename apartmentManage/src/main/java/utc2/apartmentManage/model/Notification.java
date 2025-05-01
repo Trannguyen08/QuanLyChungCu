@@ -2,13 +2,15 @@ package main.java.utc2.apartmentManage.model;
 
 public class Notification {
     private int ID;
+    private String recipant;
     private String type;
     private String title;
     private String mess;
     private String sentDate;
     private int seen;
     
-    public Notification(int ID, String type, String title, String mess, String sentDate, int seen){
+    public Notification(int ID, String recipant, String type, String title, String mess, String sentDate, int seen){
+        this.recipant = recipant;
         this.ID = ID;
         this.mess = mess;
         this.sentDate = sentDate;
@@ -38,6 +40,18 @@ public class Notification {
 
     public int getSeen() {
         return seen;
+    }
+
+    public String getRecipant() {
+        return recipant;
+    }
+
+    public void setRecipant(String recipant) {
+        this.recipant = recipant;
+    }
+
+    public void setSeen(int seen) {
+        this.seen = seen;
     }
     
     

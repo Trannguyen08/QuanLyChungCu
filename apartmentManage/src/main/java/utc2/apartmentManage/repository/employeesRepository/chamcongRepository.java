@@ -1,60 +1,100 @@
 package main.java.utc2.apartmentManage.repository.employeesRepository;
 
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import main.java.utc2.apartmentManage.model.Attendance;
+import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 public class chamcongRepository {
     private Connection getConnection() throws SQLException {
         return ConnectDB.getConnection(); // Sử dụng ConnectDB
     }
+    
+    public int getIDMinNotExist() {
+        String query = """
+                       SELECT MIN(a1.attendance_id) + 1 AS next_id
+                       FROM attendances a1
+                       WHERE NOT EXISTS (
+                           SELECT 1 FROM attendances a2 WHERE a2.attendance_id = a1.attendance_id + 1
+                       );""";
+        int ans = 0;
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet res = pstmt.executeQuery()) {
 
-    public void saveAttendance(int employeeId, LocalDate date, LocalTime checkInTime, LocalTime checkOutTime) {
-        String checkSql = "SELECT attendance_id FROM attendances WHERE employee_id = ? AND attendance_date = ?";
-        Integer attendanceId = null;
-        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(checkSql)) {
-            stmt.setInt(1, employeeId);
-            stmt.setDate(2, Date.valueOf(date));
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                attendanceId = rs.getInt("attendance_id");
+            if( res.next() ) {
+                ans = res.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        if (attendanceId != null) {
-            String updateSql = "UPDATE attendances SET check_in_time = ?, check_out_time = ? WHERE attendance_id = ?";
-            try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(updateSql)) {
-                stmt.setTime(1, checkInTime != null ? Time.valueOf(checkInTime) : null);
-                stmt.setTime(2, checkOutTime != null ? Time.valueOf(checkOutTime) : null);
-                stmt.setInt(3, attendanceId);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String insertSql = "INSERT INTO attendances (employee_id, attendance_date, check_in_time, check_out_time) VALUES (?, ?, ?, ?)";
-            try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(insertSql)) {
-                stmt.setInt(1, employeeId);
-                stmt.setDate(2, Date.valueOf(date));
-                stmt.setTime(3, checkInTime != null ? Time.valueOf(checkInTime) : null);
-                stmt.setTime(4, checkOutTime != null ? Time.valueOf(checkOutTime) : null);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        return ans;
+        
     }
 
-    public List<String[]> getAttendanceRecords(int employeeId, int month, int year) {
-        List<String[]> records = new ArrayList<>();
-        String sql = "SELECT attendance_date, check_in_time, check_out_time FROM attendances WHERE employee_id = ? " +
+    
+    public boolean insertAttendance(int attendanceId, int employeeId, Date attendanceDate) {
+        String sql = "INSERT INTO attendances (attendance_id, employee_id, attendance_date) VALUES (?, ?, ?)";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, attendanceId);
+            stmt.setInt(2, employeeId);
+            stmt.setDate(3, attendanceDate);
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateCheckInTime(Date attendanceId, Time checkInTime) {
+        String sql = "UPDATE attendances SET check_in_time = ? WHERE attendance_date = ?";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setTime(1, checkInTime);
+            stmt.setDate(2, attendanceId);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean updateCheckOutTime(Date attendanceId, Time checkoutTime) {
+        String sql = "UPDATE attendances SET check_out_time = ? WHERE attendance_date = ?";
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setTime(1, checkoutTime);
+            stmt.setDate(2, attendanceId);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    
+    public List<Attendance> getAttendance(int employeeId, int month, int year) {
+        List<Attendance> records = new ArrayList<>();
+        String sql = "SELECT * FROM attendances WHERE employee_id = ? " +
                      "AND MONTH(attendance_date) = ? AND YEAR(attendance_date) = ?";
         try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, employeeId);
@@ -62,14 +102,48 @@ public class chamcongRepository {
             stmt.setInt(3, year);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                String date = rs.getDate("attendance_date").toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                String checkInTime = rs.getTime("check_in_time") != null ? rs.getTime("check_in_time").toLocalTime().toString() : "";
-                String checkOutTime = rs.getTime("check_out_time") != null ? rs.getTime("check_out_time").toLocalTime().toString() : "";
-                records.add(new String[]{date, checkInTime, checkOutTime});
+                records.add(new Attendance(
+                        rs.getInt("attendance_id"),
+                        ScannerUtil.convertDateFormat2(rs.getString("attendance_date")),
+                        rs.getString("check_in_time"),
+                        rs.getString("check_out_time"),
+                        rs.getInt("employee_id")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return records;
     }
+    
+    public Attendance getAttendanceToday(int employeeId) {
+        String sql = """
+                SELECT * 
+                FROM attendances 
+                WHERE employee_id = ? AND attendance_date = CURRENT_DATE
+                """; 
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, employeeId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Attendance(
+                    rs.getInt("attendance_id"),
+                    ScannerUtil.convertDateFormat2(rs.getString("attendance_date")),
+                    rs.getString("check_in_time"),
+                    rs.getString("check_out_time"),
+                    rs.getInt("employee_id")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
 }

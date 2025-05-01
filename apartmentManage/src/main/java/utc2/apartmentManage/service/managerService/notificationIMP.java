@@ -4,16 +4,10 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import main.java.utc2.apartmentManage.model.Employee;
 import main.java.utc2.apartmentManage.model.Notification;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.notificationRepository;
 import main.java.utc2.apartmentManage.service.Interface.*;
@@ -72,11 +66,11 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
         for (Notification notification : list) {
             model.addRow(new Object[]{
                     notification.getID(),
+                    notification.getRecipant(),
                     notification.getType(),
                     notification.getTitle(),
                     notification.getMess(),
-                    notification.getSentDate(),
-                    notification.getSeen()
+                    notification.getSentDate()
             });
         } 
     }
@@ -89,7 +83,7 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
         header.setFont(new Font("Arial", Font.BOLD, 14));
         
         for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
-            if (i == 3) {
+            if (i == 3 || i == 4) {
                 table.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
             } else {
                 centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -105,7 +99,8 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
     public boolean isSelectedRow(JTable table) {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng!", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng!", 
+                    "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         return true;
@@ -127,9 +122,9 @@ public class notificationIMP implements ISQL<Notification>, ITable<Notification>
         int selectedRow = table.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        title.setText(model.getValueAt(selectedRow, 2).toString());
-        type.setSelectedItem(model.getValueAt(selectedRow, 1).toString());
-        mess.setText(model.getValueAt(selectedRow, 3).toString());
+        title.setText(model.getValueAt(selectedRow, 3).toString());
+        type.setSelectedItem(model.getValueAt(selectedRow, 2).toString());
+        mess.setText(model.getValueAt(selectedRow, 4).toString());
         
         return true;
     }

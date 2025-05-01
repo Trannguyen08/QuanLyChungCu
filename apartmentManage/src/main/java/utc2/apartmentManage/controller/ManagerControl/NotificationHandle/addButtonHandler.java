@@ -11,14 +11,14 @@ import main.java.utc2.apartmentManage.service.managerService.notificationIMP;
 
 public class addButtonHandler {
     private JButton addBtn;
-    private JComboBox<String> type;
+    private JComboBox<String> type, recipant;
     private JTextField title;
     private JTextArea content;
     private JTable table;
     private JFrame add;
     private final notificationIMP notificationService = new notificationIMP();
 
-    public addButtonHandler(JComboBox<String> type, JTextField title, 
+    public addButtonHandler(JComboBox<String> recipant, JComboBox<String> type, JTextField title, 
                              JTextArea content, JButton addBtn, JTable table, JFrame add) {
         this.addBtn = addBtn;
         this.type = type;
@@ -26,6 +26,7 @@ public class addButtonHandler {
         this.content = content;
         this.table = table;
         this.add = add;
+        this.recipant = recipant;
 
         this.addBtn.addActionListener(new ActionListener() {
             @Override
@@ -44,7 +45,8 @@ public class addButtonHandler {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String todayDate = sdf.format(new Date());
 
-        Notification noti = new Notification(id, type.getSelectedItem().toString().trim(),
+        Notification noti = new Notification(id, recipant.getSelectedItem().toString().trim(),
+                                            type.getSelectedItem().toString().trim(),
                                              title.getText().trim(), content.getText().trim(),
                                               todayDate, 0);
 
@@ -53,8 +55,8 @@ public class addButtonHandler {
         boolean isAddedComplete = notificationService.add(noti);
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        model.addRow(new Object[]{noti.getID(), noti.getType(), noti.getTitle(), 
-                                noti.getMess(), noti.getSentDate(), noti.getSeen()});
+        model.addRow(new Object[]{noti.getID(), noti.getRecipant(), noti.getType(), noti.getTitle(), 
+                                noti.getMess(), noti.getSentDate()});
 
         add.setVisible(false);
         if (isAddedComplete) {

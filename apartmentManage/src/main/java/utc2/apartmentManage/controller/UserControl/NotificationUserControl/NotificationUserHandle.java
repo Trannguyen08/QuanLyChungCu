@@ -10,31 +10,28 @@ public class NotificationUserHandle {
     private final notificationUserIMP nt = new notificationUserIMP();
     private JScrollPane scrollPane;
     private JTextField searchField;
+    private String object;
+    private JPanel wrapperPanel;
 
-    public NotificationUserHandle(JScrollPane scrollPane, JTextField searchField) {
+    public NotificationUserHandle(JScrollPane scrollPane, JTextField searchField, String object) {
         this.scrollPane = scrollPane;
         this.searchField = searchField;
+        this.object = object;
 
-        // Khởi tạo wrapperPanel và set layout cho nó
-        JPanel wrapperPanel = new JPanel();
-        wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS)); // Stack các hàng theo chiều dọc
+        wrapperPanel = new JPanel();
+        wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS)); 
 
-        // Gọi hàm thêm các thông báo vào wrapperPanel
-        nt.setUpPanel(wrapperPanel);
+        nt.setUpPanel(wrapperPanel, object);
 
-        // Tạo JScrollPane mới cho wrapperPanel nếu chưa có
-        scrollPane.setViewportView(wrapperPanel); // Đảm bảo scrollPane chứa wrapperPanel
-
-        // Tùy chọn thêm scroll bar
+        scrollPane.setViewportView(wrapperPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);  
-        
-        placeHolder();
-        setupSearchListener(searchField, scrollPane);
 
+        placeHolder();
+        setupSearchListener();
     }
-    
+
     private void placeHolder() {
         searchField.setForeground(java.awt.Color.GRAY);
         searchField.setText("Nhập tiêu đề thông báo...");
@@ -56,8 +53,8 @@ public class NotificationUserHandle {
             }
         });
     }
-    
-    private void setupSearchListener(JTextField searchField, JScrollPane scrollPane) {
+
+    private void setupSearchListener() {
         searchField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
                 searchAndUpdate();
@@ -73,23 +70,18 @@ public class NotificationUserHandle {
 
             private void searchAndUpdate() {
                 String keyword = searchField.getText().trim();
-                JPanel wrapperPanel = new JPanel();
-                wrapperPanel.setLayout(new BoxLayout(wrapperPanel, BoxLayout.Y_AXIS));
+
+                wrapperPanel.removeAll(); // <-- Dọn nội dung cũ
 
                 if (!keyword.isEmpty() && !keyword.equals("Nhập tiêu đề thông báo...")) {
-                    nt.search(wrapperPanel, keyword); 
+                    nt.search(wrapperPanel, keyword);
                 } else {
-                    nt.setUpPanel(wrapperPanel);
+                    nt.setUpPanel(wrapperPanel, object);
                 }
 
-                scrollPane.setViewportView(wrapperPanel);
-                scrollPane.revalidate();
-                scrollPane.repaint();
+                wrapperPanel.revalidate();
+                wrapperPanel.repaint();
             }
         });
     }
-
-
 }
-
-

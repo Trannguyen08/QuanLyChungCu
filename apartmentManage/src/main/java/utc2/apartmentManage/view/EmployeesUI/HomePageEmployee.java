@@ -1,18 +1,20 @@
 package main.java.utc2.apartmentManage.view.EmployeesUI;
 
+import java.awt.BorderLayout;
 import main.java.utc2.apartmentManage.controller.employeesControl.HomeHandler;
+import main.java.utc2.apartmentManage.model.Account;
 
 
 
 
 public class HomePageEmployee extends javax.swing.JFrame {
-    private int employeeId;
-    public HomePageEmployee(int employeeId) {
-        this.employeeId = employeeId;
+    public HomePageEmployee(Account acc) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Home Page");
-        HomeHandler hh = new HomeHandler(employeeId, thongtin, logoutPanel, chamcong, thongbao, mainPanel, this);
+        this.setTitle("Nhân viên");
+        mainPanel.setLayout(new BorderLayout());
+        mainPanel.add(new InfomationEmployeeUI(acc), BorderLayout.CENTER);
+        HomeHandler hh = new HomeHandler(thongtin, logoutPanel, chamcong, thongbao, mainPanel, this, acc);
         
     }
 
@@ -291,11 +293,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(()->{
-            new HomePageEmployee(1).setVisible(true);
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apartment;

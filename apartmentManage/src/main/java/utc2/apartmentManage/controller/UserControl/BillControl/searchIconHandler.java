@@ -47,7 +47,7 @@ public class searchIconHandler {
         String statusStr = status.getSelectedItem() != null ? status.getSelectedItem().toString().trim() : "";
 
         if (monthStr.isEmpty() || yearStr.isEmpty() || statusStr.isEmpty()) {
-            JOptionPane.showMessageDialog(frame, "Vui lòng chọn đầy đủ tháng, năm và trạng thái!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            frame.setVisible(false);
             return;
         }
 

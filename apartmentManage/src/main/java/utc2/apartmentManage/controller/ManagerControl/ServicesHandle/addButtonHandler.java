@@ -40,7 +40,7 @@ public class addButtonHandler {
         });
     }
     private void addNewRow() {
-        // Kiểm tra dữ liệu hợp lệ trước khi tiếp tục
+        
         boolean check = ss.addValidate(ServiceName, ServicePrice, ServiceUnit);
         if (!check) {
             return;
@@ -54,7 +54,7 @@ public class addButtonHandler {
                                       ServiceUnit.getText().trim(),
                                       ServiceNote.getText().trim());
         
-        // Kiểm tra trùng lặp nhân viên
+        // Kiểm tra trùng lặp tên
         if (ss.isDuplicate(service)) {
             JOptionPane.showMessageDialog(null, "Dịch vụ này đã tồn tại!", "Lỗi trùng lặp", JOptionPane.ERROR_MESSAGE);
             return;

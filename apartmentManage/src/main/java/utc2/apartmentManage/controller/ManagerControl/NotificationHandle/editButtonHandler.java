@@ -52,9 +52,9 @@ public class editButtonHandler {
         
         edit.setVisible(false);
         if( notificationService.update(noti) ) {
-            model.setValueAt(type.getSelectedItem().toString().trim(), selectedRow, 1);
-            model.setValueAt(notiTitle.getText().trim(), selectedRow, 2);
-            model.setValueAt(content.getText().trim(), selectedRow, 3);
+            model.setValueAt(type.getSelectedItem().toString().trim(), selectedRow, 2);
+            model.setValueAt(notiTitle.getText().trim(), selectedRow, 3);
+            model.setValueAt(content.getText().trim(), selectedRow, 4);
             JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Cập nhật dữ liệu không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

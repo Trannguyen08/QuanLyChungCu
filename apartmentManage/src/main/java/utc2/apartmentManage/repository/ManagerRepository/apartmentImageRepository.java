@@ -1,6 +1,6 @@
 package main.java.utc2.apartmentManage.repository.ManagerRepository;
 
-import main.java.utc2.apartmentManage.util.ConnectDB;
+import main.java.utc2.apartmentManage.db.ConnectDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
