@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import main.java.utc2.apartmentManage.model.*;
 import main.java.utc2.apartmentManage.service.export.PDF;
 import main.java.utc2.apartmentManage.service.userService.infoIMP;

@@ -10,6 +10,7 @@ public class PieChartPanel extends JPanel {
 
     public PieChartPanel(List<Amount> data) {
         this.data = data;
+        setPreferredSize(new Dimension(600, 300));
     }
 
     public void setData(List<Amount> data) {

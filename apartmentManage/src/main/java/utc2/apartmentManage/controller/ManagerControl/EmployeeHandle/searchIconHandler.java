@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 
 public class searchIconHandler {
     public JTextField fullName, salary, toSalary;
-    public JComboBox<String> gender, position, status ;
+    public JComboBox<String> shift, position, status ;
     public JButton searchBtn;
     public JTable table;
     public JFrame frame;
@@ -24,7 +24,7 @@ public class searchIconHandler {
                                 JButton searchBtn, JTable table, JFrame frame ) {
         
         this.fullName = fullName;
-        this.gender = gender;
+        this.shift = gender;
         this.frame = frame;
         this.position = position;
         this.salary = salary;
@@ -55,9 +55,11 @@ public class searchIconHandler {
         double tsalary = (toSalary.getText() == null || toSalary.getText().trim().isEmpty())
                 ? 0 : ScannerUtil.replaceDouble(toSalary);
         
-        Employee emp = new Employee(0, fullName.getText().trim(), gender.getSelectedItem().toString().trim(),
+        Employee emp = new Employee(0, fullName.getText().trim(), "",
                                     "", "", "", "",position.getSelectedItem().toString().trim(),
-                                    fsalary, status.getSelectedItem().toString().trim(), 0, 0);
+                                    fsalary, status.getSelectedItem().toString().trim(), 0, 0,
+                                    shift.getSelectedItem().toString()
+        );
         
         boolean checkRun = employeeService.filterEmployeeIcon(table, emp, tsalary);
         frame.setVisible(false);

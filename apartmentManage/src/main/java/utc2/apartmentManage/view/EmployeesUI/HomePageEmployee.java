@@ -3,6 +3,8 @@ package main.java.utc2.apartmentManage.view.EmployeesUI;
 import java.awt.BorderLayout;
 import main.java.utc2.apartmentManage.controller.employeesControl.HomeHandler;
 import main.java.utc2.apartmentManage.model.Account;
+import main.java.utc2.apartmentManage.model.Employee;
+import main.java.utc2.apartmentManage.repository.ManagerRepository.employeeRepository;
 
 
 
@@ -15,7 +17,8 @@ public class HomePageEmployee extends javax.swing.JFrame {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(new InfomationEmployeeUI(acc), BorderLayout.CENTER);
         HomeHandler hh = new HomeHandler(thongtin, logoutPanel, chamcong, thongbao, mainPanel, this, acc);
-        
+        Employee emp = new employeeRepository().getEmployeeByAccID(acc.getId());
+        empName.setText(emp.getName());
     }
 
     @SuppressWarnings("unchecked")
@@ -26,7 +29,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        empName = new javax.swing.JLabel();
         thongtin = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         apartment = new javax.swing.JLabel();
@@ -53,9 +56,9 @@ public class HomePageEmployee extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-admin-30.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Manager1");
+        empName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        empName.setForeground(new java.awt.Color(255, 255, 255));
+        empName.setText("Manager1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -65,15 +68,15 @@ public class HomePageEmployee extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addComponent(empName)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1)
+                .addComponent(empName)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -298,7 +301,7 @@ public class HomePageEmployee extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apartment;
     private javax.swing.JPanel chamcong;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel empName;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -125,10 +125,7 @@ public class EmployeeHandler {
     }
     
     private void editBtnClick() throws ParseException {
-        int selectedRow = table.getSelectedRow();
-        if( selectedRow == -1 ) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước khi chỉnh sửa.", 
-                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+        if( !es.isSelectedRow(table) ) {
             return;
         }
         new editEmployee(table).setVisible(true);

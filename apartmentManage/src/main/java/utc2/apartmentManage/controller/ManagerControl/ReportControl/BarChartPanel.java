@@ -2,6 +2,7 @@ package main.java.utc2.apartmentManage.controller.ManagerControl.ReportControl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Amount;
 
@@ -10,7 +11,7 @@ public class BarChartPanel extends JPanel {
 
     public BarChartPanel(List<Amount> data) {
         this.data = data;
-        setPreferredSize(new Dimension(650, 300));  // Giảm chiều cao của chartPanel từ 400 xuống 300
+        setPreferredSize(new Dimension(650, 350));  // Giảm chiều cao của chartPanel từ 400 xuống 300
     }
 
     public void setData(List<Amount> data) {
@@ -54,10 +55,20 @@ public class BarChartPanel extends JPanel {
             g2.drawString(valueText, x + (barWidth - valueTextWidth) / 2, y - 15);// Căn giữa số tiền
 
             // Vẽ nhãn dịch vụ dưới mỗi cột (Căn chỉnh chính giữa cột)
-            String serviceName = a.getName();
-            int serviceNameWidth = g2.getFontMetrics().stringWidth(serviceName);
+            // Vẽ nhãn dịch vụ dưới mỗi cột, chia thành nhiều dòng nếu quá dài
             g2.setFont(new Font("Arial", Font.PLAIN, 14));
-            g2.drawString(serviceName, x + (barWidth - serviceNameWidth) / 2, height - 10);// Căn giữa tên dịch vụ
+            FontMetrics fm = g2.getFontMetrics();
+            int maxLabelWidth = barWidth;  // Giới hạn chiều rộng dòng
+            List<String> lines = splitLabel(a.getName(), maxLabelWidth, fm);
+            int lineHeight = g2.getFontMetrics().getHeight();
+            int startY = height - 10 - (lines.size() - 1) * lineHeight;  // Căn theo chiều cao để tránh đè
+
+            for (int j = 0; j < lines.size(); j++) {
+                String line = lines.get(j);
+                int lineWidth = g2.getFontMetrics().stringWidth(line);
+                g2.drawString(line, x + (barWidth - lineWidth) / 2 + 10, startY + j * lineHeight);
+            }
+
 
         }
 
@@ -85,4 +96,27 @@ public class BarChartPanel extends JPanel {
             g2.drawString(valueText, padding - valueTextWidth - 10, yPosition + 5);  // Hiển thị mức giá ở phía trái của trục Y, tránh bị đè lên cột
         }
     }
+    private List<String> splitLabel(String label, int maxWidth, FontMetrics fm) {
+        List<String> lines = new ArrayList<>();
+        String[] words = label.split(" ");
+        StringBuilder line = new StringBuilder();
+
+        for (String word : words) {
+            String testLine = line.length() == 0 ? word : line + " " + word;
+            if (fm.stringWidth(testLine) > maxWidth) {
+                lines.add(line.toString());
+                line = new StringBuilder(word);
+            } else {
+                line = new StringBuilder(testLine);
+            }
+        }
+
+        if (line.length() > 0) {
+            lines.add(line.toString());
+        }
+
+        return lines;
+    }
+
+
 }

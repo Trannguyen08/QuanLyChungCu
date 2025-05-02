@@ -2,10 +2,11 @@ package main.java.utc2.apartmentManage.view.ManagerUI.Pages;
 
 import main.java.utc2.apartmentManage.controller.ManagerControl.HomeController.HomeHandler;
 import java.awt.BorderLayout;
+import main.java.utc2.apartmentManage.model.Account;
 
 public class HomePage extends javax.swing.JFrame {
 
-    public HomePage() {
+    public HomePage(Account acc) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Home Page");
@@ -15,6 +16,8 @@ public class HomePage extends javax.swing.JFrame {
                                             employeesPanel, logoutPanel,
                                             notificationPanel, reportPanel,
                                             residentsPanel, servicePanel, mainPanel, this);
+        
+        managerName.setText(acc.getUsername());
     }
 
     @SuppressWarnings("unchecked")
@@ -25,7 +28,7 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        managerName = new javax.swing.JLabel();
         apartmentPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         apartment = new javax.swing.JLabel();
@@ -64,9 +67,9 @@ public class HomePage extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-admin-30.png"))); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Manager1");
+        managerName.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        managerName.setForeground(new java.awt.Color(255, 255, 255));
+        managerName.setText("Manager1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -76,7 +79,7 @@ public class HomePage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(managerName)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -84,7 +87,7 @@ public class HomePage extends javax.swing.JFrame {
             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1)
+                .addComponent(managerName)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -449,16 +452,7 @@ public class HomePage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void addPanel() {
-        this.add(new ApartmentUI());
-    }
-    public static void main(String args[]) {
-        HomePage hm = new HomePage();
-        hm.addPanel();
-        java.awt.EventQueue.invokeLater(() -> {
-            hm.setVisible(true);
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apartment;
@@ -467,7 +461,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel contracts;
     private javax.swing.JLabel employees;
     private javax.swing.JPanel employeesPanel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
@@ -486,6 +479,7 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel logout;
     private javax.swing.JPanel logoutPanel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel managerName;
     private javax.swing.JLabel notification;
     private javax.swing.JPanel notificationPanel;
     private javax.swing.JLabel report;

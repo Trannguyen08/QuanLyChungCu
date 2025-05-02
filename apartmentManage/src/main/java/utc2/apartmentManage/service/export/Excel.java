@@ -9,11 +9,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 import main.java.utc2.apartmentManage.model.Contract;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.contractRepository;
 import main.java.utc2.apartmentManage.db.ConnectDB;
+import main.java.utc2.apartmentManage.model.Bill;
 import main.java.utc2.apartmentManage.model.Notification;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.notificationRepository;
+import main.java.utc2.apartmentManage.repository.UserRepository.billRepository;
 
 
 public class Excel {
@@ -211,9 +216,59 @@ public class Excel {
         exportToExcel(filePath, "services");
     }
     
-    public static void exportBills(String filePath) {
-        exportToExcel(filePath, "bills");
+    public static void exportBills(String directoryPath, int resID) {
+        List<Bill> billList = new billRepository().getAllBills(resID);  
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String filePath = directoryPath + File.separator + "resident.xlsx";
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Bills");
+
+            // Tạo hàng tiêu đề
+            String[] headers = {"Mã Hóa Đơn", "Ngày Tạo", "Hạn Thanh Toán", "Tổng Tiền", "Trạng Thái"};
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            // Ghi dữ liệu hóa đơn
+            int rowNum = 1;
+            for (Bill bill : billList) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(bill.getBillId());
+                row.createCell(1).setCellValue(bill.getBillDate());    
+                row.createCell(2).setCellValue(bill.getDueDate());
+                row.createCell(3).setCellValue(bill.getTotalAmount());
+                row.createCell(4).setCellValue(bill.getStatus());
+            }
+
+            // Tự động giãn cột
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Ghi ra file
+            try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+                workbook.write(fileOut);
+                System.out.println("Xuất hóa đơn thành công vào: " + filePath);
+            }
+
+            // Mở file sau khi xuất nếu hệ thống hỗ trợ
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(new File(filePath));
+            } else {
+                System.out.println("Hệ thống không hỗ trợ mở file tự động.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     
     public static void exportBillDetails(String filePath) {
         exportToExcel(filePath, "bill_details");
@@ -274,6 +329,65 @@ public class Excel {
             e.printStackTrace();
         }
     }
+    
+    public static void exportTableToExcelWithDirectory(String directoryPath, JTable table) {
+        // Kiểm tra hoặc tạo thư mục
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String filePath = directoryPath + File.separator + "employee_report.xlsx";
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Employee Report");
+            TableModel model = table.getModel();
+
+            // Tạo hàng tiêu đề
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(model.getColumnName(i));
+            }
+
+            // Ghi dữ liệu từ JTable
+            for (int row = 0; row < model.getRowCount(); row++) {
+                Row excelRow = sheet.createRow(row + 1);
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    Cell cell = excelRow.createCell(col);
+                    Object value = model.getValueAt(row, col);
+                    if (value instanceof Number) {
+                        cell.setCellValue(((Number) value).doubleValue());
+                    } else {
+                        cell.setCellValue(value != null ? value.toString() : "");
+                    }
+                }
+            }
+
+            // Tự động giãn cột
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // Ghi file
+            try (FileOutputStream out = new FileOutputStream(filePath)) {
+                workbook.write(out);
+                System.out.println("Xuất file thành công: " + filePath);
+            }
+
+            // Mở file nếu hỗ trợ
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().open(new File(filePath));
+            } else {
+                JOptionPane.showMessageDialog(null, "Xuất Excel thành công: " + filePath);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi xuất Excel: " + e.getMessage());
+        }
+    }
+
 
 }
 

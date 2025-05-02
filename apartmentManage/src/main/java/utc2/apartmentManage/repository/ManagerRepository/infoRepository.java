@@ -5,18 +5,23 @@ import java.sql.*;
 
 public class infoRepository {
     public int getNewID() {
-        String query = "SELECT MAX(person_id) FROM personal_info";
-        try (Connection con  = ConnectDB.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+        String query = """
+                       SELECT MIN(a1.person_id) + 1 AS next_id
+                       FROM personal_info a1
+                       WHERE NOT EXISTS (
+                           SELECT 1 FROM personal_info a2 WHERE a2.person_id = a1.person_id + 1
+                       );""";
+        int ans = 0;
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet res = pstmt.executeQuery()) {
 
-            if (rs.next()) {
-                int maxId = rs.getInt(1);
-                return maxId + 1; 
-            } 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            if( res.next() ) {
+                ans = res.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return 1;
+        return ans;
     }
 }

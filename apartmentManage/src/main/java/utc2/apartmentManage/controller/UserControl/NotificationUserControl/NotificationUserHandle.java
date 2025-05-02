@@ -1,10 +1,10 @@
 package main.java.utc2.apartmentManage.controller.UserControl.NotificationUserControl;
 
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import main.java.utc2.apartmentManage.service.userService.notificationUserIMP;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class NotificationUserHandle {
     private final notificationUserIMP nt = new notificationUserIMP();
@@ -12,6 +12,7 @@ public class NotificationUserHandle {
     private JTextField searchField;
     private String object;
     private JPanel wrapperPanel;
+    private Timer autoRefreshTimer;
 
     public NotificationUserHandle(JScrollPane scrollPane, JTextField searchField, String object) {
         this.scrollPane = scrollPane;
@@ -30,6 +31,7 @@ public class NotificationUserHandle {
 
         placeHolder();
         setupSearchListener();
+        startAutoRefresh();
     }
 
     private void placeHolder() {
@@ -71,7 +73,7 @@ public class NotificationUserHandle {
             private void searchAndUpdate() {
                 String keyword = searchField.getText().trim();
 
-                wrapperPanel.removeAll(); // <-- Dọn nội dung cũ
+                wrapperPanel.removeAll();
 
                 if (!keyword.isEmpty() && !keyword.equals("Nhập tiêu đề thông báo...")) {
                     nt.search(wrapperPanel, keyword);
@@ -83,5 +85,19 @@ public class NotificationUserHandle {
                 wrapperPanel.repaint();
             }
         });
+    }
+
+    private void startAutoRefresh() {
+        autoRefreshTimer = new Timer(2000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (searchField.getText().trim().isEmpty() || searchField.getText().equals("Nhập tiêu đề thông báo...")) {
+                    wrapperPanel.removeAll();
+                    nt.setUpPanel(wrapperPanel, object);
+                    wrapperPanel.revalidate();
+                    wrapperPanel.repaint();
+                }
+            }
+        });
+        autoRefreshTimer.start();
     }
 }

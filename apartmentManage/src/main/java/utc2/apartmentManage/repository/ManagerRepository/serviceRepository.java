@@ -19,7 +19,7 @@ public class serviceRepository {
                        WHERE NOT EXISTS (
                            SELECT 1 FROM services a2 WHERE a2.service_id = a1.service_id + 1
                        );""";
-        int ans = 0;
+        int ans = 1;
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query);
              ResultSet res = pstmt.executeQuery()) {
@@ -178,6 +178,11 @@ public class serviceRepository {
         if( !service.getServiceType().isEmpty() ) {
             sql += " AND service_type = ?";
             params.add(service.getServiceType());
+        }
+        
+        if( !service.getRelevant().isEmpty() ) {
+            sql += " AND relevant = ?";
+            params.add(service.getRelevant());
         }
         
         if( service.getPrice() != 0 ) {

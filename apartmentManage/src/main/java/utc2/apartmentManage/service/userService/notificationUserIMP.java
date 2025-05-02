@@ -19,9 +19,16 @@ public class notificationUserIMP {
         list.sort((n1, n2) -> {
             LocalDate d1 = LocalDate.parse(n1.getSentDate(), formatter);
             LocalDate d2 = LocalDate.parse(n2.getSentDate(), formatter);
-            return d2.compareTo(d1); 
+
+            int dateCompare = d2.compareTo(d1);
+            if (dateCompare != 0) {
+                return dateCompare;
+            }
+
+            return Integer.compare(n2.getID(), n1.getID());
         });
     }
+
 
 
     public void setUpPanel(JPanel wrapperPanel, String object) {

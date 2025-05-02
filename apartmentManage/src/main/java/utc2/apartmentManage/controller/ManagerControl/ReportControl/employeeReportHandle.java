@@ -3,14 +3,15 @@ package main.java.utc2.apartmentManage.controller.ManagerControl.ReportControl;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import main.java.utc2.apartmentManage.model.EmployeeInfo;
-import main.java.utc2.apartmentManage.repository.ManagerRepository.reportRepository;
 import main.java.utc2.apartmentManage.service.managerService.reportEmployeeIMP;
 import main.java.utc2.apartmentManage.view.ManagerUI.Pages.ReportUI;
 import main.java.utc2.apartmentManage.view.ManagerUI.detailWindow.employeeDetail;
+import main.java.utc2.apartmentManage.service.export.Excel;
 
 public class employeeReportHandle {
     private JButton backBtn, detailBtn, excelBtn;
@@ -37,6 +38,16 @@ public class employeeReportHandle {
                 backBtnClick();
             }
         });
+        
+        this.excelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String directoryPath = System.getProperty("user.dir") + File.separator + "data";
+                Excel.exportTableToExcelWithDirectory(directoryPath, table);
+                
+            }
+        });
+        
         
         this.detailBtn.addActionListener(new ActionListener() {
             @Override
@@ -152,4 +163,8 @@ public class employeeReportHandle {
         EmployeeInfo er = new EmployeeInfo(id, name, job, shift, numDate);
         new employeeDetail(er, month, year).setVisible(true);
     }
+    
+
+
+    
 }

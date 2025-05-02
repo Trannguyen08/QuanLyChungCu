@@ -56,7 +56,7 @@ public class editEmployeeInfoHandle {
                                     phone.getText().trim(),
                                     email.getText().trim(),
                                     idcard.getText().trim(),
-                                    "", 0, "", infoID, 0
+                                    "", 0, "", infoID, 0, ""
         );
         if( !employeeInfoService.isDuplicate(emp) ) {
             return;

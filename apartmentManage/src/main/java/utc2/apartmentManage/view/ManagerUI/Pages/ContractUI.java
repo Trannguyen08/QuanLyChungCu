@@ -8,6 +8,13 @@ public class ContractUI extends javax.swing.JPanel {
     public ContractUI() {
         initComponents();
         new mainHandler(deleteBtn, excelBtn, reloadBtn, detail, searchIcon, searchField, table, this);
+        
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ContractUI.this.requestFocusInWindow();
+            }
+        });
     }
 
 

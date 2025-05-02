@@ -11,6 +11,12 @@ public class addResident extends javax.swing.JFrame {
    
     public addResident(JTable table) {
         initComponents();
+        if (contracttype.getSelectedItem().toString().trim().equals("Mua bán")) {
+            deadline.setEnabled(false);
+        } else {
+            deadline.setEnabled(true);
+        }
+
         addButtonHandler addButtonHandler = new addButtonHandler(addBtn, username, fullname, 
                                                                 idcard, idch, phonenum,
                                                                 email, password, gender,

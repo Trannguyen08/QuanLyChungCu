@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class addButtonHandle {
     private JButton addBtn, addImage;
-    private JComboBox<String> apartmentIndex, building, floor, roomNum, status, wc, interior;
+    private JComboBox<String> apartmentIndex, building, floor, roomNum, wc, interior;
     private JTextField area, buyPrice, rentPrice;
     private JTable table;
     private JFrame add;
@@ -29,7 +29,7 @@ public class addButtonHandle {
                             JTextField area, JComboBox<String> building, JTextField buyPrice,
                             JComboBox<String> floor, JComboBox<String> interior, JTextField rentPrice,
                             JComboBox<String> roomNum, JComboBox<String> wc,
-                            JComboBox<String> status, JTable table, JFrame add, JLabel imglabel) {
+                            JTable table, JFrame add, JLabel imglabel) {
         
         this.addBtn = addBtn;
         this.apartmentIndex = apartmentIndex;
@@ -39,7 +39,6 @@ public class addButtonHandle {
         this.floor = floor;
         this.rentPrice = rentPrice;
         this.roomNum = roomNum;
-        this.status = status;
         this.table = table;
         this.add = add;
         this.addImage = addImage;
@@ -81,7 +80,7 @@ public class addButtonHandle {
         int floorNum = Integer.parseInt(floor.getSelectedItem().toString());
         String buildingNum = building.getSelectedItem().toString();
         int roomNumber = Integer.parseInt(roomNum.getSelectedItem().toString());
-        String statusVal = status.getSelectedItem().toString();
+        String statusVal = "Trống";
         int numwc = Integer.parseInt(wc.getSelectedItem().toString());
         String interiorVal = interior.getSelectedItem().toString();
 

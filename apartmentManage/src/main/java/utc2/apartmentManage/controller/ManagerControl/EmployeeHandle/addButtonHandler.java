@@ -19,7 +19,7 @@ import main.java.utc2.apartmentManage.service.loginService.registerIMP;
 public class addButtonHandler {
     private JButton addBtn;
     private JTextField fullName, phoneNumber, email, salary, username, password, idcard;
-    private JComboBox<String> gender, position;
+    private JComboBox<String> gender, position, shift;
     private JDateChooser date;
     private JTable table;
     private JFrame add;
@@ -28,9 +28,9 @@ public class addButtonHandler {
     private infoRepository ir = new infoRepository();
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
 
-    public addButtonHandler(JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser date, JTextField phoneNumber, 
-                            JTextField email, JTextField idcard, JComboBox<String> position, JTextField salary, JTextField username,
-                            JTextField password, JTable table, JFrame add) {
+    public addButtonHandler(JComboBox<String> shift, JButton addBtn, JTextField fullName, JComboBox<String> gender, JDateChooser date, 
+                            JTextField phoneNumber, JTextField email, JTextField idcard, JComboBox<String> position, 
+                            JTextField salary, JTextField username, JTextField password, JTable table, JFrame add) {
         
         this.fullName = fullName;
         this.addBtn = addBtn;
@@ -45,6 +45,7 @@ public class addButtonHandler {
         this.username = username;
         this.password = password;
         this.idcard = idcard;
+        this.shift = shift;
 
         this.addBtn.addActionListener(new ActionListener() {
             @Override
@@ -74,7 +75,8 @@ public class addButtonHandler {
                             idcard.getText().trim(),
                             position.getSelectedItem().toString(), 
                            ScannerUtil.parseToDouble(salary.getText().trim()),
-                            "Làm việc", ir.getNewID(), newAccountID);
+                            "Làm việc", ir.getNewID(), newAccountID, 
+                            shift.getSelectedItem().toString());
 
         // Kiểm tra trùng lặp nhân viên
         if (employeeService.isDuplicate(employee)) {
@@ -82,11 +84,11 @@ public class addButtonHandler {
         }
 
         // thêm vào database và table
-        boolean isAddedComplete = employeeService.add(employee) && registerService.addAccount(acc); 
+        boolean isAddedComplete = registerService.addAccount(acc) && employeeService.add(employee) ; 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
                 model.addRow(new Object[] {employee.getId(), employee.getName(), employee.getGender(),
                 employee.getDate(), employee.getPhoneNumber(), employee.getEmail(), 
-                employee.getPosition(), df.format(employee.getSalary()), employee.getStatus()});
+                employee.getPosition(), df.format(employee.getSalary()), employee.getStatus(), employee.getShift()});
 
         add.setVisible(false);
         if( isAddedComplete ) {

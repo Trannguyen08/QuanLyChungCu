@@ -154,7 +154,7 @@ public class residentRepository {
                 pstmtResident.setInt(1, resident.getResidentID());
                 pstmtResident.setInt(2, resident.getApartmentID());
                 pstmtResident.setInt(3, resident.getUserID());
-                pstmtResident.setInt(4, resident.getResidentID()); 
+                pstmtResident.setInt(4, resident.getInfoID()); 
 
                 int residentRows = pstmtResident.executeUpdate();
                 return residentRows > 0;

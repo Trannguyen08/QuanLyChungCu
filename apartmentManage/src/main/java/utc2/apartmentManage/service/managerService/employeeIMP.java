@@ -79,7 +79,7 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
             model.addRow(new Object[] {emp.getId(), emp.getName(), emp.getGender(), 
                                         emp.getDate(), emp.getPhoneNumber(),
                                         emp.getEmail(), emp.getPosition(),
-                                        df.format(emp.getSalary()), emp.getStatus()});
+                                        df.format(emp.getSalary()), emp.getStatus(), emp.getShift()});
         }
     }
 

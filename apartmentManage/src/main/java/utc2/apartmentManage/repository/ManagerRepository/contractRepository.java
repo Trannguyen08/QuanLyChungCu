@@ -58,7 +58,6 @@ public class contractRepository {
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
 
-            // Thiết lập các tham số theo thứ tự trong câu SQL
             ps.setInt(1, contract.getId());
             ps.setInt(2, aptID);
             ps.setInt(3, resID);
