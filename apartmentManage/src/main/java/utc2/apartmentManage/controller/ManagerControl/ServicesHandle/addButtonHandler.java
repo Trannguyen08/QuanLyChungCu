@@ -31,6 +31,7 @@ public class addButtonHandler {
         this.addBtn = addBtn;
         this.table = table;
         this.add = add;
+        this.relevant = relevant;
         
         this.addBtn.addActionListener(new ActionListener() {
             @Override

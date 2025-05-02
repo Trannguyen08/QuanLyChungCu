@@ -1,16 +1,13 @@
 package main.java.utc2.apartmentManage.service.userService;
 
-import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.text.NumberFormat;
-import java.time.*;
 import java.util.*;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Bill;
 import main.java.utc2.apartmentManage.model.PaidHistory;
-import main.java.utc2.apartmentManage.util.ScannerUtil;
 import main.java.utc2.apartmentManage.repository.UserRepository.billRepository;
 import main.java.utc2.apartmentManage.service.Interface.ITable;
 
@@ -89,15 +86,22 @@ public class billIMP implements ITable<Bill> {
     
     public boolean filterBill(JTable table, int resID, int month, int year, String status) {
         List<Bill> list = billRepo.filteredBill(resID, month, year, status);
-        if( list.isEmpty() ) {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0);
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        table.setRowSorter(null); 
+        model.setRowCount(0);
+
+        if (list.isEmpty()) {
+            System.out.println("Danh sách rỗng");
             return false;
+        } else {
+            System.out.println(list);
         }
-        
+
         addData(table, list);
         return true;
     }
+
    
 
     

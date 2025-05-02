@@ -4,7 +4,6 @@ package main.java.utc2.apartmentManage.repository.ManagerRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import kotlin.collections.ArrayDeque;
 import main.java.utc2.apartmentManage.model.Amount;
 import main.java.utc2.apartmentManage.model.EmployeeReport;
 import main.java.utc2.apartmentManage.model.WorkDate;
@@ -52,17 +51,28 @@ public class reportRepository {
                 e.position,
                 e.shift,
                 COUNT(DISTINCT a.attendance_date) AS work_days,
-                SUM(TIMESTAMPDIFF(MINUTE, a.check_in_time, a.check_out_time)) AS total_work_minutes,
+                SUM(
+                    CASE 
+                        WHEN a.check_out_time >= a.check_in_time THEN 
+                            TIMESTAMPDIFF(MINUTE, a.check_in_time, a.check_out_time)
+                        ELSE 
+                            TIMESTAMPDIFF(MINUTE, a.check_in_time, TIMESTAMPADD(DAY, 1, a.check_out_time))
+                    END
+                ) AS total_work_minutes,
                 e.salary 
             FROM employees e 
             JOIN personal_info p ON e.person_id = p.person_id 
             LEFT JOIN attendances a 
-                ON e.employee_id = a.employee_id AND MONTH(a.attendance_date) = ? AND YEAR(a.attendance_date) = ? 
-                     AND a.check_in_time IS NOT NULL AND a.check_out_time IS NOT NULL 
+                ON e.employee_id = a.employee_id 
+                AND MONTH(a.attendance_date) = ? 
+                AND YEAR(a.attendance_date) = ? 
+                AND a.check_in_time IS NOT NULL 
+                AND a.check_out_time IS NOT NULL 
             WHERE e.status = 'Làm việc' 
             GROUP BY e.employee_id, p.full_name, e.position, e.shift, e.salary 
             ORDER BY p.full_name
         """;
+
 
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -94,14 +104,14 @@ public class reportRepository {
     public double calculateMonthlyRevenue(int year, int month) {
         String query = """
                        SELECT  
-                            YEAR(b.bill_date) AS year,
-                            MONTH(b.bill_date) AS month, 
+                            YEAR(b.due_date) AS year,
+                            MONTH(b.due_date) AS month, 
                             SUM(bd.quantity * s.price) AS total_revenue 
                         FROM bill_detail_users bd 
                         JOIN bills b ON bd.bill_id = b.bill_id 
                         JOIN services s ON bd.service_id = s.service_id 
-                        WHERE YEAR(b.bill_date) = ? AND MONTH(b.bill_date) = ?  
-                        GROUP BY YEAR(b.bill_date), MONTH(b.bill_date) 
+                        WHERE YEAR(b.due_date) = ? AND MONTH(b.due_date) = ?  
+                        GROUP BY YEAR(b.due_date), MONTH(b.due_date) 
                        """;
 
         try (Connection con = ConnectDB.getConnection();
@@ -128,7 +138,7 @@ public class reportRepository {
                            FROM bill_detail_users bd  
                            JOIN bills b ON bd.bill_id = b.bill_id  
                            JOIN services s ON bd.service_id = s.service_id  
-                           WHERE YEAR(b.bill_date) = ? AND MONTH(b.bill_date) = ? 
+                           WHERE YEAR(b.due_date) = ? AND MONTH(b.due_date) = ? 
                            GROUP BY s.service_name  
                            ORDER BY total_revenue DESC 
                        """;
@@ -158,7 +168,7 @@ public class reportRepository {
                        SELECT bd.service_name, SUM(bd.quantity * bd.price) AS total_revenue 
                        FROM bill_detail_managers bd 
                        JOIN bills b ON bd.bill_id = b.bill_id 
-                       WHERE YEAR(b.bill_date) = ? AND MONTH(b.bill_date) = ? 
+                       WHERE YEAR(b.due_date) = ? AND MONTH(b.due_date) = ? 
                        GROUP BY bd.service_name 
                        ORDER BY total_revenue DESC
                    """;

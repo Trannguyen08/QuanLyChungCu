@@ -77,11 +77,11 @@ public class EmployeeUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Họ tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Email", "Chức vụ", "Mức lương", "Trạng thái"
+                "ID", "Họ tên", "Giới tính", "Ngày sinh", "Số điện thoại", "Email", "Chức vụ", "Mức lương", "Trạng thái", "Ca làm"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -91,11 +91,11 @@ public class EmployeeUI extends javax.swing.JPanel {
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setPreferredWidth(10);
-            table.getColumnModel().getColumn(1).setPreferredWidth(140);
+            table.getColumnModel().getColumn(1).setPreferredWidth(120);
             table.getColumnModel().getColumn(2).setPreferredWidth(50);
             table.getColumnModel().getColumn(3).setPreferredWidth(60);
             table.getColumnModel().getColumn(4).setPreferredWidth(70);
-            table.getColumnModel().getColumn(5).setPreferredWidth(160);
+            table.getColumnModel().getColumn(5).setPreferredWidth(140);
             table.getColumnModel().getColumn(6).setPreferredWidth(65);
             table.getColumnModel().getColumn(7).setPreferredWidth(90);
             table.getColumnModel().getColumn(8).setPreferredWidth(80);

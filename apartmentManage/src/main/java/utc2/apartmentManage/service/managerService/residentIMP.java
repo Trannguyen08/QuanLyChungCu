@@ -191,6 +191,8 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
         String apartmentId = apartmentIdField.getText().trim();
         Date birthDate = birthDateChooser.getDate();
         Date startDate = startDateChooser.getDate();
+        
+        
 
         // Kiểm tra các trường không được để trống
         if (username.isEmpty() || password.isEmpty() || fullName.isEmpty() ||
@@ -202,7 +204,6 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
 
         // Kiểm tra username hợp lệ
         if (!ScannerUtil.isValidUsername(username)) {
-            showErrorMessage("Tên đăng nhập không hợp lệ! (Từ 4-20 ký tự, không ký tự đặc biệt)", "Lỗi nhập liệu");
             return false;
         }
         
@@ -218,31 +219,26 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
 
         // Kiểm tra password hợp lệ
         if (!ScannerUtil.isValidPassword(password)) {
-            showErrorMessage("Mật khẩu phải từ 6 ký tự trở lên!", "Lỗi nhập liệu");
             return false;
         }
 
         // Kiểm tra họ tên hợp lệ
         if (!ScannerUtil.isValidFullName(fullName)) {
-            showErrorMessage("Họ và tên không hợp lệ! (Chỉ chứa chữ cái và khoảng trắng)", "Lỗi nhập liệu");
             return false;
         }
 
         // Kiểm tra số điện thoại hợp lệ
         if (!ScannerUtil.validatePhoneNumber(phoneNumber)) {
-            showErrorMessage("Số điện thoại không hợp lệ!", "Lỗi nhập liệu");
             return false;
         }
 
         // Kiểm tra CCCD hợp lệ
         if (!ScannerUtil.isValidCCCD(idCard)) {
-            showErrorMessage("Số CCCD không hợp lệ!", "Lỗi nhập liệu");
             return false;
         }
 
         // Kiểm tra email hợp lệ
         if (!ScannerUtil.validateEmail(email)) {
-            showErrorMessage("Email không hợp lệ!", "Lỗi nhập liệu");
             return false;
         }
 
@@ -270,7 +266,6 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
 
         // Kiểm tra tuổi >= 18
         if (!ScannerUtil.isValidAge(birthDate)) {
-            showErrorMessage("Cư dân phải đủ 18 tuổi!", "Lỗi nhập liệu");
             return false;
         }
 

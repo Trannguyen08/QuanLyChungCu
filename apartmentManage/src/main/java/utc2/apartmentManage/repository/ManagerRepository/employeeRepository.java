@@ -106,8 +106,8 @@ public class employeeRepository {
 
 
     public boolean addEmployee(Employee employee) {
-        String insertPersonalInfoSql = "INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email) VALUES (?, ?, ?, ?, ?, ?)";
-        String insertEmployeeSql = "INSERT INTO employees (employee_id, person_id, position, salary, status) VALUES (?, ?, ?, ?, ?)";
+        String insertPersonalInfoSql = "INSERT INTO personal_info (person_id, full_name, gender, dob, phoneNum, email, id_card) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertEmployeeSql = "INSERT INTO employees (employee_id, account_id, person_id, position, salary, status) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConnectDB.getConnection()) {
             con.setAutoCommit(false); // Bắt đầu transaction
@@ -120,16 +120,18 @@ public class employeeRepository {
                 pstmt1.setString(4, ScannerUtil.convertDateFormat1(employee.getDate()));
                 pstmt1.setString(5, employee.getPhoneNumber());
                 pstmt1.setString(6, employee.getEmail());
+                pstmt1.setString(7, employee.getIdcard());
                 pstmt1.executeUpdate();
             }
 
             // Thêm employees
             try (PreparedStatement pstmt2 = con.prepareStatement(insertEmployeeSql)) {
                 pstmt2.setInt(1, employee.getId());
-                pstmt2.setInt(2, employee.getInfoID());
-                pstmt2.setString(3, employee.getPosition());
-                pstmt2.setDouble(4, employee.getSalary());
-                pstmt2.setString(5, employee.getStatus());
+                pstmt2.setInt(2, employee.getAccID());
+                pstmt2.setInt(3, employee.getInfoID());
+                pstmt2.setString(4, employee.getPosition());
+                pstmt2.setDouble(5, employee.getSalary());
+                pstmt2.setString(6, employee.getStatus());
                 pstmt2.executeUpdate();
             }
 
@@ -182,7 +184,7 @@ public class employeeRepository {
 
     public Employee getEmployeeById(int id) {
         String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card, " +
-                       "e.position, e.salary, e.status, e.person_id, e.account_id " +
+                       "e.position, e.salary, e.status, e.person_id, e.account_id, e.shift " +
                        "FROM employees e " +
                        "JOIN personal_info p ON e.person_id = p.person_id " +
                        "WHERE e.employee_id = ?";
@@ -206,7 +208,8 @@ public class employeeRepository {
                     rs.getDouble("salary"),
                     rs.getString("status"),
                     rs.getInt("person_id"),
-                    rs.getInt("account_id")
+                    rs.getInt("account_id"),
+                    rs.getString("shift")
                 );
                 return e;
             }
@@ -223,7 +226,7 @@ public class employeeRepository {
         List<Employee> employeeList = new ArrayList<>();
         String sql = """
                 SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, p.id_card, 
-                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id
+                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id, e.shift
                 FROM employees e
                 JOIN personal_info p ON e.person_id = p.person_id
                 """;
@@ -245,7 +248,8 @@ public class employeeRepository {
                     rs.getDouble("salary"),
                     rs.getString("status"),
                     rs.getInt("person_id"),
-                    rs.getInt("account_id")
+                    rs.getInt("account_id"),
+                    rs.getString("shift")
                 );
                 employeeList.add(employee);
             }
@@ -261,7 +265,7 @@ public class employeeRepository {
     
     public List<Employee> getAllEmployeeBySearchIcon(Employee emp, double toSalary) {
         String query = "SELECT e.employee_id, p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card, " +
-                       "e.position, e.salary, e.status, e.person_id, e.account_id " +
+                       "e.position, e.salary, e.status, e.person_id, e.account_id, e.shift " +
                        "FROM employees e " +
                        "JOIN personal_info p ON e.person_id = p.person_id " +
                        "WHERE 1=1";
@@ -272,9 +276,9 @@ public class employeeRepository {
             query += " AND p.full_name LIKE ?";
             parameters.add("%" + emp.getName() + "%");
         }
-        if (emp.getGender() != null && !emp.getGender().isEmpty()) {
-            query += " AND p.gender = ?";
-            parameters.add(emp.getGender());
+        if (emp.getShift() != null && !emp.getShift().isEmpty()) {
+            query += " AND e.shift = ?";
+            parameters.add(emp.getShift());
         }
         if (emp.getPosition() != null && !emp.getPosition().isEmpty()) {
             query += " AND e.position = ?";
@@ -314,7 +318,8 @@ public class employeeRepository {
                     rs.getDouble("salary"),
                     rs.getString("status"),
                     rs.getInt("person_id"),
-                    rs.getInt("account_id")
+                    rs.getInt("account_id"),
+                    rs.getString("shift")
                 );
                 emps.add(e);
             }
@@ -328,7 +333,7 @@ public class employeeRepository {
     public Employee getEmployeeByAccID(int accID) {
         String sql = """
                 SELECT e.employee_id, p.full_name, p.gender, p.phoneNum, p.id_card, 
-                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id
+                       p.email, p.dob, e.position, e.salary, e.status, e.person_id, e.account_id, e.shift
                 FROM employees e
                 JOIN personal_info p ON e.person_id = p.person_id
                 WHERE e.account_id = ?
@@ -353,7 +358,8 @@ public class employeeRepository {
                     rs.getDouble("salary"),
                     rs.getString("status"),
                     rs.getInt("person_id"),
-                    rs.getInt("account_id")
+                    rs.getInt("account_id"),
+                    rs.getString("shift")
                 );
                 
             }

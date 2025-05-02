@@ -9,6 +9,7 @@ import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.model.Apartment;
 import main.java.utc2.apartmentManage.model.Contract;
 import main.java.utc2.apartmentManage.model.Resident;
+import main.java.utc2.apartmentManage.repository.ManagerRepository.apartmentRepository;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.infoRepository;
 import main.java.utc2.apartmentManage.service.loginService.registerIMP;
 import main.java.utc2.apartmentManage.service.managerService.apartmentIMP;
@@ -63,15 +64,16 @@ public class addButtonHandler {
     public void add() {
         boolean checkValidate = residentService.addValidate(username, password, fullname, phonenum,
                                                             idcard, email, idch, bDate, startDate);
-        if( !checkValidate ) {
+        if (!checkValidate) {
             return;
         }
+
         int aptID = Integer.parseInt(idch.getText().trim());
         int newAccountID = registerService.getNewID();
         Account acc = new Account(newAccountID, username.getText().trim(),
                                   password.getText().trim(), email.getText().trim(),
                                   phonenum.getText().trim(), "user");
-        
+
         int newResidentID = residentService.getNewID();
         Resident resident = new Resident(newResidentID,
                                         fullname.getText().trim(),
@@ -84,33 +86,39 @@ public class addButtonHandler {
                                         newAccountID,
                                         ir.getNewID()
         );
-        
-        java.util.Date startDateValue = startDate.getDate();
-        int monthsToAdd = Integer.parseInt(deadline.getSelectedItem().toString());
 
+        java.util.Date startDateValue = startDate.getDate();
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.setTime(startDateValue);
-        cal.add(java.util.Calendar.MONTH, monthsToAdd);
+
+        if (contracttype.getSelectedItem().toString().trim().equals("Cho thuê")) {
+            int monthsToAdd = Integer.parseInt(deadline.getSelectedItem().toString());
+            cal.add(java.util.Calendar.MONTH, monthsToAdd);
+        } else if (contracttype.getSelectedItem().toString().trim().equals("Mua bán")) {
+            cal.add(java.util.Calendar.YEAR, 60); // Cộng thêm 60 năm
+        }
 
         java.util.Date endDateValue = cal.getTime();
 
         String startDateString = ScannerUtil.convertJDateChooserToString(startDate);
         String endDateString = ScannerUtil.convertDateToString(endDateValue);
-        
+
         Apartment apartment = aptService.getObject(aptID);
-        
+
         int newContractID = contractService.getNewID();
         Contract contract = new Contract(newContractID,
                                         fullname.getText().trim(),
                                         "", contracttype.getSelectedItem().toString().trim(),
                                         startDateString, endDateString, 0, "Hiệu lực");
-        
-        if( contracttype.getSelectedItem().toString().trim().equals("Cho thuê") ) {
+
+        if (contracttype.getSelectedItem().toString().trim().equals("Cho thuê")) {
             contract.setContractValue(apartment.getRentPrice());
+            new apartmentRepository().updateApartmentStatus(aptID, "Đã thuê");
         } else {
             contract.setContractValue(apartment.getPurchasePrice());
+            new apartmentRepository().updateApartmentStatus(aptID, "Đã bán");
         }
-        
+
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.addRow(new Object[]{
                     resident.getResidentID(),
@@ -121,17 +129,17 @@ public class addButtonHandler {
                     resident.getIdCard(),
                     resident.getEmail()
         });
-        
-        
+
         frame.setVisible(false);
-        if ( registerService.addAccount(acc) &&
+        if (registerService.addAccount(acc) &&
             residentService.add(resident) &&
-            contractService.addContract(contract, aptID, newResidentID) ) {
-            
+            contractService.addContract(contract, aptID, newResidentID)) {
+
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Thêm dữ liệu không thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
+}
+
 }
 

@@ -56,10 +56,26 @@ public class apartmentRepository {
         }
         return false; 
     }
+    
+    public boolean updateApartmentStatus(int aptID, String status) {
+        String sql = "UPDATE apartments SET status = ? WHERE apartment_id = ?";
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, status);
+            pstmt.setInt(2, aptID);
+            
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0; 
+        } catch (SQLException e) {
+            System.err.println("Lỗi cập nhật căn hộ: " + e.getMessage());
+        }
+        return false; 
+    }
 
     public boolean addApartment(Apartment apartment) {
         String sql = "INSERT INTO apartments (apartment_id, apartmentIndex, floor, building, " +
-                "num_rooms, status, area, rent_price, purchase_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "num_rooms, status, area, rent_price, purchase_price, num_wcs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConnectDB.getConnection();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -73,6 +89,7 @@ public class apartmentRepository {
             pstmt.setDouble(7, apartment.getArea());
             pstmt.setDouble(8, apartment.getRentPrice());
             pstmt.setDouble(9, apartment.getPurchasePrice());
+            pstmt.setDouble(10, apartment.getNumWc());
 
             int rowsInserted = pstmt.executeUpdate();
             return rowsInserted > 0;

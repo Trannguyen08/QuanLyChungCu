@@ -29,14 +29,9 @@ public class reportFinanceIMP  {
     }
     
     public void setUpTable1(JTable table, int month, int year, JPanel chartPanel) {
-        //List<Amount> list = rr.calculateTotalRevenueByService(month, year);
-        List<Amount> list = new ArrayList<>();
-        list.add(new Amount("Dịch vụ A", 1000000));
-        list.add(new Amount("Dịch vụ B", 2500000));
-        list.add(new Amount("Dịch vụ C", 1500000));
-        list.add(new Amount("Dịch vụ D", 2000000));
-        //double totalAmount = rr.calculateMonthlyRevenue(year, month);
-        double totalAmount = 7000000;
+        List<Amount> list = rr.calculateTotalRevenueByService(month, year);
+        
+        double totalAmount = rr.calculateMonthlyRevenue(year, month);
         for (Amount a : list) {
             a.setPercent(a.getTotal() / totalAmount * 100);
         }
@@ -58,19 +53,17 @@ public class reportFinanceIMP  {
         chartPanel.removeAll();
         chartPanel.setLayout(new BorderLayout());
         PieChartPanel pieChart = new PieChartPanel(list);
-        pieChart.setPreferredSize(new Dimension(450, 300));
+        pieChart.setPreferredSize(new Dimension(600, 300));
         chartPanel.add(pieChart, BorderLayout.CENTER);
         chartPanel.revalidate();
         chartPanel.repaint();
     }
 
     public void setUpTable2(JTable table, int month, int year, JPanel chartPanel) {
-        //List<Amount> list = rr.calculateTotalRevenueByServiceWithoutJoin(month, year);
-        List<Amount> list = new ArrayList<>();
-        list.add(new Amount("Dịch vụ A", 570000));
-        list.add(new Amount("Dịch vụ B", 850000));
-        list.add(new Amount("Dịch vụ C", 1500000));
-        list.add(new Amount("Dịch vụ D", 275000));
+        List<Amount> list = rr.calculateTotalRevenueByServiceWithoutJoin(month, year);
+        if( list.isEmpty() ) {
+            System.out.println("rong");
+        }
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);

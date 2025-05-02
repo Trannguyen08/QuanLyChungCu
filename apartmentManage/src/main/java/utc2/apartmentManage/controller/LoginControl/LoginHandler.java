@@ -69,7 +69,7 @@ public class LoginHandler {
             loginFrame.setVisible(false);
             Account acc = loginService.getAccountByUserName(thisUser);
             if( acc.getRole().equals("manager") ) {
-                new HomePage().setVisible(true);
+                new HomePage(acc).setVisible(true);
             } else if( acc.getRole().equals("user") ) {
                 new HomePageUser(acc).setVisible(true);
             } else if( acc.getRole().equals("employee") ) {

@@ -10,18 +10,15 @@ import main.java.utc2.apartmentManage.view.ManagerUI.Pages.ReportUI;
 
 public class financeReportHandle {
     private JButton backBtn;
-    private JLabel  tongchi, tongthu;
     private JTable chiTable, thuTable;
     private JComboBox<String> month, year;
     private JPanel thuPanel, chiPanel, mainPanel;
     private final reportFinanceIMP rf = new reportFinanceIMP();
 
-    public financeReportHandle(JButton backBtn, JLabel tongchi, JLabel tongthu, 
-                                JTable chiTable, JTable thuTable, JComboBox<String> month, JComboBox<String> year, 
+    public financeReportHandle(JButton backBtn, JTable chiTable, JTable thuTable, 
+                                JComboBox<String> month, JComboBox<String> year, 
                                 JPanel thuPanel, JPanel chiPanel, JPanel mainPanel) {
         this.backBtn = backBtn;
-        this.tongchi = tongchi;
-        this.tongthu = tongthu;
         this.chiTable = chiTable;
         this.thuTable = thuTable;
         this.month = month;

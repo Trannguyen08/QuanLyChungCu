@@ -1,14 +1,9 @@
 package main.java.utc2.apartmentManage.controller.UserControl.BillControl;
 
-
-
 import main.java.utc2.apartmentManage.service.userService.billIMP;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.table.*;
-
-
 
 
 public class searchIconHandler {
@@ -40,23 +35,30 @@ public class searchIconHandler {
     }
     
     
-    
     public void filterTableData() {
-        String monthStr = month.getSelectedItem() != null ? month.getSelectedItem().toString().trim() : "";
-        String yearStr = year.getSelectedItem() != null ? year.getSelectedItem().toString().trim() : "";
-        String statusStr = status.getSelectedItem() != null ? status.getSelectedItem().toString().trim() : "";
+        String monthStr = month.getSelectedItem().toString().trim();
+        String yearStr = year.getSelectedItem().toString().trim();
+        String statusStr = status.getSelectedItem().toString().trim();
 
-        if (monthStr.isEmpty() || yearStr.isEmpty() || statusStr.isEmpty()) {
+        if (monthStr.isEmpty() && yearStr.isEmpty() && statusStr.isEmpty()) {
             frame.setVisible(false);
             return;
         }
 
-        int monthNum = Integer.parseInt(monthStr);
-        int yearNum = Integer.parseInt(yearStr);
-
+        int monthNum = 0, yearNum = 0;
+        if( !monthStr.isEmpty() ){
+            monthNum = Integer.parseInt(monthStr);
+        }
+        if( !yearStr.isEmpty() ){
+            yearNum = Integer.parseInt(yearStr);
+        }
+        
         frame.setVisible(false);
-        if (!billService.filterBill(table, resID, monthNum, yearNum, statusStr)) {
+        boolean found = billService.filterBill(table, resID, monthNum, yearNum, statusStr);
+        if (!found) {
             JOptionPane.showMessageDialog(frame, "Không tìm thấy kết quả phù hợp", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            frame.setVisible(false);
         }
     }
 

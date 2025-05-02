@@ -9,7 +9,7 @@ public class Bill extends javax.swing.JPanel {
     public Bill(Account acc) {
         initComponents();
         this.setVisible(true);
-        new BillHandler(acc, searchIcon, payBtn, paidHistoryBtn, excelBtn, table);
+        new BillHandler(acc, reloadBtn, searchIcon, payBtn, paidHistoryBtn, excelBtn, table);
         
     }
 
@@ -25,6 +25,7 @@ public class Bill extends javax.swing.JPanel {
         searchIcon = new javax.swing.JButton();
         paidHistoryBtn = new javax.swing.JButton();
         excelBtn = new javax.swing.JButton();
+        reloadBtn = new javax.swing.JButton();
 
         table.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
@@ -90,6 +91,17 @@ public class Bill extends javax.swing.JPanel {
             }
         });
 
+        reloadBtn.setBackground(new java.awt.Color(13, 50, 107));
+        reloadBtn.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        reloadBtn.setForeground(new java.awt.Color(255, 255, 255));
+        reloadBtn.setText("Reload");
+        reloadBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        reloadBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reloadBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -105,6 +117,8 @@ public class Bill extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(paidHistoryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(reloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(excelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
@@ -120,7 +134,8 @@ public class Bill extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(paidHistoryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(excelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(excelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reloadBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -148,6 +163,10 @@ public class Bill extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_excelBtnActionPerformed
 
+    private void reloadBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reloadBtnActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton excelBtn;
@@ -155,6 +174,7 @@ public class Bill extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton paidHistoryBtn;
     private javax.swing.JButton payBtn;
+    private javax.swing.JButton reloadBtn;
     private javax.swing.JButton searchIcon;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

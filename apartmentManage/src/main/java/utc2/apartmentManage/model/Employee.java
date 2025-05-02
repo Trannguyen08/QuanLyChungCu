@@ -14,9 +14,10 @@ public class Employee {
     private String status;
     private int infoID;
     private int accID;
+    private String shift;
 
     public Employee(int id, String name, String gender, String date, String phoneNumber, String email, 
-                    String idcard, String position, double salary, String status, int infoID, int accID) {
+                    String idcard, String position, double salary, String status, int infoID, int accID, String shift) {
         this.id = id;
         this.name = name;
         this.gender = gender;
@@ -29,11 +30,18 @@ public class Employee {
         this.infoID = infoID;
         this.accID = accID;
         this.idcard = idcard;
+        this.shift = shift;
     }
 
     public int getId() {
         return id;
     }
+
+    public String getShift() {
+        return shift;
+    }
+    
+    
 
     public String getName() {
         return name;
