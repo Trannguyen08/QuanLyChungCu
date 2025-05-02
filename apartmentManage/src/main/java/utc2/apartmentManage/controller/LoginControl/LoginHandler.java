@@ -29,8 +29,10 @@ public class LoginHandler {
         this.loginButton = loginButton;
         this.registerLabel = registerLabel;
         this.loginFrame = loginFrame;
+        
         this.checkBox.addActionListener(e -> clickCheckBox());
         this.loginButton.addActionListener(e -> handleLogin());
+        
         this.registerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 openRegisterForm();
@@ -64,6 +66,7 @@ public class LoginHandler {
             JOptionPane.showMessageDialog(loginFrame, "Vui lòng nhập đầy đủ thông tin!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
         if (loginService.validateLogin(thisUser, thisPass)) {
             JOptionPane.showMessageDialog(loginFrame, "Đăng nhập thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             loginFrame.setVisible(false);
