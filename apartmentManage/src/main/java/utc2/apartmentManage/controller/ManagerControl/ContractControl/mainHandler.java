@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -148,8 +147,8 @@ public class mainHandler {
         if (text.isEmpty() || text.equals("Nhập id hợp đồng, tên chủ sở hữu...")) {
             sorter.setRowFilter(null); // không lọc gì
         } else {
-            RowFilter<DefaultTableModel, Object> idFilter = RowFilter.regexFilter("(?i)" + text, 0); // lọc cột id
-            RowFilter<DefaultTableModel, Object> ownerFilter = RowFilter.regexFilter("(?i)" + text, 1); // lọc cột tên chủ
+            RowFilter<DefaultTableModel, Object> idFilter = RowFilter.regexFilter("(?i)" + text, 0); 
+            RowFilter<DefaultTableModel, Object> ownerFilter = RowFilter.regexFilter("(?i)" + text, 1);
 
             // Kết hợp 2 bộ lọc bằng OR (chỉ cần khớp 1 trong 2 cột)
             RowFilter<DefaultTableModel, Object> combinedFilter = RowFilter.orFilter(java.util.Arrays.asList(idFilter, ownerFilter));
@@ -175,7 +174,7 @@ public class mainHandler {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (searchField.getText().isEmpty()) {
                     searchField.setForeground(java.awt.Color.GRAY);
-                    searchField.setText("Nhập id hợp đồng, tên chủ sở hữu ...");
+                    searchField.setText("Nhập id hợp đồng, tên chủ sở hữu...");
                 }
             }
         });

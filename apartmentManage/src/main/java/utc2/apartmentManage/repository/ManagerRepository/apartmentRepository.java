@@ -210,6 +210,12 @@ public class apartmentRepository {
             query += " AND status = ?";
             params.add(apt.getStatus());
         }
+        
+        if( apt.getInterior() != null && !apt.getInterior().isEmpty() ) {
+            query += " AND interior = ?";
+            params.add(apt.getInterior());
+        }
+            
 
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {

@@ -7,13 +7,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import main.java.utc2.apartmentManage.controller.ManagerControl.ServicesHandle.deleteButtonHandler;
 import main.java.utc2.apartmentManage.service.export.Excel;
 import main.java.utc2.apartmentManage.service.managerService.apartmentIMP;
 import main.java.utc2.apartmentManage.view.ManagerUI.addWindow.addApartment;
 import main.java.utc2.apartmentManage.view.ManagerUI.editWindow.editApartment;
 import main.java.utc2.apartmentManage.view.ManagerUI.searchWindow.searchApartment;
-import main.java.utc2.apartmentManage.util.ScannerUtil;
 import main.java.utc2.apartmentManage.view.ManagerUI.detailWindow.apartmentDetail;
 
 

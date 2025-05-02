@@ -64,6 +64,7 @@ public class InfomationUserUI extends JPanel {
         endDate = new javax.swing.JLabel();
         type = new javax.swing.JLabel();
 
+        personalInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
         personalInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông tin cá nhân", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Arial", 0, 15))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -186,6 +187,7 @@ public class InfomationUserUI extends JPanel {
                 .addGap(21, 21, 21))
         );
 
+        apartmentInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
         apartmentInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông tin căn hộ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 15))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -277,6 +279,7 @@ public class InfomationUserUI extends JPanel {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Thông tin dịch vụ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 15))); // NOI18N
 
         n.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
