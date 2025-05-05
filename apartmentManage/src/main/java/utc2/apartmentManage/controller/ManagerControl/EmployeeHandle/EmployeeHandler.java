@@ -120,7 +120,7 @@ public class EmployeeHandler {
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportEmployees(directoryPath);
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "employee");
         
     }
     

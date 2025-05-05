@@ -110,12 +110,15 @@ public class apartmentHandle {
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportApartments(directoryPath);
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "apartment");
         
     }
     
     private void editBtnClick() {
         if( !apartmentService.isSelectedRow(table) ) {
+            return;
+        }
+        if (!apartmentService.isStillContract(table)) {
             return;
         }
         new editApartment(table).setVisible(true);

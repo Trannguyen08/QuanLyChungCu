@@ -1,11 +1,9 @@
 package main.java.utc2.apartmentManage.controller.employeesControl;
 
-import main.java.utc2.apartmentManage.controller.UserControl.InfomationControl.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import main.java.utc2.apartmentManage.model.Employee;
-import main.java.utc2.apartmentManage.model.Resident;
 import main.java.utc2.apartmentManage.service.employeesService.employeeInfoIMP;
 import main.java.utc2.apartmentManage.service.managerService.residentIMP;
 import main.java.utc2.apartmentManage.service.userService.infoIMP;

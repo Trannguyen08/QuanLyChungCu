@@ -11,16 +11,16 @@ import main.java.utc2.apartmentManage.repository.UserRepository.billRepository;
 
 public class acceptTransactionHandle {
     private int id;
-    private String total, dueDate;
+    private String total, dueDate, humanName;
     private JButton acceptBtn;
-    private JLabel billid, date, money;
+    private JLabel billid, date, money, human;
     private JTable table;
     private JFrame frame;
     private final NumberFormat df = NumberFormat.getInstance(new Locale("vi", "VN"));
     private billRepository billRepo = new billRepository();
 
-    public acceptTransactionHandle(JTable table, int id, String total, String dueDate, JButton acceptBtn, 
-                                    JLabel billid, JLabel date, JLabel money, JFrame frame) {
+    public acceptTransactionHandle(JTable table, int id, String humanName, String total, String dueDate, JButton acceptBtn, 
+                                    JLabel billid, JLabel human, JLabel date, JLabel money, JFrame frame) {
         this.id = id;
         this.total = total;
         this.acceptBtn = acceptBtn;
@@ -30,6 +30,8 @@ public class acceptTransactionHandle {
         this.dueDate = dueDate;
         this.frame = frame;
         this.table = table;
+        this.human = human;
+        this.humanName = humanName;
         
         loadData();
         
@@ -70,8 +72,9 @@ public class acceptTransactionHandle {
     
     public void loadData() {
         billid.setText("Số hóa đơn: " + id);
+        human.setText("Người thanh toán: " + humanName);
         date.setText("Ngày thanh toán: " + getTodayString());
-        money.setText("Tổng tiền: " + total);
+        money.setText(total);
     }
 
     public String getTodayString() {

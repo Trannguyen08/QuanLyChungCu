@@ -30,7 +30,25 @@ public class apartmentRepository {
             e.printStackTrace();
         }
         return ans;
-        
+    }
+    
+    public boolean isStillContract(int id) {
+        String query = "SELECT contract_status FROM contracts WHERE apartment_id = ?";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if(rs.getString("contract_status").equals("Hiệu lực")) {
+                    return true;
+                }
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; 
     }
 
     public boolean updateApartment(Apartment apartment) {

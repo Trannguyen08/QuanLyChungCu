@@ -54,21 +54,11 @@ public class BarChartPanel extends JPanel {
             int valueTextWidth = g2.getFontMetrics().stringWidth(valueText);
             g2.drawString(valueText, x + (barWidth - valueTextWidth) / 2, y - 15);// Căn giữa số tiền
 
-            // Vẽ nhãn dịch vụ dưới mỗi cột (Căn chỉnh chính giữa cột)
-            // Vẽ nhãn dịch vụ dưới mỗi cột, chia thành nhiều dòng nếu quá dài
+            // Vẽ số thứ tự dưới mỗi cột thay vì tên dịch vụ
             g2.setFont(new Font("Arial", Font.PLAIN, 14));
-            FontMetrics fm = g2.getFontMetrics();
-            int maxLabelWidth = barWidth;  // Giới hạn chiều rộng dòng
-            List<String> lines = splitLabel(a.getName(), maxLabelWidth, fm);
-            int lineHeight = g2.getFontMetrics().getHeight();
-            int startY = height - 10 - (lines.size() - 1) * lineHeight;  // Căn theo chiều cao để tránh đè
-
-            for (int j = 0; j < lines.size(); j++) {
-                String line = lines.get(j);
-                int lineWidth = g2.getFontMetrics().stringWidth(line);
-                g2.drawString(line, x + (barWidth - lineWidth) / 2 + 10, startY + j * lineHeight);
-            }
-
+            String indexLabel = String.valueOf(i + 1);
+            int labelWidth = g2.getFontMetrics().stringWidth(indexLabel);
+            g2.drawString(indexLabel, x + (barWidth - labelWidth) / 2 + 10, height - 10);
 
         }
 

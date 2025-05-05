@@ -116,7 +116,8 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
                     resident.getBirthDate(),
                     resident.getPhoneNumber(),
                     resident.getIdCard(),
-                    resident.getEmail()
+                    resident.getEmail(),
+                    resident.getContractStatus()
             });
         }
     }
@@ -270,8 +271,8 @@ public class residentIMP implements ISQL<Resident>, ITable<Resident>, IValidate,
         }
 
         // Kiểm tra ngày bắt đầu >= ngày sinh
-        if (birthDate.after(startDate)) {
-            showErrorMessage("Ngày bắt đầu không được trước ngày sinh!", "Lỗi nhập liệu");
+        if (ScannerUtil.isBeforeToday(startDate)) {
+            showErrorMessage("Ngày bắt đầu không được trước ngày hôm nay!", "Lỗi nhập liệu");
             return false;
         }
 

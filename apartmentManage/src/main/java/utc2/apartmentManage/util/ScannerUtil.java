@@ -282,6 +282,21 @@ public class ScannerUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(time);
     }
+    
+    public static boolean isBeforeToday(Date inputDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            // Loại bỏ giờ phút giây để so sánh chính xác theo ngày
+            Date today = sdf.parse(sdf.format(new Date()));
+            Date inputNoTime = sdf.parse(sdf.format(inputDate));
+
+            return inputNoTime.before(today);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false; // hoặc throw lỗi nếu cần
+        }
+    }
 
 
 

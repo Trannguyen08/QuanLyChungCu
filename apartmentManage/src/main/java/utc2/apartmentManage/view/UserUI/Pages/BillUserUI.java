@@ -4,9 +4,9 @@ import main.java.utc2.apartmentManage.controller.UserControl.BillControl.BillHan
 import main.java.utc2.apartmentManage.model.Account;
 
 
-public class Bill extends javax.swing.JPanel {
+public class BillUserUI extends javax.swing.JPanel {
 
-    public Bill(Account acc) {
+    public BillUserUI(Account acc) {
         initComponents();
         this.setVisible(true);
         new BillHandler(acc, reloadBtn, searchIcon, payBtn, paidHistoryBtn, excelBtn, table);

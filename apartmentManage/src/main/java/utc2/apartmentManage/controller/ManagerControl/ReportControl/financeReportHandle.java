@@ -55,7 +55,7 @@ public class financeReportHandle {
     private void loadTable() {
         int monthNum = Integer.parseInt(month.getSelectedItem().toString());
         int yearNum = Integer.parseInt(year.getSelectedItem().toString());
-        rf.setUpTable1(thuTable, monthNum, yearNum, thuPanel);
+        rf.setUpTable1(thuTable, monthNum+1, yearNum, thuPanel);
         rf.setUpTable2(chiTable, monthNum, yearNum, chiPanel);
     }
     

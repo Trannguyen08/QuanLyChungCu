@@ -7,6 +7,7 @@ import main.java.utc2.apartmentManage.view.ManagerUI.searchWindow.searchResident
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import main.java.utc2.apartmentManage.service.managerService.residentIMP;
@@ -143,8 +144,8 @@ public class ResidentHandler {
     }
 
     private void excelBtnClick() {
-        String filePath = System.getProperty("user.dir") + "/Data/";
-        Excel.exportResidents(filePath);
+        String directoryPath = System.getProperty("user.dir") + File.separator + "data";
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "resident");
         
     }
 

@@ -54,7 +54,7 @@ public class searchBill extends JFrame {
         jLabel4.setText("Năm");
 
         year.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "2024", "2025" }));
+        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "2025", "2026" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

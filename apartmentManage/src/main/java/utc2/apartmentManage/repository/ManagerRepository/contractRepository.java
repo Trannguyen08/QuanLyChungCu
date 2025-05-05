@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Contract;
 import main.java.utc2.apartmentManage.db.ConnectDB;
+import main.java.utc2.apartmentManage.model.ContractDetail;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
 
 public class contractRepository {
@@ -145,7 +146,7 @@ public class contractRepository {
             parameters.add(contract.getId());
         }
         if (contract.getOwnerName() != null && !contract.getOwnerName().trim().isEmpty()) {
-            sql += " AND r.full_name LIKE ?";
+            sql += " AND p.full_name LIKE ?";
             parameters.add("%" + contract.getOwnerName().trim() + "%");
         }
         if (contract.getContractType() != null && !contract.getContractType().trim().isEmpty()) {
@@ -163,7 +164,6 @@ public class contractRepository {
             parameters.add(fromValue);
             parameters.add(toValue);
         }
-
 
         if (startDate != null) {
             sql += " AND c.start_date >= ?";
@@ -205,4 +205,52 @@ public class contractRepository {
 
         return contracts;
     } 
+    
+    public ContractDetail getContractDetailById(int contractId) {
+        String sql = """
+            SELECT 
+                c.contract_id, c.apartment_id, c.resident_id, c.contract_type, 
+                c.start_date, c.end_date, c.contract_value, 
+                pi.full_name AS buyer_name, pi.phoneNum AS buyer_phone, 
+                pi.email AS buyer_email, pi.id_card AS buyer_cccd,          
+                a.building, a.area, a.purchase_price, a.floor, a.apartmentIndex
+            FROM contracts c
+            JOIN residents r ON c.resident_id = r.resident_id
+            JOIN apartments a ON c.apartment_id = a.apartment_id
+            JOIN personal_info pi ON r.person_id = pi.person_id  
+            WHERE c.contract_id = ?;
+            """;
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, contractId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new ContractDetail(
+                    rs.getInt("contract_id"),
+                    rs.getInt("apartment_id"),
+                    rs.getInt("resident_id"),
+                    rs.getString("contract_type"),
+                    ScannerUtil.convertDateFormat2(rs.getString("start_date")),
+                    ScannerUtil.convertDateFormat2(rs.getString("end_date")),
+                    rs.getDouble("contract_value"),
+                    rs.getString("buyer_name"),
+                    rs.getString("buyer_phone"),
+                    rs.getString("buyer_email"),
+                    rs.getString("buyer_cccd"),
+                    rs.getString("building"),
+                    rs.getDouble("area"),
+                    rs.getDouble("purchase_price"),
+                    rs.getInt("floor"),
+                    rs.getString("apartmentIndex")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -43,7 +43,7 @@ public class employeeReportHandle {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-                Excel.exportTableToExcelWithDirectory(directoryPath, table);
+                Excel.exportTableToExcelWithDirectory(directoryPath, table, "employee_salary");
                 
             }
         });

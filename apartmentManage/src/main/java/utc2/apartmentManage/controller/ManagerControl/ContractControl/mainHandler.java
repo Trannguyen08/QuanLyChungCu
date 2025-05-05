@@ -1,7 +1,7 @@
 package main.java.utc2.apartmentManage.controller.ManagerControl.ContractControl;
 
 import main.java.utc2.apartmentManage.service.export.Excel;
-import main.java.utc2.apartmentManage.service.export.PDF;
+import main.java.utc2.apartmentManage.service.export.ContractsExport;
 import main.java.utc2.apartmentManage.service.managerService.contractIMP;
 import main.java.utc2.apartmentManage.view.ManagerUI.searchWindow.searchContract;
 import javax.swing.*;
@@ -100,7 +100,7 @@ public class mainHandler {
     
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportContracts(directoryPath);
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "contract");
     }
 
     private void detailBtnClick() {
@@ -120,12 +120,12 @@ public class mainHandler {
 
         String fullFilePath = dirPath + File.separator + "contract_" + contractId + ".pdf";
 
-        PDF.exportContractToPDF(fullFilePath, contractId);
+        ContractsExport.exportContractToPDF(fullFilePath, contractId);
 
         // Mở file nếu đã tạo thành công
         File pdfFile = new File(fullFilePath);
         if (pdfFile.exists()) {
-            PDF.openPDF(fullFilePath);
+            ContractsExport.openPDF(fullFilePath);
         } else {
             JOptionPane.showMessageDialog(null, "Không thể tạo hoặc tìm thấy file: " + fullFilePath);
         }

@@ -14,17 +14,15 @@ import main.java.utc2.apartmentManage.service.managerService.serviceIMP;
 import main.java.utc2.apartmentManage.view.ManagerUI.addWindow.addService;
 
 public class ServiceHandler {
-    private JButton addBtn, editBtn, deleteBtn, excelBtn, searchIcon, reloadBtn;
+    private JButton addBtn, editBtn, excelBtn, searchIcon, reloadBtn;
     private JTable table;
     private JPanel panel;
     private JTextField searchField;
-    private deleteButtonHandler deleteHandler;
     private serviceIMP ss = new serviceIMP();
     
-    public ServiceHandler(JTextField searchField, JButton addBtn, JButton deleteBtn, JButton editBtn, JButton excelBtn,
+    public ServiceHandler(JTextField searchField, JButton addBtn, JButton editBtn, JButton excelBtn,
                             JButton searchIcon, JButton reloadBtn, JTable table, JPanel panel){
         this.addBtn = addBtn;
-        this.deleteBtn = deleteBtn;
         this.editBtn = editBtn;
         this.excelBtn = excelBtn;
         this.searchIcon = searchIcon;
@@ -39,13 +37,7 @@ public class ServiceHandler {
                 addBtnClick();
             }
         });
-        
-        this.deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deleteBtnClick();
-            }
-        });
+
         
         this.excelBtn.addActionListener(new ActionListener() {
             @Override
@@ -106,14 +98,9 @@ public class ServiceHandler {
         new addService(table).setVisible(true);
     }
 
-    private void deleteBtnClick() {
-        deleteHandler = new deleteButtonHandler(deleteBtn, table, panel);
-        deleteHandler.deleteSelectedRow();
-    }
-
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportServices(directoryPath);
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "service");
         
     }
     

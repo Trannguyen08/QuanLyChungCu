@@ -87,7 +87,7 @@ public class serviceRepository {
             int rowsDeleted = pstmt.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            System.err.println("Lỗi xóa dịch vụ: " + e.getMessage());
+            System.out.println("Lỗi xóa dịch vụ: " + e.getMessage());
         }
         return false;
     }

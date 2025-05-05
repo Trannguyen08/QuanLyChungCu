@@ -4,6 +4,7 @@ package main.java.utc2.apartmentManage.controller.UserControl.BillControl;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.model.Resident;
 import main.java.utc2.apartmentManage.service.export.Excel;
@@ -52,8 +53,8 @@ public class BillHandler {
         this.excelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String filePath = System.getProperty("user.dir") + "/Data/";
-                Excel.exportBills(filePath, r.getResidentID());
+                String directoryPath = System.getProperty("user.dir") + File.separator + "data";
+                Excel.exportTableToExcelWithDirectory(directoryPath, table, "hoadon_" + r.getResidentID());
             }
         });
         
@@ -85,7 +86,7 @@ public class BillHandler {
         int id = Integer.parseInt(table.getValueAt(sel, 0).toString());
         String total = table.getValueAt(sel, 3).toString();
         String dueDate = table.getValueAt(sel, 2).toString();
-        acceptTransaction trans = new acceptTransaction(table, id, total, dueDate);
+        acceptTransaction trans = new acceptTransaction(table, id, this.r.getName(), total, dueDate);
         trans.setVisible(true);
 
     }

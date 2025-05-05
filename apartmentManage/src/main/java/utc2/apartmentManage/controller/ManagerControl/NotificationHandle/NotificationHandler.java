@@ -109,7 +109,7 @@ public class NotificationHandler {
 
     private void excelBtnClick() {
         String directoryPath = System.getProperty("user.dir") + File.separator + "data";
-        Excel.exportNotification(directoryPath);
+        Excel.exportTableToExcelWithDirectory(directoryPath, table, "notification");
         
     }
     

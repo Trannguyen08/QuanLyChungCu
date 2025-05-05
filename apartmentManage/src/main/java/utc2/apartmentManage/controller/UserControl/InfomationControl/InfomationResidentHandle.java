@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.*;
 import main.java.utc2.apartmentManage.model.*;
-import main.java.utc2.apartmentManage.service.export.PDF;
+import main.java.utc2.apartmentManage.service.export.ContractsExport;
 import main.java.utc2.apartmentManage.service.userService.infoIMP;
 import main.java.utc2.apartmentManage.view.UserUI.editWindow.editResidentInfo;
 
@@ -78,12 +78,12 @@ public class InfomationResidentHandle {
         String fullFilePath = dirPath + File.separator + "contract_" + contract.getId() + ".pdf";
 
         // Xuất file PDF
-        PDF.exportContractToPDF(fullFilePath, contract.getId());
+        ContractsExport.exportContractToPDF(fullFilePath, contract.getId());
 
         // Mở file nếu đã tạo thành công
         File pdfFile = new File(fullFilePath);
         if (pdfFile.exists()) {
-            PDF.openPDF(fullFilePath);
+            ContractsExport.openPDF(fullFilePath);
         } else {
             JOptionPane.showMessageDialog(null, "Không thể tạo hoặc tìm thấy file: " + fullFilePath);
         }

@@ -31,7 +31,7 @@ public class reportEmployeeIMP implements ITable<EmployeeReport> {
             int diffMinutes = actualMinutes - expectedMinutes;
             double diffHours = Math.abs(diffMinutes) / 60.0;
 
-            double amount = diffHours * 50000;
+            double amount = Math.round(diffHours * 50000);
 
             if (diffMinutes > 0) {
                 er.setBonus(amount);

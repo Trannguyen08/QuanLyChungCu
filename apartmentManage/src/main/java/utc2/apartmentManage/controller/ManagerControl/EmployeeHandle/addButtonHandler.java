@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import main.java.utc2.apartmentManage.model.Account;
 import main.java.utc2.apartmentManage.repository.ManagerRepository.infoRepository;
 import main.java.utc2.apartmentManage.service.loginService.registerIMP;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 
@@ -63,7 +64,8 @@ public class addButtonHandler {
         
         int newAccountID = registerService.getNewID();
         Account acc = new Account(newAccountID, username.getText().trim(), 
-                                  password.getText().trim(), email.getText().trim(),
+                                  BCrypt.hashpw(password.getText().trim(), BCrypt.gensalt(12)), 
+                                  email.getText().trim(),
                                   phoneNumber.getText().trim(), "employee");
 
         // Tạo đối tượng Employee

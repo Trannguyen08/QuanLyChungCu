@@ -189,10 +189,11 @@ public class residentRepository {
     
     public List<Resident> getAllResident() {
         String query = """
-                SELECT r.resident_id, pi.full_name, pi.gender, pi.dob, 
+                SELECT r.resident_id, pi.full_name, pi.gender, pi.dob, c.contract_status,
                        pi.phoneNum, pi.email, pi.id_card, r.apartment_id, r.user_id, r.person_id 
                 FROM residents r
                 JOIN personal_info pi ON r.person_id = pi.person_id
+                JOIN contracts c ON c.resident_id = r.resident_id
                 """;
         List<Resident> residentList = new ArrayList<>();
 
@@ -211,7 +212,8 @@ public class residentRepository {
                         res.getString("id_card"),
                         res.getInt("apartment_id"),
                         res.getInt("user_id"),
-                        res.getInt("person_id")
+                        res.getInt("person_id"),
+                        res.getString("contract_status")
                 ));
             }
         } catch (SQLException e) {
@@ -224,9 +226,10 @@ public class residentRepository {
         List<Resident> residentList = new ArrayList<>();
         StringBuilder sql = new StringBuilder("""
                 SELECT r.resident_id, pi.full_name, pi.gender, pi.dob, pi.phoneNum, 
-                       pi.email, pi.id_card, r.apartment_id, r.user_id, r.person_id 
+                       pi.email, pi.id_card, r.apartment_id, r.user_id, r.person_id , c.contract_status
                 FROM residents r
                 JOIN personal_info pi ON r.person_id = pi.person_id
+                JOIN contracts c ON c.resident_id = r.resident_id
                 WHERE 1=1
                 """);
 
@@ -236,9 +239,9 @@ public class residentRepository {
             sql.append(" AND pi.full_name LIKE ?");
             params.add("%" + resident.getName().trim() + "%");
         }
-        if (resident.getGender() != null && !resident.getGender().trim().isEmpty()) {
-            sql.append(" AND pi.gender = ?");
-            params.add(resident.getGender().trim());
+        if (resident.getContractStatus() != null && !resident.getContractStatus().trim().isEmpty()) {
+            sql.append(" AND c.contract_status = ?");
+            params.add(resident.getContractStatus().trim());
         }
         if (resident.getBirthDate() != null) {
             sql.append(" AND pi.dob >= ?");
@@ -268,7 +271,8 @@ public class residentRepository {
                         rs.getString("id_card"),
                         rs.getInt("apartment_id"),
                         rs.getInt("user_id"),
-                        rs.getInt("person_id")
+                        rs.getInt("person_id"),
+                        rs.getString("contract_status")
                 ));
             }
         } catch (SQLException e) {
