@@ -68,7 +68,7 @@ CREATE TABLE services (
     service_id INT PRIMARY KEY,  
     service_name VARCHAR(255) NOT NULL,  
     service_type ENUM('Cố định', 'Tính theo sử dụng') NOT NULL, 
-    relevant ENUM('Căn hộ', 'Tiện ích') NOT NULL,
+    relevant ENUM('Căn hộ', 'Cá nhân') NOT NULL,
     price DECIMAL(15,2) NOT NULL,  
     unit VARCHAR(50) NULL,  
     description TEXT NULL
@@ -88,18 +88,16 @@ CREATE TABLE bill_Detail_Users (
     id INT PRIMARY KEY,
     bill_id INT NOT NULL, 
     service_id INT NOT NULL,  
-    quantity INT NOT NULL DEFAULT 1,   
+    quantity DECIMAL(10,2) NOT NULL DEFAULT 1,   
     FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES services(service_id) ON DELETE CASCADE
 );
 
 CREATE TABLE bill_Detail_Managers (
-    id INT PRIMARY KEY,
-    bill_id INT NOT NULL, 
+    id INT PRIMARY KEY auto_increment,
     service_name VARCHAR(50) NOT NULL,
     price DECIMAL(15,2) NOT NULL,
-    quantity DECIMAL(15,2) NOT NULL DEFAULT 1,   
-    FOREIGN KEY (bill_id) REFERENCES bills(bill_id) ON DELETE CASCADE
+    paidDate DATE NOT NULL
 );
 
 CREATE TABLE invoice_history (

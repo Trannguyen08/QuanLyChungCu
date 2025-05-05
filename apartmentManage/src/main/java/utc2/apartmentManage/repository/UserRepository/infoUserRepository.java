@@ -10,9 +10,10 @@ public class infoUserRepository {
     public Resident getResidentByAccountID(int accId) {
         String query = """
             SELECT r.resident_id, r.apartment_id, r.user_id, r.person_id,
-                   p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card
+                   p.full_name, p.gender, p.dob, p.phoneNum, p.email, p.id_card, c.contract_status
             FROM residents r
             JOIN personal_info p ON r.person_id = p.person_id
+            JOIN contracts c ON c.resident_id = r.resident_id
             WHERE r.user_id = ?
         """;
 
@@ -33,7 +34,8 @@ public class infoUserRepository {
                             res.getString("id_card"),
                             res.getInt("apartment_id"),
                             res.getInt("user_id"),
-                            res.getInt("person_id")
+                            res.getInt("person_id"),
+                            res.getString("contract_status")
                     );
             }
 

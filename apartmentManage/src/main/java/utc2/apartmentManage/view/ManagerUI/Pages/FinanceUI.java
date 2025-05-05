@@ -58,7 +58,6 @@ public class FinanceUI extends javax.swing.JPanel {
         month.setBackground(new java.awt.Color(250, 250, 250));
         month.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-        month.setSelectedIndex(4);
         month.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -66,8 +65,7 @@ public class FinanceUI extends javax.swing.JPanel {
 
         year.setBackground(new java.awt.Color(250, 250, 250));
         year.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025" }));
-        year.setSelectedIndex(1);
+        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2026" }));
         year.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
@@ -79,11 +77,11 @@ public class FinanceUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Khoản chi", "Số tiền"
+                "STT", "Khoản chi", "Tổng tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -92,7 +90,9 @@ public class FinanceUI extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(chiTable);
         if (chiTable.getColumnModel().getColumnCount() > 0) {
-            chiTable.getColumnModel().getColumn(0).setPreferredWidth(120);
+            chiTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            chiTable.getColumnModel().getColumn(1).setPreferredWidth(160);
+            chiTable.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N

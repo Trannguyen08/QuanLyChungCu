@@ -7,6 +7,8 @@ import java.text.NumberFormat;
 import java.util.*;
 import java.util.List;
 import main.java.utc2.apartmentManage.model.Bill;
+import main.java.utc2.apartmentManage.model.BillManager;
+import main.java.utc2.apartmentManage.model.BillManagerDetail;
 import main.java.utc2.apartmentManage.model.PaidHistory;
 import main.java.utc2.apartmentManage.repository.UserRepository.billRepository;
 import main.java.utc2.apartmentManage.service.Interface.ITable;
@@ -26,11 +28,86 @@ public class billIMP implements ITable<Bill> {
             model.addRow(new Object[]{
                 p.getBill_id(),
                 p.getPaidDate(),
-                p.getAmount(),
+                df.format(p.getAmount()),
                 p.getNote()
             });
         }
         setFont(table);
+    }
+    
+    public void setUpTableBillManager(JTable table, int month, int year, String status) {
+        List<BillManager> list = billRepo.getAllBillForManager(month, year, status);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();  
+        model.setRowCount(0);
+        if( list.isEmpty() ) {
+            System.out.println("rong");
+        }
+        
+        for (BillManager bm : list) {
+            model.addRow(new Object[]{
+                bm.getBillId(),
+                bm.getApartmentId(),
+                bm.getFullName(),
+                bm.getDueDate(),
+                df.format(bm.getTotalAmount()),
+                bm.getStatus(),
+                bm.getPaymentDate()
+            });
+        }
+        setFont(table);
+    }
+    
+    public void setUpTableBillManagerDetail(JTable table, int month, int year){
+        List<BillManagerDetail> list = billRepo.getAllBillManagerDetail(month, year);
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        table.setRowSorter(null);  
+        model.setRowCount(0);
+        
+        for (BillManagerDetail p : list) {
+            model.addRow(new Object[]{
+                p.getName(),
+                df.format(p.getPrice()),
+                p.getPaidDate()
+            });
+        }
+        setFont(table);
+    }
+    
+    public void searchTable(JTable table, JTextField searchField) {
+        String text = searchField.getText().trim();
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        if (text.isEmpty() || text.equals("Nhập id hóa đơn, căn hộ, chủ hộ...")) {
+            sorter.setRowFilter(null); // không lọc gì
+        } else {
+            RowFilter<DefaultTableModel, Object> idBillFilter = RowFilter.regexFilter("(?i)" + text, 0); 
+            RowFilter<DefaultTableModel, Object> idAPTFilter = RowFilter.regexFilter("(?i)" + text, 1);
+            RowFilter<DefaultTableModel, Object> ownerFilter = RowFilter.regexFilter("(?i)" + text, 2);
+
+            // Kết hợp 2 bộ lọc bằng OR (chỉ cần khớp 1 trong 2 cột)
+            RowFilter<DefaultTableModel, Object> combinedFilter = RowFilter.orFilter(java.util.Arrays.asList(idBillFilter, idAPTFilter, ownerFilter));
+            sorter.setRowFilter(combinedFilter);
+        }
+    }
+    public void searchTable2(JTable table, JTextField searchField) {
+        String text = searchField.getText().trim();
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+        table.setRowSorter(sorter);
+
+        if (text.isEmpty() || text.equals("Nhập tên dịch vụ...")) {
+            sorter.setRowFilter(null); // không lọc gì
+        } else {
+            RowFilter<DefaultTableModel, Object> idBillFilter = RowFilter.regexFilter("(?i)" + text, 0); 
+
+            // Kết hợp 2 bộ lọc bằng OR (chỉ cần khớp 1 trong 2 cột)
+            RowFilter<DefaultTableModel, Object> combinedFilter = RowFilter.orFilter(java.util.Arrays.asList(idBillFilter));
+            sorter.setRowFilter(combinedFilter);
+        }
     }
     
     @Override
@@ -100,6 +177,10 @@ public class billIMP implements ITable<Bill> {
 
         addData(table, list);
         return true;
+    }
+    
+    public boolean add(BillManagerDetail bm) {
+        return billRepo.add(bm);
     }
 
    

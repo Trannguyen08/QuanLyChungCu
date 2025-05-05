@@ -30,8 +30,7 @@ public class deleteButtonHandler {
         }
         
         if (residentService.confirmDelete("cư dân")) {
-            boolean isDeleted = (panel instanceof ResidentUI) &&
-                                residentService.delete(id);
+            boolean isDeleted = (panel instanceof ResidentUI) && residentService.delete(id);
             if (isDeleted) {
                 ((DefaultTableModel) table.getModel()).removeRow(table.getSelectedRow());
                 JOptionPane.showMessageDialog(null, "Xóa dữ liệu thành công.", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

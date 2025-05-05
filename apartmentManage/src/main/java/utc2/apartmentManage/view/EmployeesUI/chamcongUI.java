@@ -41,7 +41,6 @@ public class chamcongUI extends javax.swing.JPanel {
 
         month.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-        month.setSelectedIndex(4);
         month.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         month.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -56,8 +55,7 @@ public class chamcongUI extends javax.swing.JPanel {
         jLabel2.setText("Năm");
 
         year.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025" }));
-        year.setSelectedIndex(1);
+        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2026" }));
         year.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         year.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

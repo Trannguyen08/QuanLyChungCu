@@ -69,11 +69,11 @@ public class ResidentUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID_Cư dân", "Họ và tên", "Giới tính", "Ngày Sinh", "Số điện thoại", "Số căn cước", "Email"
+                "ID_Cư dân", "Họ và tên", "Giới tính", "Ngày Sinh", "Số điện thoại", "Số căn cước", "Email", "Hợp đồng"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -88,7 +88,7 @@ public class ResidentUI extends javax.swing.JPanel {
             table.getColumnModel().getColumn(3).setPreferredWidth(50);
             table.getColumnModel().getColumn(4).setPreferredWidth(70);
             table.getColumnModel().getColumn(5).setPreferredWidth(70);
-            table.getColumnModel().getColumn(6).setPreferredWidth(150);
+            table.getColumnModel().getColumn(6).setPreferredWidth(160);
         }
 
         excelBtn.setBackground(new java.awt.Color(14, 41, 114));

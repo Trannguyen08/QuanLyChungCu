@@ -52,7 +52,7 @@ public class editResidentInfoHandle {
                 phone.getText().trim(),
                 email.getText().trim(),
                 idcard.getText().trim(),
-                0,0,infoID
+                0,0,infoID, ""
         );
         if( !residentService.isDuplicate(res) ) {
             return;

@@ -184,17 +184,15 @@ public class employeeIMP implements ISQL<Employee>, ITable<Employee>, IValidate,
         if( !ScannerUtil.isValidCCCD(cccd) ) {
             return false;
         }
-        
-        
 
         // Kiểm tra lương
         if (!ScannerUtil.validateDouble(sal, "Lương")) {
             return false;
         } else {
             double salaryValue = Double.parseDouble(sal);
-            if (salaryValue < 3000000 || salaryValue > 20000000) {
+            if (salaryValue < 3000000 || salaryValue > 25000000) {
                 JOptionPane.showMessageDialog(null,
-                        "Lương nhân viên phải nằm trong khoảng từ 3 triệu đến 20 triệu!",
+                        "Lương nhân viên phải nằm trong khoảng từ 3 triệu đến 25 triệu!",
                         "Lỗi nhập liệu", JOptionPane.ERROR_MESSAGE
                 );
                 return false;

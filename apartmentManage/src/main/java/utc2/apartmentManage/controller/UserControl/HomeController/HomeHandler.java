@@ -2,7 +2,7 @@ package main.java.utc2.apartmentManage.controller.UserControl.HomeController;
 
 
 import main.java.utc2.apartmentManage.view.Login.Login;
-import main.java.utc2.apartmentManage.view.UserUI.Pages.Bill;
+import main.java.utc2.apartmentManage.view.UserUI.Pages.BillUserUI;
 import main.java.utc2.apartmentManage.view.UserUI.Pages.HomePageUser;
 import main.java.utc2.apartmentManage.view.UserUI.Pages.InfomationUserUI;
 
@@ -65,7 +65,7 @@ public class HomeHandler {
         mainPanel.removeAll();
         mainPanel.setLayout(new BorderLayout());
         if( newPanel.equals(billPanel) ) {
-            Bill report = new Bill(acc);
+            BillUserUI report = new BillUserUI(acc);
             mainPanel.add(report, BorderLayout.CENTER);
         } 
         if (newPanel.equals(infoPanel)) {

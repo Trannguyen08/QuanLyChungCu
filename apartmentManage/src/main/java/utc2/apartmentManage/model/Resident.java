@@ -14,9 +14,10 @@ public class Resident {
     private int apartmentID;
     private int userID;
     private int infoID;
+    private String contractStatus;
 
     public Resident(int residentID, String name, String gender, String birthDate, String phoneNumber, 
-                    String email, String idCard, int apartmentID, int userID, int infoID) {
+                    String email, String idCard, int apartmentID, int userID, int infoID, String contractStatus) {
         this.residentID = residentID;
         this.name = name;
         this.gender = gender;
@@ -27,6 +28,7 @@ public class Resident {
         this.apartmentID = apartmentID;
         this.userID = userID;
         this.infoID = infoID;
+        this.contractStatus = contractStatus;
     }
 
     public int getResidentID() {
@@ -67,6 +69,10 @@ public class Resident {
 
     public int getInfoID() {
         return infoID;
+    }
+
+    public String getContractStatus() {
+        return contractStatus;
     }
     
     

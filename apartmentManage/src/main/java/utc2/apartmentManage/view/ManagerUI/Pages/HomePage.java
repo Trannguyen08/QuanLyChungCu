@@ -15,7 +15,7 @@ public class HomePage extends javax.swing.JFrame {
         HomeHandler homeHandler = new  HomeHandler(apartmentPanel, contractPanel,
                                             employeesPanel, logoutPanel,
                                             notificationPanel, reportPanel,
-                                            residentsPanel, servicePanel, mainPanel, this);
+                                            residentsPanel, servicePanel, billPanel, mainPanel, this);
         
         managerName.setText(acc.getUsername());
     }
@@ -54,6 +54,9 @@ public class HomePage extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         report = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        billPanel = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
+        cx = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
@@ -354,6 +357,40 @@ public class HomePage extends javax.swing.JFrame {
         jLabel2.setAlignmentY(0.0F);
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
+        billPanel.setBackground(new java.awt.Color(41, 101, 142));
+        billPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/main/resources/images/icons/icons8-bill-30.png"))); // NOI18N
+
+        cx.setBackground(new java.awt.Color(16, 120, 192));
+        cx.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        cx.setForeground(new java.awt.Color(255, 255, 255));
+        cx.setText("Quản lý hóa đơn");
+        cx.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout billPanelLayout = new javax.swing.GroupLayout(billPanel);
+        billPanel.setLayout(billPanelLayout);
+        billPanelLayout.setHorizontalGroup(
+            billPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(billPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cx)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        billPanelLayout.setVerticalGroup(
+            billPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(billPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(billPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(billPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel14))
+                    .addComponent(cx, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -368,6 +405,7 @@ public class HomePage extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(residentsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(billPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,7 +427,9 @@ public class HomePage extends javax.swing.JFrame {
                 .addComponent(reportPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(notificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(billPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                 .addComponent(logoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -457,12 +497,15 @@ public class HomePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel apartment;
     private javax.swing.JPanel apartmentPanel;
+    private javax.swing.JPanel billPanel;
     private javax.swing.JPanel contractPanel;
     private javax.swing.JLabel contracts;
+    private javax.swing.JLabel cx;
     private javax.swing.JLabel employees;
     private javax.swing.JPanel employeesPanel;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;

@@ -3,17 +3,10 @@ package main.java.utc2.apartmentManage.service.managerService;
 
 import java.awt.*;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+import javax.swing.*;
+import javax.swing.table.*;
 import main.java.utc2.apartmentManage.controller.ManagerControl.ReportControl.BarChartPanel;
 import main.java.utc2.apartmentManage.controller.ManagerControl.ReportControl.PieChartPanel;
 import main.java.utc2.apartmentManage.model.Amount;
@@ -47,7 +40,7 @@ public class reportFinanceIMP  {
             });
         }
 
-        setFont(table);
+        setFont1(table);
 
         
         chartPanel.removeAll();
@@ -68,14 +61,17 @@ public class reportFinanceIMP  {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
+        int index = 1;
         for (Amount a : list) {
             model.addRow(new Object[] {
-                    a.getName(),
-                    df.format(a.getTotal())
+                index++,                   
+                a.getName(),                
+                df.format(a.getTotal())     
             });
         }
 
-        setFont(table);
+
+        setFont2(table);
 
         // Vẽ biểu đồ cột
         chartPanel.removeAll();
@@ -87,7 +83,7 @@ public class reportFinanceIMP  {
     }
 
 
-    public void setFont(JTable table) {
+    public void setFont1(JTable table) {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         JTableHeader header = table.getTableHeader();
@@ -95,6 +91,25 @@ public class reportFinanceIMP  {
         
         for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        ((DefaultTableCellRenderer) table.getTableHeader()
+                                    .getDefaultRenderer()).
+                                    setHorizontalAlignment(SwingConstants.CENTER);
+    }
+    
+    public void setFont2(JTable table) {
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        for( int i = 0 ; i < table.getColumnCount() ; i++ ) {
+            if (i == 1) {
+                table.getColumnModel().getColumn(i).setCellRenderer(new MultiLineCellRenderer());
+            } else {
+                centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+                table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
         }
         ((DefaultTableCellRenderer) table.getTableHeader()
                                     .getDefaultRenderer()).

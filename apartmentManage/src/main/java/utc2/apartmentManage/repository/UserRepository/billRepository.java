@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.java.utc2.apartmentManage.model.BillDetail;
+import main.java.utc2.apartmentManage.model.BillInfo;
+import main.java.utc2.apartmentManage.model.BillManager;
+import main.java.utc2.apartmentManage.model.BillManagerDetail;
 import main.java.utc2.apartmentManage.model.PaidHistory;
 
 
@@ -48,6 +51,66 @@ public class billRepository {
         }
         return billList;
     }
+    
+    public List<BillManager> getAllBillForManager(int month, int year, String status) {
+        StringBuilder query = new StringBuilder("""
+            SELECT 
+                b.bill_id,
+                r.apartment_id,
+                pi.full_name,
+                b.due_date,
+                b.total_amount,
+                b.status,
+                ih.paid_date
+            FROM bills b
+            JOIN residents r ON b.resident_id = r.resident_id
+            JOIN personal_info pi ON r.person_id = pi.person_id
+            LEFT JOIN invoice_history ih ON b.bill_id = ih.bill_id
+            WHERE MONTH(b.due_date) = ? AND YEAR(b.due_date) = ?
+        """);
+
+        // Nếu status khác "tất cả" thì thêm điều kiện vào query
+        if (!"Tất cả".equals(status)) {
+            query.append(" AND b.status = ?");
+        }
+
+        List<BillManager> billList = new ArrayList<>();
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement pstm = con.prepareStatement(query.toString())) {
+
+            pstm.setInt(1, month);
+            pstm.setInt(2, year);
+
+            if (!"Tất cả".equals(status)) {
+                pstm.setString(3, status);
+            }
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                String paidDate = rs.getString("paid_date");
+                billList.add(new BillManager(
+                    rs.getInt("bill_id"),
+                    rs.getInt("apartment_id"),
+                    rs.getString("full_name"),
+                    ScannerUtil.convertDateFormat2(rs.getString("due_date")),
+                    rs.getDouble("total_amount"),
+                    rs.getString("status"),
+                    paidDate == null ? "" : ScannerUtil.convertDateFormat2(paidDate)
+                ));
+            }
+
+            rs.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return billList;
+    }
+
+
 
     public List<Bill> filteredBill(int resID, int month, int year, String status) {
         List<Bill> list = new ArrayList<>();
@@ -96,6 +159,7 @@ public class billRepository {
         return list;
     }
     
+    
     public List<BillDetail> getAllDetailByBillID(int bill_id) {
         List<BillDetail> details = new ArrayList<>();
         String query = """
@@ -127,9 +191,6 @@ public class billRepository {
 
         return details;
     }
-
-
-
 
     public List<PaidHistory> getAllPaidHistory(int resID) {
         String query = """
@@ -182,6 +243,38 @@ public class billRepository {
         }
     }
     
+    public BillInfo fetchBillInfo(int billId) {
+        String sql = """
+            SELECT b.bill_id, r.apartment_id, pi.full_name, b.due_date, b.total_amount
+            FROM bills b
+            JOIN residents r ON b.resident_id = r.resident_id
+            JOIN personal_info pi ON r.person_id = pi.person_id
+            WHERE b.bill_id = ?
+        """;
+
+        try (Connection con = ConnectDB.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, billId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new BillInfo(
+                    rs.getInt("bill_id"),
+                    rs.getInt("apartment_id"),
+                    rs.getString("full_name"),
+                    rs.getString("due_date"),
+                    rs.getDouble("total_amount")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
     public int getIDMinNotExist() {
         String query = """
                        SELECT MIN(a1.history_id) + 1 AS next_id
@@ -222,6 +315,52 @@ public class billRepository {
             e.printStackTrace();
             return false;
         }
+    }
+    
+    public List<BillManagerDetail> getAllBillManagerDetail(int month, int year) {
+        String query = "SELECT * FROM bill_detail_managers WHERE MONTH(paidDate) = ? AND YEAR(paidDate) = ?";
+        List<BillManagerDetail> list = new ArrayList<>();
+
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setInt(1, month);
+            pstmt.setInt(2, year);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new BillManagerDetail(
+                        rs.getInt("id"),
+                        rs.getString("service_name"),
+                        rs.getDouble("price"),
+                        ScannerUtil.convertDateFormat2(rs.getString("paidDate"))
+                    ));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+
+        return list;
+    }
+
+    public boolean add(BillManagerDetail bm) {
+        String query = "INSERT INTO bill_detail_managers(service_name, price, paidDate) VALUES (?, ?, ?)";
+        try (Connection conn = ConnectDB.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, bm.getName());
+            pstmt.setDouble(2, bm.getPrice());
+            pstmt.setString(3, ScannerUtil.convertDateFormat1(bm.getPaidDate()));
+
+            int rowsInserted = pstmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            System.err.println("Lỗi thêm hóa đơn: " + e.getMessage());
+        }
+
+        return false;
     }
  
 

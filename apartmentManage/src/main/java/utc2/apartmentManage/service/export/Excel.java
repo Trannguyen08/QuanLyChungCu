@@ -58,15 +58,11 @@ public class Excel {
                 }
             }
 
-            
-
             // Ghi file
             try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
                 workbook.write(fileOut);
                 System.out.println("Xuất dữ liệu thành công vào: " + filePath);
             }
-            
-            
             
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().open(new File(filePath));
@@ -154,9 +150,6 @@ public class Excel {
         }
     }
 
-
-    
-    
     public static void exportContracts(String directoryPath) {
         List<Contract> contractList = new contractRepository().getAllContract();
         File directory = new File(directoryPath);
@@ -330,17 +323,17 @@ public class Excel {
         }
     }
     
-    public static void exportTableToExcelWithDirectory(String directoryPath, JTable table) {
+    public static void exportTableToExcelWithDirectory(String directoryPath, JTable table, String fileName) {
         // Kiểm tra hoặc tạo thư mục
         File directory = new File(directoryPath);
         if (!directory.exists()) {
             directory.mkdirs();
         }
 
-        String filePath = directoryPath + File.separator + "employee_report.xlsx";
+        String filePath = directoryPath + File.separator + fileName +".xlsx";
 
         try (Workbook workbook = new XSSFWorkbook()) {
-            Sheet sheet = workbook.createSheet("Employee Report");
+            Sheet sheet = workbook.createSheet("New Sheet");
             TableModel model = table.getModel();
 
             // Tạo hàng tiêu đề

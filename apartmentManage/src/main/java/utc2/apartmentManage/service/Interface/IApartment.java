@@ -18,4 +18,5 @@ public interface IApartment {
     public boolean priceValidate(JTextField rentPrice, JTextField buyPrice);
     public void loadFilterApartment(Apartment apts,Integer toFloor, Integer toRoom, Double toArea,
                                                 Double toRentPrice, Double toBuyPrice, JTable table);
+    public boolean isStillContract(JTable table);
 }

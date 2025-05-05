@@ -165,12 +165,10 @@ public class reportRepository {
     
     public List<Amount> calculateTotalRevenueByServiceWithoutJoin(int month, int year) {
         String query = """
-                       SELECT bd.service_name, SUM(bd.quantity * bd.price) AS total_revenue 
+                       SELECT bd.service_name, SUM(bd.price) AS total
                        FROM bill_detail_managers bd 
-                       JOIN bills b ON bd.bill_id = b.bill_id 
-                       WHERE YEAR(b.due_date) = ? AND MONTH(b.due_date) = ? 
-                       GROUP BY bd.service_name 
-                       ORDER BY total_revenue DESC
+                       WHERE YEAR(bd.paidDate) = ? AND MONTH(bd.paidDate) = ? 
+                       GROUP BY bd.service_name
                    """;
 
         List<Amount> list = new ArrayList<>();
@@ -185,7 +183,7 @@ public class reportRepository {
             while (rs.next()) {
                 list.add(new Amount(
                         rs.getString("service_name"),
-                        rs.getDouble("total_revenue")
+                        rs.getDouble("total")
                 ));
             }
         } catch (SQLException e) {

@@ -16,6 +16,7 @@ import main.java.utc2.apartmentManage.service.managerService.apartmentIMP;
 import main.java.utc2.apartmentManage.service.managerService.contractIMP;
 import main.java.utc2.apartmentManage.service.managerService.residentIMP;
 import main.java.utc2.apartmentManage.util.ScannerUtil;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class addButtonHandler {
     private JButton addBtn;
@@ -71,7 +72,8 @@ public class addButtonHandler {
         int aptID = Integer.parseInt(idch.getText().trim());
         int newAccountID = registerService.getNewID();
         Account acc = new Account(newAccountID, username.getText().trim(),
-                                  password.getText().trim(), email.getText().trim(),
+                                  BCrypt.hashpw(password.getText().trim(), BCrypt.gensalt(12)), 
+                                  email.getText().trim(),
                                   phonenum.getText().trim(), "user");
 
         int newResidentID = residentService.getNewID();
@@ -84,9 +86,11 @@ public class addButtonHandler {
                                         idcard.getText().trim(),
                                         aptID,
                                         newAccountID,
-                                        ir.getNewID()
+                                        ir.getNewID(),
+                                        "Hiệu lực"
         );
 
+        // VALIDATE THỜI HẠN HỢP ĐỒNG
         java.util.Date startDateValue = startDate.getDate();
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.setTime(startDateValue);
@@ -102,6 +106,8 @@ public class addButtonHandler {
 
         String startDateString = ScannerUtil.convertJDateChooserToString(startDate);
         String endDateString = ScannerUtil.convertDateToString(endDateValue);
+        
+        
 
         Apartment apartment = aptService.getObject(aptID);
 
@@ -127,7 +133,8 @@ public class addButtonHandler {
                     resident.getBirthDate(),
                     resident.getPhoneNumber(),
                     resident.getIdCard(),
-                    resident.getEmail()
+                    resident.getEmail(),
+                    resident.getContractStatus()
         });
 
         frame.setVisible(false);

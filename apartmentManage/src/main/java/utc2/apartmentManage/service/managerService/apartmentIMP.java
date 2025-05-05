@@ -175,17 +175,14 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
         if (!ScannerUtil.validateDouble(rent, "Giá thuê")) {
             return false;
         }
-        if (ScannerUtil.spaceDouble(rent, 4e6, 1.5e7, "Giá thuê")) {
+        if (ScannerUtil.spaceDouble(rent, 4e6, 2e7, "Giá thuê")) {
             return false;
         }
 
         if (!ScannerUtil.validateDouble(buy, "Giá mua")) {
             return false;
         }
-        if (ScannerUtil.spaceDouble(buy, 2e9, 10e9, "Giá mua")) {
-            return false;
-        }
-        return true;
+        return !ScannerUtil.spaceDouble(buy, 1e9, 10e9, "Giá mua");
     }
 
     @Override
@@ -209,7 +206,7 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
             return false;
         }
 
-        if (ScannerUtil.spaceDouble(areaVal, 50, 90, "Diện tích")) {
+        if (ScannerUtil.spaceDouble(areaVal, 50, 100, "Diện tích")) {
             return false;
         }
 
@@ -347,11 +344,16 @@ public class apartmentIMP implements ISQL<Apartment>, ITable<Apartment>, IValida
         label.repaint();
     }
     
+    @Override
+    public boolean isStillContract(JTable table) {
+        int id = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+        if( apartmentDAO.isStillContract(id) ) {
+            JOptionPane.showMessageDialog(null, "Hợp đồng căn hộ này còn hiệu lực. Không thể sửa!",
+                        "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     
-
-
-
-
-
 
 }

@@ -74,7 +74,7 @@ public class addService extends javax.swing.JFrame {
         jLabel7.setText("Liên quan đến");
 
         relevant.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        relevant.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Căn hộ", "Tiện ích" }));
+        relevant.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Căn hộ", "Cá nhân" }));
         relevant.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

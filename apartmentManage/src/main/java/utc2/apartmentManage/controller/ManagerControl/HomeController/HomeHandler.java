@@ -12,7 +12,8 @@ import javax.swing.*;
 
 
 public class HomeHandler {
-    private JPanel logoutPanel, notificationPanel, reportPanel, residentsPanel, servicePanel, apartmentPanel, contractsPanel, employeesPanel, mainPanel;
+    private JPanel logoutPanel, notificationPanel, reportPanel, residentsPanel, billPanel,
+                    servicePanel, apartmentPanel, contractsPanel, employeesPanel, mainPanel;
     private HomePage homePage;
 
     private JPanel previousPanel; // Lưu panel trước đó
@@ -21,7 +22,8 @@ public class HomeHandler {
 
     public HomeHandler(JPanel apartmentPanel, JPanel contractsPanel,JPanel employeesPanel, 
                       JPanel logoutPanel,JPanel notificationPanel, JPanel reportPanel,
-                      JPanel residentsPanel, JPanel servicePanel, JPanel mainPanel, HomePage homePage) {
+                      JPanel residentsPanel, JPanel servicePanel, JPanel billPanel, JPanel mainPanel, HomePage homePage) {
+        
         this.apartmentPanel = apartmentPanel;
         this.contractsPanel = contractsPanel;
         this.employeesPanel = employeesPanel;
@@ -33,6 +35,7 @@ public class HomeHandler {
         this.servicePanel = servicePanel;
         this.previousPanel = apartmentPanel;
         this.mainPanel = mainPanel;
+        this.billPanel = billPanel;
 
         addClickEvent(apartmentPanel);
         addClickEvent(contractsPanel);
@@ -41,6 +44,7 @@ public class HomeHandler {
         addClickEvent(reportPanel);
         addClickEvent(residentsPanel);
         addClickEvent(servicePanel);
+        addClickEvent(billPanel);
 
         logoutPanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -88,6 +92,9 @@ public class HomeHandler {
             mainPanel.add(noti, BorderLayout.CENTER);
         } else if( newPanel.equals(servicePanel) ) {
             ServicesUI noti = new ServicesUI();
+            mainPanel.add(noti, BorderLayout.CENTER);
+        } else if( newPanel.equals(billPanel) ) {
+            BillUI noti = new BillUI(mainPanel);
             mainPanel.add(noti, BorderLayout.CENTER);
         } 
         mainPanel.revalidate();
